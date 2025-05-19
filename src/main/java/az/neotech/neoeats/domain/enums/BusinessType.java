@@ -1,0 +1,8 @@
+package az.neotech.neoeats.domain.enums;
+
+public enum BusinessType {
+    CAFE, BOUTIQUE, GYM, RESTAURANT, SUPERMARKET,
+    COFFEE_SHOP, TEA_HOUSE, AUTO_SALON, FLOWER_SHOP,
+    GAME_SALON, DRY_CLEANING, LAUNDRY, BEAUTY_SALON,
+    SPORT_CENTER, FITNESS, SPA, MARKET
+}
