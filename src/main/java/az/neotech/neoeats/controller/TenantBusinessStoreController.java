@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/tenants/{code}/businesses/{id}/stores")
 @RequiredArgsConstructor
+@RequestMapping("/api/v1/tenants/{code}/businesses/{businessId}/stores")
 public class TenantBusinessStoreController {
 
     private final TenantBusinessStoreService tenantBusinessStoreService;
