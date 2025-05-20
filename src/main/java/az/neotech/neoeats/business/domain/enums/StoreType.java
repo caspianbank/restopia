@@ -1,0 +1,5 @@
+package az.neotech.neoeats.business.domain.enums;
+
+public enum StoreType {
+    PHYSICAL, ONLINE, HYBRID
+}
