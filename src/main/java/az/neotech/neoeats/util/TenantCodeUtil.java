@@ -1,12 +1,37 @@
 package az.neotech.neoeats.util;
 
+import java.security.SecureRandom;
+
 public final class TenantCodeUtil {
+
+    private static final String PREFIX = "TEN";
+    private static final String SYMBOLS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    private static final SecureRandom SECURE_RANDOM = new SecureRandom();
 
     private TenantCodeUtil() {
         throw new IllegalStateException("Cannot create instance of utility class");
     }
 
     public static String generateCode(String text) {
-        return "";
+        if (text == null || text.length() < 3) {
+            throw new IllegalArgumentException("Text must be at least 3 characters long.");
+        }
+
+        String trimmedText = text.length() > 8 ? text.substring(0, 8) : text;
+
+        StringBuilder codeBuilder = new StringBuilder(PREFIX);
+
+        for (int i = 0; i < trimmedText.length(); i++) {
+            codeBuilder.append(trimmedText.charAt(i));
+            if (i != trimmedText.length() - 1) {
+                codeBuilder.append(randomSymbol());
+            }
+        }
+
+        return codeBuilder.toString().toUpperCase();
+    }
+
+    private static char randomSymbol() {
+        return SYMBOLS.charAt(SECURE_RANDOM.nextInt(SYMBOLS.length()));
     }
 }
