@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: neoeats
+  config:
+    import:
+      - classpath:properties/application-feign.yaml
+      - classpath:properties/application-logging.yaml
