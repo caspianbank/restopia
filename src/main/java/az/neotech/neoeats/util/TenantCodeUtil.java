@@ -1,9 +1,13 @@
 package az.neotech.neoeats.util;
 
+import org.springframework.util.StringUtils;
+
 import java.security.SecureRandom;
 
 public final class TenantCodeUtil {
 
+    private static final int MIN_TEXT_LEN = 3;
+    private static final int MAX_TEXT_LEN = 8;
     private static final String PREFIX = "TEN";
     private static final String SYMBOLS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     private static final SecureRandom SECURE_RANDOM = new SecureRandom();
@@ -13,11 +17,11 @@ public final class TenantCodeUtil {
     }
 
     public static String generateCode(String text) {
-        if (text == null || text.length() < 3) {
+        if (!StringUtils.hasText(text) || text.length() < MIN_TEXT_LEN) {
             throw new IllegalArgumentException("Text must be at least 3 characters long.");
         }
 
-        String trimmedText = text.length() > 8 ? text.substring(0, 8) : text;
+        String trimmedText = text.length() > MAX_TEXT_LEN ? text.substring(0, MAX_TEXT_LEN) : text;
 
         StringBuilder codeBuilder = new StringBuilder(PREFIX);
 
