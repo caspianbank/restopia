@@ -1,5 +1,6 @@
 package az.neotech.neoeats.menu.domain.entity;
 
+import az.neotech.commons.audit.DateAudit;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -10,7 +11,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "menus")
-public class Menu {
+public class Menu extends DateAudit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

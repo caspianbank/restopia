@@ -1,5 +1,6 @@
 package az.neotech.neoeats.business.domain.entity;
 
+import az.neotech.commons.audit.DateAudit;
 import az.neotech.neoeats.business.domain.enums.SubscriptionPlan;
 import az.neotech.neoeats.business.domain.enums.SubscriptionStatus;
 import az.neotech.neoeats.business.domain.enums.TenantSize;
@@ -16,7 +17,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "tenants")
-public class Tenant /*extends DateAudit*/ {
+public class Tenant extends DateAudit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

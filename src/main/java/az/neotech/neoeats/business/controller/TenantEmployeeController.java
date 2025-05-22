@@ -25,6 +25,7 @@ public class TenantEmployeeController {
         return tenantEmployeeService.createEmployee(tenantCode, request);
     }
 
+    // todo: businessId and storeId can be optional for filter. In future, it must support pagination.
     @GetMapping
     public List<TenantEmployeeResponse> getAllEmployees(
             @PathVariable String tenantCode,

@@ -1,5 +1,6 @@
 package az.neotech.neoeats.business.domain.entity;
 
+import az.neotech.commons.audit.DateAudit;
 import az.neotech.neoeats.commons.enums.DeleteStatus;
 import jakarta.persistence.*;
 import lombok.*;
@@ -11,7 +12,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "tenant_employee")
-public class TenantEmployee /*extends BaseEntity*/ {
+public class TenantEmployee extends DateAudit {
     //todo: consider other details such as pin code, identity number in future as well
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

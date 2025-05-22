@@ -1,5 +1,6 @@
 package az.neotech.neoeats.business.domain.entity;
 
+import az.neotech.commons.audit.DateAudit;
 import az.neotech.neoeats.business.domain.enums.StoreType;
 import az.neotech.neoeats.commons.enums.DeleteStatus;
 import jakarta.persistence.*;
@@ -10,7 +11,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "tenant_business_stores")
-public class TenantBusinessStore {
+public class TenantBusinessStore extends DateAudit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
