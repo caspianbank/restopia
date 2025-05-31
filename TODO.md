@@ -8,6 +8,7 @@
 - menu, seasonal menus
 - inventory, transactions, purchases, dispatches
 - notification, low stock alerts, special notifications for each staff member
+- loyalty for customers
 
 ## Business Notes
 
