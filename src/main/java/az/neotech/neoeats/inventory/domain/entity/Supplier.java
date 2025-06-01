@@ -1,7 +1,9 @@
 package az.neotech.neoeats.inventory.domain.entity;
 
 import az.neotech.commons.audit.DateAudit;
+import az.neotech.neoeats.commons.enums.DeleteStatus;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -30,4 +32,8 @@ public class Supplier extends DateAudit {
 
     @Column(name = "address")
     private String address;
+
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "delete_status", nullable = false)
+    private DeleteStatus deleteStatus = DeleteStatus.ACTIVE;
 }
