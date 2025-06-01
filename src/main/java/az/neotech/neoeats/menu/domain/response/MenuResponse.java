@@ -11,4 +11,5 @@ public class MenuResponse {
 
     private String name;
     private String description;
+    private boolean isActive;
 }

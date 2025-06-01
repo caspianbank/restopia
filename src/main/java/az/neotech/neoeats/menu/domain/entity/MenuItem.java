@@ -5,8 +5,7 @@ import az.neotech.neoeats.commons.enums.DeleteStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.math.BigDecimal;
 
 @Getter
 @Setter
@@ -14,8 +13,8 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "menus")
-public class Menu extends DetailedAudit {
+@Table(name = "menu_items")
+public class MenuItem extends DetailedAudit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,17 +23,27 @@ public class Menu extends DetailedAudit {
     @Column(name = "tenant_code", nullable = false, length = 50)
     private String tenantCode;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "menu_category_id", nullable = false)
+    private MenuCategory menuCategory;
+
     @Column(nullable = false, length = 100)
     private String name;
 
     @Column(length = 500)
     private String description;
 
+    @Column(name = "price", precision = 10, scale = 2, nullable = false)
+    private BigDecimal price;
+
+    @Column(name = "image_url", length = 255)
+    private String imageUrl;
+
+    @Column(name = "position", nullable = false)
+    private Integer position;
+
     @Column(name = "is_active", nullable = false)
     private boolean isActive;
-
-    @OneToMany(mappedBy = "menu", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<MenuCategory> categories = new HashSet<>();
 
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "delete_status", nullable = false)

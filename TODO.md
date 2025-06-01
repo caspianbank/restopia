@@ -12,3 +12,8 @@
 
 ## Business Notes
 
+## Code Notes
+
+- use soft delete in appropriate entities.
+- add log statements after changes in database. For example, adding, deleting, or updating a record.
+- add validation and swagger for controller layers. 
