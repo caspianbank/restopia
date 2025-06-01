@@ -1,8 +1,8 @@
 package az.neotech.neoeats.layout.service;
 
-import az.neotech.neoeats.layout.dto.request.TableRequest;
-import az.neotech.neoeats.layout.dto.responce.TableResponse;
-import az.neotech.neoeats.layout.enums.TableStatus;
+import az.neotech.neoeats.layout.domain.dto.request.TableRequest;
+import az.neotech.neoeats.layout.domain.dto.responce.TableResponse;
+import az.neotech.neoeats.layout.domain.enums.TableStatus;
 
 import java.util.List;
 

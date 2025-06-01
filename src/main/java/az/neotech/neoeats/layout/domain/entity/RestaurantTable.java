@@ -1,8 +1,8 @@
-package az.neotech.neoeats.layout.entity;
+package az.neotech.neoeats.layout.domain.entity;
 
 
 import az.neotech.commons.audit.DetailedAudit;
-import az.neotech.neoeats.layout.enums.TableStatus;
+import az.neotech.neoeats.layout.domain.enums.TableStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

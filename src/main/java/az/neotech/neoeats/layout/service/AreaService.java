@@ -1,7 +1,7 @@
 package az.neotech.neoeats.layout.service;
 
-import az.neotech.neoeats.layout.dto.request.AreaRequest;
-import az.neotech.neoeats.layout.dto.responce.AreaResponse;
+import az.neotech.neoeats.layout.domain.dto.request.AreaRequest;
+import az.neotech.neoeats.layout.domain.dto.responce.AreaResponse;
 
 import java.util.List;
 

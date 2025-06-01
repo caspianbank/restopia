@@ -1,10 +1,10 @@
 package az.neotech.neoeats.layout.service.impl;
 
-import az.neotech.neoeats.layout.dto.request.AreaRequest;
-import az.neotech.neoeats.layout.dto.responce.AreaResponse;
-import az.neotech.neoeats.layout.entity.Area;
+import az.neotech.neoeats.layout.domain.dto.request.AreaRequest;
+import az.neotech.neoeats.layout.domain.dto.responce.AreaResponse;
+import az.neotech.neoeats.layout.domain.entity.Area;
 import az.neotech.neoeats.layout.exception.ResourceNotFoundException;
-import az.neotech.neoeats.layout.mapper.AreaMapper;
+import az.neotech.neoeats.layout.domain.mapper.AreaMapper;
 import az.neotech.neoeats.layout.repository.AreaRepository;
 import az.neotech.neoeats.layout.service.AreaService;
 import lombok.RequiredArgsConstructor;

@@ -1,7 +1,6 @@
 package az.neotech.neoeats.layout.repository;
 
-import az.neotech.neoeats.layout.entity.Area;
-import az.neotech.neoeats.layout.entity.RestaurantTable;
+import az.neotech.neoeats.layout.domain.entity.Area;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

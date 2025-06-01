@@ -1,4 +1,4 @@
-package az.neotech.neoeats.layout.entity;
+package az.neotech.neoeats.layout.domain.entity;
 
 import az.neotech.commons.audit.DetailedAudit;
 import jakarta.persistence.*;

@@ -1,4 +1,4 @@
-package az.neotech.neoeats.layout.dto.responce;
+package az.neotech.neoeats.layout.domain.dto.responce;
 
 import lombok.Getter;
 import lombok.Setter;

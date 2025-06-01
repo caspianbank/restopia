@@ -1,6 +1,6 @@
-package az.neotech.neoeats.layout.dto.responce;
+package az.neotech.neoeats.layout.domain.dto.responce;
 
-import az.neotech.neoeats.layout.enums.TableStatus;
+import az.neotech.neoeats.layout.domain.enums.TableStatus;
 import lombok.Getter;
 import lombok.Setter;
 
