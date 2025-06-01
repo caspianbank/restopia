@@ -5,14 +5,16 @@ import az.neotech.neoeats.business.domain.entity.TenantBusiness;
 import az.neotech.neoeats.commons.enums.DeleteStatus;
 import az.neotech.neoeats.inventory.domain.enums.ItemUnit;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 
 @Getter
 @Setter
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "tenant_inventory_items")
 public class InventoryItem extends DateAudit {
     @Id

@@ -2,6 +2,7 @@ package az.neotech.neoeats.inventory.domain.entity;
 
 import az.neotech.commons.audit.DetailedAudit;
 import az.neotech.neoeats.business.domain.entity.TenantBusinessStore;
+import az.neotech.neoeats.commons.enums.DeleteStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -36,4 +37,8 @@ public class InventoryDispatch extends DetailedAudit {
 
     @OneToMany(mappedBy = "dispatch", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<InventoryDispatchItem> items = new HashSet<>();
+
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "delete_status", nullable = false)
+    private DeleteStatus deleteStatus = DeleteStatus.ACTIVE;
 }
