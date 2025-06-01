@@ -1,6 +1,7 @@
 package az.neotech.neoeats.inventory.domain.entity;
 
 import az.neotech.commons.audit.DateAudit;
+import az.neotech.neoeats.commons.enums.DeleteStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -33,4 +34,8 @@ public class ItemCategory extends DateAudit {
 
     @Column(name = "lang", length = 10, nullable = false)
     private String lang = "EN"; // todo: replace it with enum from common lib
+
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "delete_status", nullable = false)
+    private DeleteStatus deleteStatus = DeleteStatus.ACTIVE;
 }
