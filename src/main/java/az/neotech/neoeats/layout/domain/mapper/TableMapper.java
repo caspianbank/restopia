@@ -11,7 +11,7 @@ import java.util.List;
 public interface TableMapper {
     RestaurantTable toEntity(TableRequest request);
 
-    TableResponse toDto(RestaurantTable table);
+    TableResponse toResponse(RestaurantTable table);
 
-    List<TableResponse> toDtoList(List<RestaurantTable> tables);
+    List<TableResponse> toResponseList(List<RestaurantTable> tables);
 }

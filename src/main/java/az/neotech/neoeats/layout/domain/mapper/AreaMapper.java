@@ -11,7 +11,7 @@ import java.util.List;
 public interface AreaMapper {
     Area toEntity(AreaRequest request);
 
-    AreaResponse toDto(Area area);
+    AreaResponse toResponse(Area area);
 
-    List<AreaResponse> toDtoList(List<Area> areas);
+    List<AreaResponse> toResponseList(List<Area> areas);
 }
