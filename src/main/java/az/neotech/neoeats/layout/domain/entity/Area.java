@@ -4,6 +4,7 @@ import az.neotech.commons.audit.DetailedAudit;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
 import java.util.List;
 
 @Entity

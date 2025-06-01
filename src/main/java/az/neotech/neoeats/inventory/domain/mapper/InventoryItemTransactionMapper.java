@@ -3,7 +3,8 @@ package az.neotech.neoeats.inventory.domain.mapper;
 import az.neotech.neoeats.inventory.domain.entity.InventoryItemTransaction;
 import az.neotech.neoeats.inventory.domain.request.InventoryItemTransactionRequest;
 import az.neotech.neoeats.inventory.domain.response.InventoryItemTransactionResponse;
-import org.mapstruct.*;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface InventoryItemTransactionMapper {

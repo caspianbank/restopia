@@ -3,7 +3,10 @@ package az.neotech.neoeats.inventory.domain.mapper;
 import az.neotech.neoeats.inventory.domain.entity.InventoryDispatch;
 import az.neotech.neoeats.inventory.domain.request.InventoryDispatchRequest;
 import az.neotech.neoeats.inventory.domain.response.InventoryDispatchResponse;
-import org.mapstruct.*;
+import org.mapstruct.BeanMapping;
+import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 
 @Mapper(componentModel = "spring")
 public interface InventoryDispatchMapper {

@@ -11,12 +11,11 @@ import az.neotech.neoeats.inventory.domain.request.InventoryDispatchRequest;
 import az.neotech.neoeats.inventory.domain.response.InventoryDispatchResponse;
 import az.neotech.neoeats.inventory.repository.InventoryDispatchRepository;
 import az.neotech.neoeats.inventory.service.InventoryDispatchService;
-
-import java.util.List;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 // todo: find by id methods for removing code duplication
 @Service

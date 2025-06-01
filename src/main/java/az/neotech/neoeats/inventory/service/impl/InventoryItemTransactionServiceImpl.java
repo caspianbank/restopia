@@ -11,12 +11,11 @@ import az.neotech.neoeats.inventory.domain.response.InventoryItemTransactionResp
 import az.neotech.neoeats.inventory.repository.InventoryItemRepository;
 import az.neotech.neoeats.inventory.repository.InventoryItemTransactionRepository;
 import az.neotech.neoeats.inventory.service.InventoryItemTransactionService;
-
-import java.util.List;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 // todo: replace tenantBusinessStoreRepository and all must be accessed via service classes
 @Slf4j

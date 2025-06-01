@@ -3,7 +3,10 @@ package az.neotech.neoeats.menu.domain.mapper;
 import az.neotech.neoeats.menu.domain.entity.MenuItem;
 import az.neotech.neoeats.menu.domain.request.MenuItemRequest;
 import az.neotech.neoeats.menu.domain.response.MenuItemResponse;
-import org.mapstruct.*;
+import org.mapstruct.BeanMapping;
+import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 
 @Mapper(componentModel = "spring")
 public interface MenuItemMapper {

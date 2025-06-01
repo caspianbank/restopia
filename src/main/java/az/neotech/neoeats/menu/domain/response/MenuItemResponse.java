@@ -1,7 +1,8 @@
 package az.neotech.neoeats.menu.domain.response;
 
-import java.math.BigDecimal;
 import lombok.*;
+
+import java.math.BigDecimal;
 
 @Getter
 @Setter

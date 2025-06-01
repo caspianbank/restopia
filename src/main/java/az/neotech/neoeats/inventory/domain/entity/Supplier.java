@@ -3,7 +3,6 @@ package az.neotech.neoeats.inventory.domain.entity;
 import az.neotech.commons.audit.DateAudit;
 import az.neotech.neoeats.commons.enums.DeleteStatus;
 import jakarta.persistence.*;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
