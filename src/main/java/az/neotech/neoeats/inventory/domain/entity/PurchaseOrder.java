@@ -1,6 +1,7 @@
 package az.neotech.neoeats.inventory.domain.entity;
 
 import az.neotech.commons.audit.DetailedAudit;
+import az.neotech.neoeats.commons.enums.DeleteStatus;
 import az.neotech.neoeats.inventory.domain.enums.PurchaseOrderStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -39,4 +40,8 @@ public class PurchaseOrder extends DetailedAudit {
 
     @OneToMany(mappedBy = "purchaseOrder", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<PurchaseOrderItem> items = new HashSet<>();
+
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "delete_status", nullable = false)
+    private DeleteStatus deleteStatus = DeleteStatus.ACTIVE;
 }
