@@ -2,6 +2,7 @@ package az.neotech.neoeats.inventory.domain.entity;
 
 import az.neotech.commons.audit.DateAudit;
 import az.neotech.neoeats.business.domain.entity.TenantBusiness;
+import az.neotech.neoeats.commons.enums.DeleteStatus;
 import az.neotech.neoeats.inventory.domain.enums.ItemUnit;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -49,4 +50,8 @@ public class InventoryItem extends DateAudit {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "supplier_id")
     private Supplier supplier;
+
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "delete_status", nullable = false)
+    private DeleteStatus deleteStatus = DeleteStatus.ACTIVE;
 }

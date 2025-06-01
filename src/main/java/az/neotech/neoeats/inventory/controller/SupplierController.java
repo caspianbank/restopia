@@ -16,22 +16,22 @@ public class SupplierController {
     private final SupplierService service;
 
     @GetMapping
-    public List<SupplierResponse> getAll() {
+    public List<SupplierResponse> getAllSuppliers() {
         return service.getAllSuppliers();
     }
 
     @PostMapping
-    public SupplierResponse create(@RequestBody SupplierRequest request) {
+    public SupplierResponse createSupplier(@RequestBody SupplierRequest request) {
         return service.createSupplier(request);
     }
 
     @PutMapping("/{id}")
-    public SupplierResponse update(@PathVariable Long id, @RequestBody SupplierRequest request) {
+    public SupplierResponse updateSupplier(@PathVariable Long id, @RequestBody SupplierRequest request) {
         return service.updateSupplier(id, request);
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
+    public void deleteSupplier(@PathVariable Long id) {
         service.deleteSupplier(id);
     }
 }
