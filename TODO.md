@@ -11,6 +11,7 @@
   - [ ] order to tables
   - [ ] order from central pos device
   - [ ] order from waiter screens
+  - [ ] kitchen monitor for orders
 - layout 
   - [x] basic layouts
   - [ ] flexible layouts with positions
