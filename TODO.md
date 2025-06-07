@@ -34,6 +34,9 @@
 - [ ] loyalty
   - [ ] loyalty for customers.
   - [ ] campaign messages via Telegram or WhatsApp to customers.
+- [ ] audit events - additional charge for businesses.
+  - [ ] keep track of every action on business system. e.g. Jack deleted task 1. Table 1 ordered meal 3.
+  - [ ] SSE to send to Business Admin Panel to see latest changes. 
 
 ## Business Notes
 
@@ -42,3 +45,4 @@
 - use soft delete in appropriate entities.
 - add log statements after changes in database. For example, adding, deleting, or updating a record.
 - add validation and swagger for controller layers. 
+- develop CRON jobs in Quarkus
