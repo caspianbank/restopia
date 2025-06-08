@@ -37,7 +37,11 @@
   - [ ] campaign messages via Telegram or WhatsApp to customers.
 - [ ] audit events - additional charge for businesses.
   - [ ] keep track of every action on business system. e.g. Jack deleted task 1. Table 1 ordered meal 3.
-  - [ ] SSE to send to Business Admin Panel to see latest changes. 
+  - [ ] SSE to send to Business Admin Panel to see latest changes.
+- [ ] QrMenu
+  - [x] create QrMenu
+  - [ ] create Bulk QrMenu from Admin Panel by admin 
+        
 
 ## Business Notes
 
