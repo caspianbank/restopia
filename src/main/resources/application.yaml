@@ -5,3 +5,5 @@ spring:
     import:
       - classpath:properties/application-feign.yaml
       - classpath:properties/application-logging.yaml
+qrmenu:
+  base-url: https://neotech.az

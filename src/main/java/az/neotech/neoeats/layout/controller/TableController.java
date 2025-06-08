@@ -50,4 +50,10 @@ public class TableController {
     public ResponseEntity<TableResponse> changeStatus(@PathVariable Long id, @RequestParam TableStatus status) {
         return ResponseEntity.ok(tableService.changeStatus(id, status));
     }
+
+    @GetMapping("/{tableId}/qrcode")
+    public ResponseEntity<String> generateQrCode(@PathVariable Long tableId) {
+        String base64Qr = tableService.generateQrCodeForTable(tableId);
+        return ResponseEntity.ok(base64Qr);
+    }
 }

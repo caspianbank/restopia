@@ -14,4 +14,6 @@ public interface TableService {
     TableResponse update(Long id, TableRequest request);
     TableResponse changeStatus(Long id, TableStatus status);
     TableResponse getByCode(String code);
+    String generateQrCodeForTable(Long tableId);
+
 }
