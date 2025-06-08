@@ -46,3 +46,15 @@
 - add log statements after changes in database. For example, adding, deleting, or updating a record.
 - add validation and swagger for controller layers. 
 - develop CRON jobs in Quarkus
+- check performance of SQL query before writing it via `explain analyze`
+- create necessary DB indexes based on conditions and filters.
+- database components must begin with the prefix followed by actual name 
+  - fk_employee_id -> foreign key
+  - uk_employee_email -> unique key
+  - pk_employee_id -> primary key
+  - ind_employee_name -> index
+  - nnc_employee_name -> not null constraint
+  - cc_employee_age -> check constraint
+  - func_sum_of_employee_salary -> function
+  - proc_update_transactions -> procedure
+  - trg_insert_rules -> trigger
