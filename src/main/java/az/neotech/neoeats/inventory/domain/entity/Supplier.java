@@ -1,6 +1,7 @@
 package az.neotech.neoeats.inventory.domain.entity;
 
 import az.neotech.commons.audit.DateAudit;
+import az.neotech.neoeats.commons.constants.ColumnLengthConstants;
 import az.neotech.neoeats.commons.enums.DeleteStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -17,7 +18,7 @@ public class Supplier extends DateAudit {
     @Column(name = "id", nullable = false, updatable = false)
     private Long id;
 
-    @Column(name = "tenant_code", nullable = false)
+    @Column(name = "tenant_code", nullable = false, length = ColumnLengthConstants.TENANT_CODE_LEN)
     private String tenantCode;
 
     @Column(name = "name", nullable = false)

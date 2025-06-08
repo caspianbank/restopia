@@ -2,6 +2,7 @@ package az.neotech.neoeats.inventory.domain.entity;
 
 import az.neotech.commons.audit.DetailedAudit;
 import az.neotech.neoeats.business.domain.entity.TenantBusinessStore;
+import az.neotech.neoeats.commons.constants.ColumnLengthConstants;
 import az.neotech.neoeats.inventory.domain.enums.TransactionType;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -21,7 +22,7 @@ public class InventoryItemTransaction extends DetailedAudit {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "tenant_code", nullable = false)
+    @Column(name = "tenant_code", nullable = false, length = ColumnLengthConstants.TENANT_CODE_LEN)
     private String tenantCode;
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -1,6 +1,7 @@
 package az.neotech.neoeats.inventory.domain.entity;
 
 import az.neotech.commons.audit.DetailedAudit;
+import az.neotech.neoeats.commons.constants.ColumnLengthConstants;
 import az.neotech.neoeats.commons.enums.DeleteStatus;
 import az.neotech.neoeats.inventory.domain.enums.PurchaseOrderStatus;
 import jakarta.persistence.*;
@@ -21,7 +22,7 @@ public class PurchaseOrder extends DetailedAudit {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "tenant_code", nullable = false)
+    @Column(name = "tenant_code", nullable = false, length = ColumnLengthConstants.TENANT_CODE_LEN)
     private String tenantCode;
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -2,6 +2,7 @@ package az.neotech.neoeats.business.domain.entity;
 
 import az.neotech.commons.audit.DateAudit;
 import az.neotech.neoeats.business.domain.enums.BusinessType;
+import az.neotech.neoeats.commons.constants.ColumnLengthConstants;
 import az.neotech.neoeats.commons.enums.DeleteStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -17,7 +18,7 @@ public class TenantBusiness extends DateAudit {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "tenant_code", nullable = false, length = 50)
+    @Column(name = "tenant_code", nullable = false, length = ColumnLengthConstants.TENANT_CODE_LEN)
     private String tenantCode;
 
     @Column(name = "name", nullable = false, length = 100)
