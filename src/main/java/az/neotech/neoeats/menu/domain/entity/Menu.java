@@ -1,6 +1,7 @@
 package az.neotech.neoeats.menu.domain.entity;
 
 import az.neotech.commons.audit.DetailedAudit;
+import az.neotech.neoeats.commons.constants.ColumnLengthConstants;
 import az.neotech.neoeats.commons.enums.DeleteStatus;
 import jakarta.persistence.*;
 import lombok.*;
@@ -21,7 +22,7 @@ public class Menu extends DetailedAudit {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "tenant_code", nullable = false, length = 50)
+    @Column(name = "tenant_code", nullable = false, length = ColumnLengthConstants.TENANT_CODE_LEN)
     private String tenantCode;
 
     @Column(nullable = false, length = 100)

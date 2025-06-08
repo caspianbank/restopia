@@ -16,6 +16,7 @@
   - [x] basic layouts
   - [ ] flexible layouts with positions
   - [ ] styled configs for layouts
+  - [ ] add tenantCode to appropriate entities
 - [ ] menu
   - [x] multiple menus
   - [x] menu categories and their position on UI
