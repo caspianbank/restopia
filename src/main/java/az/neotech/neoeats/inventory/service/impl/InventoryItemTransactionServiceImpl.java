@@ -46,7 +46,8 @@ public class InventoryItemTransactionServiceImpl implements InventoryItemTransac
     @Override
     public InventoryItemTransactionResponse createInventoryItemTransaction(InventoryItemTransactionRequest request) {
         InventoryItem inventoryItem = inventoryItemRepository.findById(request.getInventoryItemId())
-                .orElseThrow(() -> new RecordNotFoundException("InventoryItem not found with id: " + request.getInventoryItemId()));
+                .orElseThrow(() -> new RecordNotFoundException("Inventory Item not found with id: "
+                        + request.getInventoryItemId()));
 
         TenantBusinessStore store = null;
         if (request.getStoreId() != null) {

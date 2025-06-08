@@ -25,6 +25,7 @@ public class AreaServiceImpl implements AreaService {
         Area area = areaMapper.toEntity(request);
         return areaMapper.toResponse(areaRepository.save(area));
     }
+
     @Override
     public List<AreaResponse> getAll() {
         return areaMapper.toResponseList(areaRepository.findAll());

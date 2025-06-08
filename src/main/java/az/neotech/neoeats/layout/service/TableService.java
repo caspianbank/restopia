@@ -8,12 +8,18 @@ import java.util.List;
 
 public interface TableService {
     TableResponse create(TableRequest request);
-    List<TableResponse> getAll();
-    TableResponse getById(Long id);
-    void delete(Long id);
-    TableResponse update(Long id, TableRequest request);
-    TableResponse changeStatus(Long id, TableStatus status);
-    TableResponse getByCode(String code);
-    String generateQrCodeForTable(Long tableId);
 
+    List<TableResponse> getAll();
+
+    TableResponse getById(Long id);
+
+    void delete(Long id);
+
+    TableResponse update(Long id, TableRequest request);
+
+    TableResponse changeStatus(Long id, TableStatus status);
+
+    TableResponse getByCode(String code);
+
+    String generateQrCodeForTable(Long tableId);
 }

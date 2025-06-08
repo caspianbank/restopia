@@ -30,7 +30,8 @@ public class QrCodeGenerator {
     }
 
     // QR kodu birbaşa fayla yazır
-    public void generateQrCodeImageToFile(String text, int width, int height, String filePath) throws WriterException, IOException {
+    public void generateQrCodeImageToFile(String text, int width, int height, String filePath)
+            throws WriterException, IOException {
         QRCodeWriter qrCodeWriter = new QRCodeWriter();
         BitMatrix bitMatrix = qrCodeWriter.encode(text, BarcodeFormat.QR_CODE, width, height);
         Path path = new File(filePath).toPath();

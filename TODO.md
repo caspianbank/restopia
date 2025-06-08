@@ -63,3 +63,4 @@
   - func_sum_of_employee_salary -> function
   - proc_update_transactions -> procedure
   - trg_insert_rules -> trigger
+- put @Column annotation on top of each entity fields

@@ -9,6 +9,6 @@ import java.util.Optional;
 @Repository
 public interface RestaurantTableRepository extends JpaRepository<RestaurantTable, Long> {
     Optional<RestaurantTable> findByCodeIgnoreCase(String code);
-    Optional<RestaurantTable> findByQrCode(String qrCode);
 
+    Optional<RestaurantTable> findByQrCode(String qrCode);
 }

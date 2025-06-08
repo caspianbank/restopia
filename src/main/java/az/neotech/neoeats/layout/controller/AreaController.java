@@ -40,8 +40,7 @@ public class AreaController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<AreaResponse> update
-            (@PathVariable Long id, @RequestBody AreaRequest request) {
+    public ResponseEntity<AreaResponse> update(@PathVariable Long id, @RequestBody AreaRequest request) {
         return ResponseEntity.ok(areaService.update(id, request));
     }
 

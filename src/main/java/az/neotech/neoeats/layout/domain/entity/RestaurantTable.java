@@ -24,7 +24,9 @@ public class RestaurantTable extends DetailedAudit {
     @Enumerated(EnumType.STRING)
     private TableStatus status = TableStatus.AVAILABLE;
 
-    private int posX, posY;
+    private int posX;
+
+    private int posY;
 
     @Column(name = "qr_code", unique = true, nullable = false, length = 100)
     private String qrCode;

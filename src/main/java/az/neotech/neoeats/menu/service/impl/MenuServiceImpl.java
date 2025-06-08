@@ -79,8 +79,8 @@ public class MenuServiceImpl implements MenuService {
     private MenuResponse toMenuResponse(Menu menu) {
         return new MenuResponse(
                 menu.getName(),
-                menu.getDescription()
-                // Add mapping for items if DTO has it
+                menu.getDescription(),
+                menu.isActive()
         );
     }
 

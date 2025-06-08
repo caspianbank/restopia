@@ -31,10 +31,12 @@ public class TableController {
     public ResponseEntity<TableResponse> getById(@PathVariable Long id) {
         return ResponseEntity.ok(tableService.getById(id));
     }
+
     @GetMapping("/by-code/{code}")
     public ResponseEntity<TableResponse> getByCode(@PathVariable String code) {
         return ResponseEntity.ok(tableService.getByCode(code));
     }
+
     @PutMapping("/{id}")
     public ResponseEntity<TableResponse> update(@PathVariable Long id, @RequestBody TableRequest request) {
         return ResponseEntity.ok(tableService.update(id, request));

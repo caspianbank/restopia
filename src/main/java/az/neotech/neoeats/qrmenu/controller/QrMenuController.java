@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class QrMenuController {
 
     private final QrMenuService qrMenuService;
+
     @GetMapping("/{qrCode}")
     public QrMenuResponse getMenuByQrCode(@PathVariable String qrCode) {
         return qrMenuService.getMenuByQrCode(qrCode);

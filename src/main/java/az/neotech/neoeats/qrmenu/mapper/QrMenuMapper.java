@@ -5,8 +5,6 @@ import az.neotech.neoeats.menu.domain.response.MenuCategoryResponse;
 import az.neotech.neoeats.menu.domain.response.MenuItemResponse;
 import az.neotech.neoeats.qrmenu.domain.dto.response.QrMenuResponse;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Mappings;
 
 import java.util.List;
 

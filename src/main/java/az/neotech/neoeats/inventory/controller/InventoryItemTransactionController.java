@@ -28,7 +28,8 @@ public class InventoryItemTransactionController {
     }
 
     @PostMapping
-    public InventoryItemTransactionResponse createInventoryItemTransaction(@RequestBody @Valid InventoryItemTransactionRequest request) {
+    public InventoryItemTransactionResponse createInventoryItemTransaction(
+            @RequestBody @Valid InventoryItemTransactionRequest request) {
         return inventoryItemTransactionService.createInventoryItemTransaction(request);
     }
 }

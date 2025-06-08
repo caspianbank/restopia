@@ -16,11 +16,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -84,7 +82,8 @@ public class OrderServiceImpl implements OrderService {
     private List<OrderItem> buildOrderItems(List<OrderItemRequest> itemRequests, Order order) {
         return itemRequests.stream().map(itemRequest -> {
             MenuItem menuItem = menuItemRepository.findById(itemRequest.getMenuItemId())
-                    .orElseThrow(() -> new RecordNotFoundException("Menu item not found: " + itemRequest.getMenuItemId()));
+                    .orElseThrow(() ->
+                            new RecordNotFoundException("Menu item not found: " + itemRequest.getMenuItemId()));
 
             OrderItem item = new OrderItem();
             item.setMenuItem(menuItem);
@@ -92,6 +91,6 @@ public class OrderServiceImpl implements OrderService {
             item.setTotalPrice(menuItem.getPrice().multiply(BigDecimal.valueOf(itemRequest.getQuantity())));
             item.setOrder(order);
             return item;
-        }).collect(Collectors.toList());
+        }).toList();
     }
 }
