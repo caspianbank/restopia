@@ -22,6 +22,12 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
 
+      - name: Publish neotech-commons to Maven Local
+        run: |
+          git clone https://github.com/caspianbank/neotech-commons.git
+          cd neotech-commons
+          ./gradlew publishToMavenLocal
+
       - name: Run Checkstyle
         run: ./gradlew checkstyleMain
 
