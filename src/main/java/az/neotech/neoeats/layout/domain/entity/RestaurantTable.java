@@ -1,6 +1,5 @@
 package az.neotech.neoeats.layout.domain.entity;
 
-
 import az.neotech.commons.audit.DetailedAudit;
 import az.neotech.neoeats.layout.domain.enums.TableStatus;
 import az.neotech.neoeats.menu.domain.entity.Menu;

@@ -3,20 +3,22 @@
 ## Necessary Services to Create
 
 - [ ] payment
+  - [x] crud for payment
   - [ ] payment via google pay
   - [ ] payment via apple pay 
   - [ ] payment via POS terminal
   - [ ] payment via QR code
-- order
+- [ ] order
   - [ ] order to tables
   - [ ] order from central pos device
   - [ ] order from waiter screens
   - [ ] kitchen monitor for orders
-- layout 
+- [ ] layout 
   - [x] basic layouts
   - [ ] flexible layouts with positions
   - [ ] styled configs for layouts
   - [ ] add tenantCode to appropriate entities
+  - [ ] keeping a list of tables which are booked, reserved.
 - [ ] menu
   - [x] multiple menus
   - [x] menu categories and their position on UI
@@ -36,9 +38,9 @@
   - [ ] loyalty for customers.
   - [ ] campaign messages via Telegram or WhatsApp to customers.
 - [ ] audit events - additional charge for businesses.
-  - [ ] keep track of every action on business system. e.g. Jack deleted task 1. Table 1 ordered meal 3.
-  - [ ] SSE to send to Business Admin Panel to see latest changes.
-- [ ] QrMenu
+  - [ ] keep track of every action on a business system. e.g., Jack deleted task 1. Table 1 ordered meal 3.
+  - [ ] SSE to send to Business Admin Panel to see the latest changes.
+- [ ] qr-menu
   - [x] create QrMenu
   - [ ] create Bulk QrMenu from Admin Panel by admin 
         
@@ -48,12 +50,12 @@
 ## Code Notes
 
 - use soft delete in appropriate entities.
-- add log statements after changes in database. For example, adding, deleting, or updating a record.
+- add log statements after changes in the database. For example, adding, deleting, or updating a record.
 - add validation and swagger for controller layers. 
 - develop CRON jobs in Quarkus
 - check performance of SQL query before writing it via `explain analyze`
 - create necessary DB indexes based on conditions and filters.
-- database components must begin with the prefix followed by actual name 
+- database components must begin with the prefix followed by the actual name 
   - fk_employee_id -> foreign key
   - uk_employee_email -> unique key
   - pk_employee_id -> primary key
@@ -63,4 +65,4 @@
   - func_sum_of_employee_salary -> function
   - proc_update_transactions -> procedure
   - trg_insert_rules -> trigger
-- put @Column annotation on top of each entity fields
+- put @Column annotation on top of each entity field
