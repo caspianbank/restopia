@@ -13,11 +13,6 @@ jobs:
       contents: read
 
     steps:
-      # - name: Configure Git to use PAT for private submodules
-      #   run: |
-      #     git config --global url."https://${{ secrets.ORG_CI_TOKEN }}@github.com/".insteadOf "git@github.com:"
-      #     git config --global url."https://${{ secrets.ORG_CI_TOKEN }}@github.com/".insteadOf "https://github.com/"
-
       - name: Checkout main repository and submodules
         uses: actions/checkout@v4
         with:
