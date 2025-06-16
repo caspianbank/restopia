@@ -13,17 +13,16 @@ jobs:
       contents: read
 
     steps:
-      - name: Checkout main repository and submodules with HTTPS override
+      - name: Configure Git to use PAT for private submodules
+        run: |
+          git config --global url."https://${{ secrets.ORG_CI_TOKEN }}@github.com/".insteadOf "git@github.com:"
+          git config --global url."https://${{ secrets.ORG_CI_TOKEN }}@github.com/".insteadOf "https://github.com/"
+
+      - name: Checkout main repository and submodules
         uses: actions/checkout@v4
         with:
           submodules: recursive
           fetch-depth: 1
-        env:
-          ORG_CI_TOKEN: ${{ secrets.ORG_CI_TOKEN }}
-        # override Git SSH with HTTPS+token before submodule fetch
-        before: |
-          git config --global url."https://${ORG_CI_TOKEN}@github.com/".insteadOf "git@github.com:"
-          git config --global url."https://${ORG_CI_TOKEN}@github.com/".insteadOf "https://github.com/"
 
       - name: Set up JDK 21
         uses: actions/setup-java@v4
