@@ -13,15 +13,16 @@ jobs:
       contents: read
 
     steps:
-      - name: Update submodule URLs
+      - name: Configure Git to use PAT for private submodules
         run: |
-          git config --global --add url."https://${{ secrets.ORG_CI_TOKEN }}:x-oauth-basic@github.com/".insteadOf "https://github.com/"
-          git config --global --add url."https://${{ secrets.ORG_CI_TOKEN }}:x-oauth-basic@github.com/".insteadOf "git@github.com:"
-          
+          git config --global url."https://${{ secrets.ORG_CI_TOKEN }}@github.com/".insteadOf "https://github.com/"
+          git config --global url."https://${{ secrets.ORG_CI_TOKEN }}@github.com/".insteadOf "git@github.com:"
+
       - name: Checkout main repository and submodules
         uses: actions/checkout@v4
         with:
-          submodules: true
+          submodules: recursive
+          fetch-depth: 1
 
       - name: Set up JDK 21
         uses: actions/setup-java@v4
