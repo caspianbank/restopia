@@ -13,9 +13,10 @@ jobs:
       contents: read
 
     steps:
-      - name: Set HTTPS URL for submodule with token
+      - name: Update submodule URLs
         run: |
-          git config --global url."https://github.com/".insteadOf "git@github.com:"
+          git config --global --add url."https://${{ secrets.ORG_CI_TOKEN }}:x-oauth-basic@github.com/".insteadOf "https://github.com/"
+          git config --global --add url."https://${{ secrets.ORG_CI_TOKEN }}:x-oauth-basic@github.com/".insteadOf "git@github.com:"
           
       - name: Checkout main repository and submodules
         uses: actions/checkout@v4
