@@ -4,7 +4,6 @@ import az.neotech.neoeats.order.domain.request.OrderRequest;
 import az.neotech.neoeats.order.domain.response.OrderResponse;
 
 import java.util.List;
-import java.util.UUID;
 
 public interface OrderService {
     OrderResponse createOrder(OrderRequest request);

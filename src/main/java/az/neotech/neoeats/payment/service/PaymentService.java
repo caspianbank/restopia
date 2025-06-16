@@ -17,7 +17,7 @@ public interface PaymentService {
 
     PaymentResponse getPaymentByReferenceNumber(String referenceNumber);
 
-    PaymentResponse getPaymentByOrderId(Long orderId);
+    PaymentResponse getPaymentByOrderId(String orderId);
 
     List<PaymentResponse> getPaymentsByTenantCode(String tenantCode);
 

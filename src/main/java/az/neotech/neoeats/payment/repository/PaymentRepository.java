@@ -1,6 +1,7 @@
 package az.neotech.neoeats.payment.repository;
 
 import az.neotech.neoeats.payment.domain.entity.Payment;
+import az.neotech.neoeats.payment.domain.enums.PaymentStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -18,14 +19,14 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
 
     Optional<Payment> findByReferenceNumber(String referenceNumber);
 
-    Optional<Payment> findByOrderId(Long orderId);
+    Optional<Payment> findByOrderId(String orderId);
 
     List<Payment> findByTenantCodeAndCustomerEmail(String tenantCode, String customerEmail);
 
-    List<Payment> findByTenantCodeOrderByCreatedAtDesc(String tenantCode);
+    List<Payment> findByTenantCodeOrderByCreatedDateTimeDesc(String tenantCode);
 
     @Query("SELECT p FROM Payment p WHERE p.tenantCode = :tenantCode AND p.status = :status")
     List<Payment> findByTenantCodeAndStatus(@Param("tenantCode") String tenantCode,
-                                            @Param("status") az.neotech.neoeats.payment.domain.enums.PaymentStatus status);
+                                            @Param("status") PaymentStatus status);
 }
 

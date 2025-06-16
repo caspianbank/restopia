@@ -49,7 +49,7 @@ public class PaymentController {
     }
 
     @GetMapping("/order/{orderId}")
-    public PaymentResponse getPaymentByOrderId(@PathVariable Long orderId) {
+    public PaymentResponse getPaymentByOrderId(@PathVariable String orderId) {
         log.debug("Fetching payment by order ID: {}", orderId);
         return paymentService.getPaymentByOrderId(orderId);
     }

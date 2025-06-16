@@ -2,7 +2,6 @@ package az.neotech.neoeats.payment.service.impl;
 
 import az.neotech.neoeats.payment.service.PaymentService;
 import az.neotech.neoeats.commons.exception.RecordNotFoundException;
-import az.neotech.neoeats.order.repository.OrderRepository;
 import az.neotech.neoeats.payment.domain.entity.Payment;
 import az.neotech.neoeats.payment.domain.enums.PaymentStatus;
 import az.neotech.neoeats.payment.domain.mapper.PaymentMapper;
@@ -16,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 // todo: add logging statements for all methods
 // todo: check delete method for soft delete
@@ -26,7 +24,6 @@ import java.util.stream.Collectors;
 public class PaymentServiceImpl implements PaymentService {
 
     private final PaymentRepository paymentRepository;
-    private final OrderRepository orderRepository;
     private final PaymentMapper paymentMapper;
 
     @Override
@@ -70,7 +67,7 @@ public class PaymentServiceImpl implements PaymentService {
     public PaymentResponse getPaymentByTransactionId(String transactionId) {
         log.debug("Fetching payment by transaction ID: {}", transactionId);
         Payment payment = paymentRepository.findByTransactionId(transactionId)
-                .orElseThrow(() -> new RecordNotFoundException("Payment not found with transaction ID: " + transactionId));
+                .orElseThrow(() -> new RecordNotFoundException("Payment not found with transaction: " + transactionId));
         return paymentMapper.mapToResponse(payment);
     }
 
@@ -79,13 +76,13 @@ public class PaymentServiceImpl implements PaymentService {
     public PaymentResponse getPaymentByReferenceNumber(String referenceNumber) {
         log.debug("Fetching payment by reference number: {}", referenceNumber);
         Payment payment = paymentRepository.findByReferenceNumber(referenceNumber)
-                .orElseThrow(() -> new RecordNotFoundException("Payment not found with reference number: " + referenceNumber));
+                .orElseThrow(() -> new RecordNotFoundException("Payment not found with ref num: " + referenceNumber));
         return paymentMapper.mapToResponse(payment);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public PaymentResponse getPaymentByOrderId(Long orderId) {
+    public PaymentResponse getPaymentByOrderId(String orderId) {
         log.debug("Fetching payment by order ID: {}", orderId);
         Payment payment = paymentRepository.findByOrderId(orderId)
                 .orElseThrow(() -> new RecordNotFoundException("Payment not found for order ID: " + orderId));
@@ -96,10 +93,10 @@ public class PaymentServiceImpl implements PaymentService {
     @Transactional(readOnly = true)
     public List<PaymentResponse> getPaymentsByTenantCode(String tenantCode) {
         log.debug("Fetching payments for tenant: {}", tenantCode);
-        List<Payment> payments = paymentRepository.findByTenantCodeOrderByCreatedAtDesc(tenantCode);
+        List<Payment> payments = paymentRepository.findByTenantCodeOrderByCreatedDateTimeDesc(tenantCode);
         return payments.stream()
                 .map(paymentMapper::mapToResponse)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
@@ -109,7 +106,7 @@ public class PaymentServiceImpl implements PaymentService {
         List<Payment> payments = paymentRepository.findByTenantCodeAndStatus(tenantCode, status);
         return payments.stream()
                 .map(paymentMapper::mapToResponse)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
@@ -119,7 +116,7 @@ public class PaymentServiceImpl implements PaymentService {
         List<Payment> payments = paymentRepository.findByTenantCodeAndCustomerEmail(tenantCode, customerEmail);
         return payments.stream()
                 .map(paymentMapper::mapToResponse)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override

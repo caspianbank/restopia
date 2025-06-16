@@ -99,8 +99,8 @@ public class Payment extends DateAudit {
     }
 
     private String generatePaymentId() {
-        return "PAY_" + System.currentTimeMillis() + "_" +
-                UUID.randomUUID().toString().substring(0, 8).toUpperCase();
+        return "PAY_" + System.currentTimeMillis() + "_"
+                + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
     }
 }
 
