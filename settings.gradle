@@ -1,1 +1,3 @@
 rootProject.name = 'neoeats'
+
+includeBuild("libs/neotech-commons")

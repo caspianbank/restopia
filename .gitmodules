@@ -1,0 +1,3 @@
+[submodule "libs/neotech-commons"]
+	path = libs/neotech-commons
+	url = git@github.com:caspianbank/neotech-commons.git
