@@ -13,7 +13,6 @@ import org.hibernate.annotations.UuidGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -23,7 +22,7 @@ public class Order extends DetailedAudit {
 
     @Id
     @UuidGenerator
-    private UUID id;
+    private String id;
 
     @Column(name = "tenant_code", nullable = false, length = ColumnLengthConstants.TENANT_CODE_LEN)
     private String tenantCode;

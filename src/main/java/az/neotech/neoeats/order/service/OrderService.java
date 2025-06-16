@@ -9,9 +9,9 @@ import java.util.UUID;
 public interface OrderService {
     OrderResponse createOrder(OrderRequest request);
 
-    OrderResponse updateOrder(UUID orderId, OrderRequest request);
+    OrderResponse updateOrder(String orderId, OrderRequest request);
 
-    void deleteOrder(UUID orderId);
+    void deleteOrder(String orderId);
 
     List<OrderResponse> findAllOrders(String tenantCode);
 }

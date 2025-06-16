@@ -2,7 +2,6 @@ package az.neotech.neoeats.payment.service.impl;
 
 import az.neotech.neoeats.payment.service.PaymentService;
 import az.neotech.neoeats.commons.exception.RecordNotFoundException;
-import az.neotech.neoeats.order.domain.entity.Order;
 import az.neotech.neoeats.order.repository.OrderRepository;
 import az.neotech.neoeats.payment.domain.entity.Payment;
 import az.neotech.neoeats.payment.domain.enums.PaymentStatus;
@@ -35,10 +34,7 @@ public class PaymentServiceImpl implements PaymentService {
     public PaymentResponse createPayment(PaymentRequest request) {
         log.info("Creating payment for order ID: {}", request.getOrderId());
 
-        Order order = orderRepository.findById(request.getOrderId())
-                .orElseThrow(() -> new RecordNotFoundException("Order not found with ID: " + request.getOrderId()));
-
-        Payment payment = paymentMapper.toPaymentEntity(request, order);
+        Payment payment = paymentMapper.toPaymentEntity(request);
 
         if (payment.getProcessedAt() == null) {
             payment.setProcessedAt(LocalDateTime.now());

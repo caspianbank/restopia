@@ -1,6 +1,6 @@
 package az.neotech.neoeats.payment.domain.response;
 
-import az.neotech.neoeats.commons.enums.Currency;
+import az.neotech.commons.finance.Currency;
 import az.neotech.neoeats.payment.domain.enums.PaymentMethod;
 import az.neotech.neoeats.payment.domain.enums.PaymentProvider;
 import az.neotech.neoeats.payment.domain.enums.PaymentStatus;
@@ -28,7 +28,6 @@ public class PaymentResponse {
     private Long orderId;
     private String description;
     private String notes;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-
+    private LocalDateTime createdDateTime;
+    private LocalDateTime modifiedDateTime;
 }

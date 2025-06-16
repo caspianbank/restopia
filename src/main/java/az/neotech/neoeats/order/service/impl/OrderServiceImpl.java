@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.UUID;
 
 @Slf4j
 @Service
@@ -50,7 +49,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderResponse updateOrder(UUID orderId, OrderRequest request) {
+    public OrderResponse updateOrder(String orderId, OrderRequest request) {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new RecordNotFoundException("Order not found"));
 
@@ -72,7 +71,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void deleteOrder(UUID orderId) {
+    public void deleteOrder(String orderId) {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new RecordNotFoundException("Order not found"));
         order.setDeleteStatus(DeleteStatus.DELETED);
