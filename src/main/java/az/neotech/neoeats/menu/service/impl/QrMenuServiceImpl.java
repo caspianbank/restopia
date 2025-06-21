@@ -1,4 +1,4 @@
-package az.neotech.neoeats.qrmenu.service.impl;
+package az.neotech.neoeats.menu.service.impl;
 
 import az.neotech.neoeats.commons.enums.DeleteStatus;
 import az.neotech.neoeats.commons.exception.RecordNotFoundException;
@@ -9,9 +9,9 @@ import az.neotech.neoeats.menu.domain.mapper.MenuCategoryMapper;
 import az.neotech.neoeats.menu.domain.mapper.MenuItemMapper;
 import az.neotech.neoeats.menu.domain.response.MenuCategoryResponse;
 import az.neotech.neoeats.menu.domain.response.MenuItemResponse;
-import az.neotech.neoeats.qrmenu.domain.dto.response.QrMenuResponse;
-import az.neotech.neoeats.qrmenu.mapper.QrMenuMapper;
-import az.neotech.neoeats.qrmenu.service.QrMenuService;
+import az.neotech.neoeats.menu.domain.response.QrMenuResponse;
+import az.neotech.neoeats.menu.domain.mapper.QrMenuMapper;
+import az.neotech.neoeats.menu.service.QrMenuService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import az.neotech.neoeats.menu.domain.entity.MenuCategory;

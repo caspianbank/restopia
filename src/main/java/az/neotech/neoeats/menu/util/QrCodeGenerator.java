@@ -1,4 +1,4 @@
-package az.neotech.neoeats.qrmenu.util;
+package az.neotech.neoeats.menu.util;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;

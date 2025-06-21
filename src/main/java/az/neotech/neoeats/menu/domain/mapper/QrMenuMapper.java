@@ -1,9 +1,9 @@
-package az.neotech.neoeats.qrmenu.mapper;
+package az.neotech.neoeats.menu.domain.mapper;
 
 import az.neotech.neoeats.menu.domain.entity.Menu;
 import az.neotech.neoeats.menu.domain.response.MenuCategoryResponse;
 import az.neotech.neoeats.menu.domain.response.MenuItemResponse;
-import az.neotech.neoeats.qrmenu.domain.dto.response.QrMenuResponse;
+import az.neotech.neoeats.menu.domain.response.QrMenuResponse;
 import org.mapstruct.Mapper;
 
 import java.util.List;

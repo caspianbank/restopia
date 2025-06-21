@@ -21,6 +21,7 @@ public class RestaurantTable extends DetailedAudit {
     private int capacity;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "table_status")
     private TableStatus status = TableStatus.AVAILABLE;
 
     private int posX;

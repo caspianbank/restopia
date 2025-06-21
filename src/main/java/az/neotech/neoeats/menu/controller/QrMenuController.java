@@ -1,7 +1,7 @@
-package az.neotech.neoeats.qrmenu.controller;
+package az.neotech.neoeats.menu.controller;
 
-import az.neotech.neoeats.qrmenu.domain.dto.response.QrMenuResponse;
-import az.neotech.neoeats.qrmenu.service.QrMenuService;
+import az.neotech.neoeats.menu.domain.response.QrMenuResponse;
+import az.neotech.neoeats.menu.service.QrMenuService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

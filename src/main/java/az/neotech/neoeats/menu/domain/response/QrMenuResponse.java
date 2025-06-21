@@ -1,7 +1,5 @@
-package az.neotech.neoeats.qrmenu.domain.dto.response;
+package az.neotech.neoeats.menu.domain.response;
 
-import az.neotech.neoeats.menu.domain.response.MenuCategoryResponse;
-import az.neotech.neoeats.menu.domain.response.MenuItemResponse;
 import lombok.Getter;
 import lombok.Setter;
 

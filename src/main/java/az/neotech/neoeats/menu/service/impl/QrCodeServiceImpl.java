@@ -1,7 +1,7 @@
-package az.neotech.neoeats.qrmenu.service.impl;
+package az.neotech.neoeats.menu.service.impl;
 
-import az.neotech.neoeats.qrmenu.service.QrCodeService;
-import az.neotech.neoeats.qrmenu.util.QrCodeGenerator;
+import az.neotech.neoeats.menu.service.QrCodeService;
+import az.neotech.neoeats.menu.util.QrCodeGenerator;
 import com.google.zxing.WriterException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
