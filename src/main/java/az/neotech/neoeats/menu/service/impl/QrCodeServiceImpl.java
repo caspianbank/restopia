@@ -1,11 +1,11 @@
 package az.neotech.neoeats.menu.service.impl;
 
+import az.neotech.neoeats.menu.domain.request.QrCodeRequest;
 import az.neotech.neoeats.menu.service.QrCodeService;
 import az.neotech.neoeats.menu.util.QrCodeGenerator;
 import com.google.zxing.WriterException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.io.File;
 import java.io.IOException;
 
@@ -32,5 +32,17 @@ public class QrCodeServiceImpl implements QrCodeService {
         } catch (IOException | WriterException e) {
             throw new RuntimeException("QR kod şəkli yaradılarkən xəta baş verdi", e);
         }
+    }
+
+    @Override
+    public void generateQrCodes(QrCodeRequest qrCodeRequest) {
+        /*
+          todo: find all tables of tenant and generate QR codes for each table
+            each qr code will be in a table with separate image and each image name will show table code and name
+            e.g. qr_masa_1_3XZ4DF.png, qr_masa_2_89CV4R.png
+
+            at the end of the process, zip file can be downloaded, so they can send this file to the banner printing
+            company
+         */
     }
 }

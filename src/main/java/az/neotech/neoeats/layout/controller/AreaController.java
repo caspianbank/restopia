@@ -6,13 +6,12 @@ import az.neotech.neoeats.layout.service.AreaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 // todo: unnecessary response entity
-@Controller
+@RestController
 @RequestMapping("/api/v1/area")
 @RequiredArgsConstructor
 public class AreaController {
@@ -24,7 +23,7 @@ public class AreaController {
         return ResponseEntity.status(HttpStatus.CREATED).body(areaService.create(request));
     }
 
-    @GetMapping()
+    @GetMapping
     public ResponseEntity<List<AreaResponse>> getAll() {
         return ResponseEntity.ok(areaService.getAll());
     }
