@@ -7,3 +7,12 @@ spring:
       - classpath:properties/application-logging.yaml
 qrmenu:
   base-url: https://neotech.az
+
+app:
+  security:
+    jwt:
+      token:
+        secret: ${JWT_TOKEN_SECRET:32c4a24687d91af49d15f4bd69287a189dcf4c520943e540855f55ff94d526c8}
+        expiration: ${TOKEN_EXPIRATION:3600}
+        header: ${TOKEN_HEADER:X-Auth-Token}
+        prefix: ${TOKEN_PREFIX:Bearer }
