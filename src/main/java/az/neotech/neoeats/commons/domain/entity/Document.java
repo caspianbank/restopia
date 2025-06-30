@@ -32,6 +32,9 @@ public class Document extends DetailedAudit {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false, unique = true)
+    private String documentCode;
+
     @Column(nullable = false, length = ColumnLengthConstants.TENANT_CODE_LEN)
     private String tenantCode;
 
