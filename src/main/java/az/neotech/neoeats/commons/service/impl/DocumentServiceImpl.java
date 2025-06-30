@@ -1,8 +1,8 @@
 package az.neotech.neoeats.commons.service.impl;
 
-import az.neotech.neoeats.commons.enums.DocumentType;
+import az.neotech.neoeats.commons.domain.enums.DocumentType;
 import az.neotech.neoeats.commons.repository.DocumentRepository;
-import az.neotech.neoeats.commons.response.DocumentResponse;
+import az.neotech.neoeats.commons.domain.response.DocumentResponse;
 import az.neotech.neoeats.commons.service.DocumentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

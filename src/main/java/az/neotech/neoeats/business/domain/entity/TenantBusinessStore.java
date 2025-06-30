@@ -2,7 +2,7 @@ package az.neotech.neoeats.business.domain.entity;
 
 import az.neotech.commons.audit.DateAudit;
 import az.neotech.neoeats.business.domain.enums.StoreType;
-import az.neotech.neoeats.commons.enums.DeleteStatus;
+import az.neotech.neoeats.commons.domain.enums.DeleteStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

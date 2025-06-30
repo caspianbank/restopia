@@ -1,4 +1,4 @@
-package az.neotech.neoeats.commons.constants;
+package az.neotech.neoeats.commons.domain.constants;
 
 public final class ColumnLengthConstants {
     private ColumnLengthConstants() {

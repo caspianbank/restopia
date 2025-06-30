@@ -2,7 +2,7 @@ package az.neotech.neoeats.inventory.domain.entity;
 
 import az.neotech.commons.audit.DetailedAudit;
 import az.neotech.neoeats.business.domain.entity.TenantBusinessStore;
-import az.neotech.neoeats.commons.constants.ColumnLengthConstants;
+import az.neotech.neoeats.commons.domain.constants.ColumnLengthConstants;
 import az.neotech.neoeats.inventory.domain.enums.TransactionType;
 import jakarta.persistence.*;
 import lombok.Getter;

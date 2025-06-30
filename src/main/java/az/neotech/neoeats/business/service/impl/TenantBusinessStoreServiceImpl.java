@@ -8,7 +8,7 @@ import az.neotech.neoeats.business.domain.response.TenantBusinessStoreResponse;
 import az.neotech.neoeats.business.repository.TenantBusinessRepository;
 import az.neotech.neoeats.business.repository.TenantBusinessStoreRepository;
 import az.neotech.neoeats.business.service.TenantBusinessStoreService;
-import az.neotech.neoeats.commons.enums.DeleteStatus;
+import az.neotech.neoeats.commons.domain.enums.DeleteStatus;
 import az.neotech.neoeats.commons.exception.RecordNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

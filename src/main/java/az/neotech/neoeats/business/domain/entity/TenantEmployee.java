@@ -1,8 +1,8 @@
 package az.neotech.neoeats.business.domain.entity;
 
 import az.neotech.commons.audit.DateAudit;
-import az.neotech.neoeats.commons.constants.ColumnLengthConstants;
-import az.neotech.neoeats.commons.enums.DeleteStatus;
+import az.neotech.neoeats.commons.domain.constants.ColumnLengthConstants;
+import az.neotech.neoeats.commons.domain.enums.DeleteStatus;
 import jakarta.persistence.*;
 import lombok.*;
 

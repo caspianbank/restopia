@@ -1,6 +1,6 @@
 package az.neotech.neoeats.security.domain.entity;
 
-import az.neotech.neoeats.commons.constants.ColumnLengthConstants;
+import az.neotech.neoeats.commons.domain.constants.ColumnLengthConstants;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

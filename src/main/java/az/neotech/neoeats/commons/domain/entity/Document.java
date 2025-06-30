@@ -1,10 +1,10 @@
-package az.neotech.neoeats.commons.entity;
+package az.neotech.neoeats.commons.domain.entity;
 
 import az.neotech.commons.audit.DetailedAudit;
-import az.neotech.neoeats.commons.constants.ColumnLengthConstants;
-import az.neotech.neoeats.commons.enums.DocumentGenerationStatus;
-import az.neotech.neoeats.commons.enums.DocumentType;
-import az.neotech.neoeats.commons.enums.FileType;
+import az.neotech.neoeats.commons.domain.constants.ColumnLengthConstants;
+import az.neotech.neoeats.commons.domain.enums.DocumentGenerationStatus;
+import az.neotech.neoeats.commons.domain.enums.DocumentType;
+import az.neotech.neoeats.commons.domain.enums.FileType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

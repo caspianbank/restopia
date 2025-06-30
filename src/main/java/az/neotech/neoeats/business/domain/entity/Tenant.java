@@ -4,8 +4,8 @@ import az.neotech.commons.audit.DateAudit;
 import az.neotech.neoeats.business.domain.enums.SubscriptionPlan;
 import az.neotech.neoeats.business.domain.enums.SubscriptionStatus;
 import az.neotech.neoeats.business.domain.enums.TenantSize;
-import az.neotech.neoeats.commons.constants.ColumnLengthConstants;
-import az.neotech.neoeats.commons.enums.DeleteStatus;
+import az.neotech.neoeats.commons.domain.constants.ColumnLengthConstants;
+import az.neotech.neoeats.commons.domain.enums.DeleteStatus;
 import jakarta.persistence.*;
 import lombok.*;
 

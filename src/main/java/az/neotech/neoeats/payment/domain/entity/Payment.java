@@ -2,7 +2,7 @@ package az.neotech.neoeats.payment.domain.entity;
 
 import az.neotech.commons.audit.DateAudit;
 import az.neotech.commons.finance.Currency;
-import az.neotech.neoeats.commons.constants.ColumnLengthConstants;
+import az.neotech.neoeats.commons.domain.constants.ColumnLengthConstants;
 import az.neotech.neoeats.order.domain.entity.Order;
 import az.neotech.neoeats.payment.domain.enums.PaymentMethod;
 import az.neotech.neoeats.payment.domain.enums.PaymentProvider;

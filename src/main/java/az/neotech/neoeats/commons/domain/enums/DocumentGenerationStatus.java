@@ -1,4 +1,4 @@
-package az.neotech.neoeats.commons.enums;
+package az.neotech.neoeats.commons.domain.enums;
 
 public enum DocumentGenerationStatus {
     IN_PROGRESS,

@@ -1,8 +1,8 @@
 package az.neotech.neoeats.menu.service.impl;
 
 import az.neotech.neoeats.commons.component.RandomCodeGenerator;
-import az.neotech.neoeats.commons.enums.DocumentType;
-import az.neotech.neoeats.commons.response.DocumentResponse;
+import az.neotech.neoeats.commons.domain.enums.DocumentType;
+import az.neotech.neoeats.commons.domain.response.DocumentResponse;
 import az.neotech.neoeats.commons.service.DocumentService;
 import az.neotech.neoeats.menu.domain.request.GenerateFileRequest;
 import az.neotech.neoeats.menu.domain.response.GenerateFileResponse;

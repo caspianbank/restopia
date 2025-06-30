@@ -1,6 +1,6 @@
 package az.neotech.neoeats.business.domain.response;
 
-import az.neotech.neoeats.commons.enums.DeleteStatus;
+import az.neotech.neoeats.commons.domain.enums.DeleteStatus;
 import lombok.Getter;
 import lombok.Setter;
 

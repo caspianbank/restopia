@@ -1,8 +1,8 @@
 package az.neotech.neoeats.order.domain.entity;
 
 import az.neotech.commons.audit.DetailedAudit;
-import az.neotech.neoeats.commons.constants.ColumnLengthConstants;
-import az.neotech.neoeats.commons.enums.DeleteStatus;
+import az.neotech.neoeats.commons.domain.constants.ColumnLengthConstants;
+import az.neotech.neoeats.commons.domain.enums.DeleteStatus;
 import az.neotech.neoeats.order.domain.enums.OrderSource;
 import az.neotech.neoeats.order.domain.enums.OrderStatus;
 import az.neotech.neoeats.order.domain.enums.OrderType;

@@ -1,6 +1,6 @@
 package az.neotech.neoeats.inventory.service.impl;
 
-import az.neotech.neoeats.commons.enums.DeleteStatus;
+import az.neotech.neoeats.commons.domain.enums.DeleteStatus;
 import az.neotech.neoeats.commons.exception.RecordNotFoundException;
 import az.neotech.neoeats.inventory.domain.entity.InventoryItem;
 import az.neotech.neoeats.inventory.domain.mapper.InventoryItemMapper;
