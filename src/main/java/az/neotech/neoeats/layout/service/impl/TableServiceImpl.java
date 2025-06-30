@@ -54,13 +54,19 @@ public class TableServiceImpl implements TableService {
         // QR kod şəkli yarat
         qrCodeService.generateQrImageForTable(saved.getId(), qrCodeUrl);
 
-
         return tableMapper.toResponse(saved);
     }
 
     @Override
     public List<TableResponse> getAll() {
         return tableMapper.toResponseList(tableRepository.findAll());
+    }
+
+    @Override
+    public List<TableResponse> getAllByTenantCode(String tenantCode) {
+        return tableRepository.findAllByTenantCode(tenantCode).stream()
+                .map(tableMapper::toResponse)
+                .toList();
     }
 
     @Override

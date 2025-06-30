@@ -11,6 +11,8 @@ public interface TableService {
 
     List<TableResponse> getAll();
 
+    List<TableResponse> getAllByTenantCode(String tenantCode);
+
     TableResponse getById(Long id);
 
     void delete(Long id);

@@ -1,6 +1,7 @@
 package az.neotech.neoeats.layout.domain.entity;
 
 import az.neotech.commons.audit.DetailedAudit;
+import az.neotech.neoeats.commons.domain.constants.ColumnLengthConstants;
 import az.neotech.neoeats.layout.domain.enums.TableStatus;
 import az.neotech.neoeats.menu.domain.entity.Menu;
 import jakarta.persistence.*;
@@ -15,6 +16,9 @@ public class RestaurantTable extends DetailedAudit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false, length = ColumnLengthConstants.TENANT_CODE_LEN)
+    private String tenantCode;
 
     private String code;
 
