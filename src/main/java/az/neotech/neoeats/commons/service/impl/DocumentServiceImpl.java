@@ -14,6 +14,7 @@ import az.neotech.neoeats.commons.service.generator.QrCodeDocumentGenerator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import java.util.function.Consumer;
 
 @Slf4j
 @Service
@@ -25,7 +26,8 @@ public class DocumentServiceImpl implements DocumentService {
     private final MenuDocumentGenerator menuDocumentGenerator;
 
     @Override
-    public DocumentResponse generateDocument(DocumentRequest documentRequest) {
+    public DocumentResponse generateDocument(DocumentRequest documentRequest,
+                                             Consumer<String> onDocumentReadyForDownload) {
         final DocumentType documentType = documentRequest.documentType();
         var document = Document.builder()
                 .name(documentRequest.name())
@@ -40,7 +42,7 @@ public class DocumentServiceImpl implements DocumentService {
         log.info("Document saved: {}", document);
 
         switch (documentType) {
-            case QR_CODES -> qrCodeDocumentGenerator.generateDocument(documentRequest);
+            case QR_CODES -> qrCodeDocumentGenerator.generateDocument(documentRequest, onDocumentReadyForDownload);
             case MENU -> menuDocumentGenerator.generateDocument(documentRequest);
             default -> throw new IllegalArgumentException("Unsupported document type: " + documentType);
         }

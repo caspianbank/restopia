@@ -16,6 +16,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import java.nio.file.Path;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 @Slf4j
 @Component
@@ -31,7 +33,7 @@ public class QrCodeDocumentGenerator {
     private String outputPath;
 
     @Async
-    public void generateDocument(DocumentRequest documentRequest) {
+    public void generateDocument(DocumentRequest documentRequest, Consumer<String> onDocumentReadyForDownload) {
         String filename = documentRequest.name();
         log.info("Generating QR code document with filename: {}", filename);
 
@@ -64,10 +66,12 @@ public class QrCodeDocumentGenerator {
                 pdfDocument.add(qrCodeImage);
                 qrCodePath.toFile().delete();
             }
+
+            onDocumentReadyForDownload.accept(pdfPath.toString());
+            log.info("QR code document generation completed for filename: {}", filename);
         } catch (Exception e) {
             log.error("Error generating QR code document: ", e);
             throw new RuntimeException("Failed to generate QR code document", e);
         }
-        log.info("QR code document generation completed for filename: {}", filename);
     }
 }

@@ -5,5 +5,5 @@ import az.neotech.neoeats.menu.domain.response.GenerateFileResponse;
 
 public interface QrMenuFileService {
 
-    GenerateFileResponse generateFile(GenerateFileRequest request);
+    GenerateFileResponse generateFile(GenerateFileRequest request, String generatedByUsername);
 }
