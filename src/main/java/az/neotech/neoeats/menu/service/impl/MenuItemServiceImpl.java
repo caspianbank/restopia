@@ -1,5 +1,7 @@
 package az.neotech.neoeats.menu.service.impl;
 
+import az.neotech.neoeats.commons.domain.enums.SortBy;
+import az.neotech.neoeats.commons.domain.enums.SortOrder;
 import az.neotech.neoeats.commons.exception.RecordNotFoundException;
 import az.neotech.neoeats.menu.domain.entity.MenuCategory;
 import az.neotech.neoeats.menu.domain.entity.MenuItem;
@@ -11,8 +13,8 @@ import az.neotech.neoeats.menu.repository.MenuItemRepository;
 import az.neotech.neoeats.menu.service.MenuItemService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Slf4j
@@ -28,6 +30,25 @@ public class MenuItemServiceImpl implements MenuItemService {
     public List<MenuItemResponse> getAllMenuItems() {
         log.info("Fetching all menu items");
         return menuItemRepository.findAll().stream()
+                .map(menuItemMapper::toMenuItemResponse)
+                .toList();
+    }
+
+    @Override
+    public List<MenuItemResponse> getAllMenuItems(SortBy sortBy, SortOrder sortOrder) {
+        log.info("Fetching all menu items with sorting by {} in {} order", sortBy, sortOrder);
+        Sort.Direction sortDirection = sortOrder == SortOrder.ASCENDING ? Sort.Direction.ASC : Sort.Direction.DESC;
+        List<MenuItem> menuItems = switch (sortBy) {
+            case NAME -> menuItemRepository.findMenuItemsSorted(Sort.by(sortDirection, SortBy.NAME.name()));
+            case PRICE -> menuItemRepository.findMenuItemsSorted(Sort.by(sortDirection, SortBy.PRICE.name()));
+            case POSITION -> menuItemRepository.findMenuItemsSorted(Sort.by(sortDirection, SortBy.POSITION.name()));
+            default -> {
+                log.warn("Unsupported sort by: {}, returning unsorted list", sortBy);
+                yield menuItemRepository.findAll();
+            }
+        };
+
+        return menuItems.stream()
                 .map(menuItemMapper::toMenuItemResponse)
                 .toList();
     }

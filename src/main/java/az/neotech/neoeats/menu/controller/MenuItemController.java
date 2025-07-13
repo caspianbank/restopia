@@ -1,14 +1,17 @@
 package az.neotech.neoeats.menu.controller;
 
+import az.neotech.neoeats.commons.domain.enums.SortBy;
+import az.neotech.neoeats.commons.domain.enums.SortOrder;
 import az.neotech.neoeats.menu.domain.request.MenuItemRequest;
 import az.neotech.neoeats.menu.domain.response.MenuItemResponse;
 import az.neotech.neoeats.menu.service.MenuItemService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-// todo: validation and swagger
+@Validated
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/menu-items")
@@ -17,8 +20,14 @@ public class MenuItemController {
     private final MenuItemService menuItemService;
 
     @GetMapping
-    public List<MenuItemResponse> getAllMenuItems() {
-        return menuItemService.getAllMenuItems();
+    public List<MenuItemResponse> getAllMenuItems(
+            @RequestParam(required = false) SortBy sortBy,
+            @RequestParam(required = false) SortOrder sortOrder
+    ) {
+        return menuItemService.getAllMenuItems(
+                sortBy != null ? sortBy : SortBy.POSITION,
+                sortOrder != null ? sortOrder : SortOrder.ASCENDING
+        );
     }
 
     @GetMapping("/{id}")
