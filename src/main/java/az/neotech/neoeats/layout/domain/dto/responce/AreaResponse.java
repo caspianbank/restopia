@@ -10,5 +10,5 @@ import java.util.List;
 public class AreaResponse {
     private String name;
     private String description;
-    private List<TableResponse> tables;
+    private List<DiningTableResponse> tables;
 }

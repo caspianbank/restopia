@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class TableResponse {
+public class DiningTableResponse {
     private String code;
     private int capacity;
     private TableStatus status;

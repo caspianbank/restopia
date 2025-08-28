@@ -5,7 +5,7 @@ import az.neotech.neoeats.commons.domain.enums.DocumentType;
 import az.neotech.neoeats.commons.domain.request.DocumentRequest;
 import az.neotech.neoeats.commons.domain.response.DocumentResponse;
 import az.neotech.neoeats.commons.service.DocumentService;
-import az.neotech.neoeats.layout.service.TableService;
+import az.neotech.neoeats.layout.service.DiningTableService;
 import az.neotech.neoeats.menu.domain.event.DocumentReadyNotificationEvent;
 import az.neotech.neoeats.menu.domain.request.GenerateFileRequest;
 import az.neotech.neoeats.menu.domain.response.GenerateFileResponse;
@@ -24,7 +24,7 @@ import java.util.function.Consumer;
 public class QrMenuFileServiceImpl implements QrMenuFileService {
 
     private final DocumentService documentService;
-    private final TableService tableService;
+    private final DiningTableService diningTableService;
     private final WebSocketMessageService webSocketMessageService;
 
     @Value("${qr-menu.base.url:https://neoeats.az/qr-menu}")
@@ -36,7 +36,7 @@ public class QrMenuFileServiceImpl implements QrMenuFileService {
         final String randomCode = RandomCodeGenerator.generateAlpNumRandomCode(6);
         final String filename = tenantCode + "_QR_MENU_DOC_" + randomCode;
 
-        List<String> qrCodeUrlList = tableService.getAll().stream()
+        List<String> qrCodeUrlList = diningTableService.getAll().stream()
                 .map(table -> baseUrl + "?tenantCode=" + tenantCode + "&tableCode=" + table.getCode())
                 .toList();
 

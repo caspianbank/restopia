@@ -14,9 +14,13 @@ public class Area extends DetailedAudit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
+
     private String description;
+
     @OneToMany(mappedBy = "area", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<RestaurantTable> tables;
+    private List<DiningTable> tables;
+
     private boolean active;
 }

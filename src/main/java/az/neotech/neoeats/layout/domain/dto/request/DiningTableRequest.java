@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class TableRequest {
+public class DiningTableRequest {
     private String code;
     private int capacity;
     private Long areaId;

@@ -1,15 +1,15 @@
 package az.neotech.neoeats.layout.service.impl;
 
 import az.neotech.neoeats.commons.exception.RecordNotFoundException;
-import az.neotech.neoeats.layout.domain.dto.request.TableRequest;
-import az.neotech.neoeats.layout.domain.dto.responce.TableResponse;
+import az.neotech.neoeats.layout.domain.dto.request.DiningTableRequest;
+import az.neotech.neoeats.layout.domain.dto.responce.DiningTableResponse;
 import az.neotech.neoeats.layout.domain.entity.Area;
-import az.neotech.neoeats.layout.domain.entity.RestaurantTable;
+import az.neotech.neoeats.layout.domain.entity.DiningTable;
 import az.neotech.neoeats.layout.domain.enums.TableStatus;
-import az.neotech.neoeats.layout.domain.mapper.TableMapper;
+import az.neotech.neoeats.layout.domain.mapper.DiningTableMapper;
 import az.neotech.neoeats.layout.repository.AreaRepository;
-import az.neotech.neoeats.layout.repository.RestaurantTableRepository;
-import az.neotech.neoeats.layout.service.TableService;
+import az.neotech.neoeats.layout.repository.DiningTableRepository;
+import az.neotech.neoeats.layout.service.DiningTableService;
 import az.neotech.neoeats.menu.service.QrCodeService;
 import az.neotech.neoeats.menu.util.QrCodeGenerator;
 import lombok.RequiredArgsConstructor;
@@ -23,10 +23,10 @@ import java.util.UUID;
 // todo: find by code or id in separate method for remove duplication
 @Service
 @RequiredArgsConstructor
-public class TableServiceImpl implements TableService {
+public class DiningTableServiceImpl implements DiningTableService {
 
-    private final RestaurantTableRepository tableRepository;
-    private final TableMapper tableMapper;
+    private final DiningTableRepository tableRepository;
+    private final DiningTableMapper diningTableMapper;
     private final AreaRepository areaRepository;
     private final QrCodeService qrCodeService;
 
@@ -34,8 +34,8 @@ public class TableServiceImpl implements TableService {
     private String baseUrl;
 
     @Override
-    public TableResponse create(TableRequest request) {
-        RestaurantTable table = tableMapper.toEntity(request);
+    public DiningTableResponse create(DiningTableRequest request) {
+        DiningTable table = diningTableMapper.toEntity(request);
         Area area = areaRepository.findById(request.getAreaId())
                 .orElseThrow(() -> new RecordNotFoundException("Area not found"));
         table.setArea(area);
@@ -46,7 +46,7 @@ public class TableServiceImpl implements TableService {
         table.setQrCode(qrCode);
 
         // Məlumat bazasına qeyd et
-        RestaurantTable saved = tableRepository.save(table);
+        DiningTable saved = tableRepository.save(table);
 
         // QR kod linki (menu baxışı üçün endpoint)
         String qrCodeUrl = baseUrl + "/api/v1/qrmenu/" + qrCode;
@@ -54,33 +54,33 @@ public class TableServiceImpl implements TableService {
         // QR kod şəkli yarat
         qrCodeService.generateQrImageForTable(saved.getId(), qrCodeUrl);
 
-        return tableMapper.toResponse(saved);
+        return diningTableMapper.toResponse(saved);
     }
 
     @Override
-    public List<TableResponse> getAll() {
-        return tableMapper.toResponseList(tableRepository.findAll());
+    public List<DiningTableResponse> getAll() {
+        return diningTableMapper.toResponseList(tableRepository.findAll());
     }
 
     @Override
-    public List<TableResponse> getAllByTenantCode(String tenantCode) {
+    public List<DiningTableResponse> getAllByTenantCode(String tenantCode) {
         return tableRepository.findAllByTenantCode(tenantCode).stream()
-                .map(tableMapper::toResponse)
+                .map(diningTableMapper::toResponse)
                 .toList();
     }
 
     @Override
-    public TableResponse getById(Long id) {
+    public DiningTableResponse getById(Long id) {
         return tableRepository.findById(id)
-                .map(tableMapper::toResponse)
+                .map(diningTableMapper::toResponse)
                 .orElseThrow(() -> new RecordNotFoundException("Table not found"));
     }
 
     @Override
-    public TableResponse getByCode(String code) {
-        RestaurantTable table = tableRepository.findByCodeIgnoreCase(code)
+    public DiningTableResponse getByCode(String code) {
+        DiningTable table = tableRepository.findByCodeIgnoreCase(code)
                 .orElseThrow(() -> new RecordNotFoundException("Table with code " + code + " not found"));
-        return tableMapper.toResponse(table);
+        return diningTableMapper.toResponse(table);
     }
 
     @Override
@@ -89,8 +89,8 @@ public class TableServiceImpl implements TableService {
     }
 
     @Override
-    public TableResponse update(Long id, TableRequest request) {
-        RestaurantTable table = tableRepository.findById(id)
+    public DiningTableResponse update(Long id, DiningTableRequest request) {
+        DiningTable table = tableRepository.findById(id)
                 .orElseThrow(() -> new RecordNotFoundException("Table not found"));
         table.setCode(request.getCode());
         table.setCapacity(request.getCapacity());
@@ -101,20 +101,20 @@ public class TableServiceImpl implements TableService {
             table.setArea(area);
         }
 
-        return tableMapper.toResponse(tableRepository.save(table));
+        return diningTableMapper.toResponse(tableRepository.save(table));
     }
 
     @Override
-    public TableResponse changeStatus(Long id, TableStatus status) {
-        RestaurantTable table = tableRepository.findById(id)
+    public DiningTableResponse changeStatus(Long id, TableStatus status) {
+        DiningTable table = tableRepository.findById(id)
                 .orElseThrow(() -> new RecordNotFoundException("Table not found"));
         table.setStatus(status);
-        return tableMapper.toResponse(tableRepository.save(table));
+        return diningTableMapper.toResponse(tableRepository.save(table));
     }
 
     @Override
     public String generateQrCodeForTable(Long tableId) {
-        RestaurantTable table = tableRepository.findById(tableId)
+        DiningTable table = tableRepository.findById(tableId)
                 .orElseThrow(() -> new RecordNotFoundException("Table not found"));
 
         String qrLink = baseUrl + "/qrmenu/" + table.getQrCode();

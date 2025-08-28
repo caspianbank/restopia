@@ -7,7 +7,7 @@ import org.mapstruct.Mapper;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring", uses = TableMapper.class)
+@Mapper(componentModel = "spring", uses = DiningTableMapper.class)
 public interface AreaMapper {
     Area toEntity(AreaRequest request);
 
