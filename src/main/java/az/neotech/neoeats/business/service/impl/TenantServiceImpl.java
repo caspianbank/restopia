@@ -10,12 +10,14 @@ import az.neotech.neoeats.business.util.TenantCodeUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class TenantServiceImpl implements TenantService {
 
     private final TenantRepository tenantRepository;
@@ -81,6 +83,12 @@ public class TenantServiceImpl implements TenantService {
     public TenantResponse getTenantByCode(String tenantCode) {
         return tenantRepository.findByTenantCode(tenantCode)
                 .map(tenantMapper::toResponse)
+                .orElseThrow(() -> new IllegalArgumentException("Tenant (" + tenantCode + ") not found"));
+    }
+
+    @Override
+    public Tenant getTenantByCodeOrElseThrow(String tenantCode) {
+        return tenantRepository.findByTenantCode(tenantCode)
                 .orElseThrow(() -> new IllegalArgumentException("Tenant (" + tenantCode + ") not found"));
     }
 }

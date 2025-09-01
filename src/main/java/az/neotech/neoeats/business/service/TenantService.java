@@ -1,5 +1,6 @@
 package az.neotech.neoeats.business.service;
 
+import az.neotech.neoeats.business.domain.entity.Tenant;
 import az.neotech.neoeats.business.domain.request.TenantRequest;
 import az.neotech.neoeats.business.domain.response.TenantResponse;
 
@@ -16,4 +17,6 @@ public interface TenantService {
     List<TenantResponse> getAllTenants();
 
     TenantResponse getTenantByCode(String tenantCode);
+
+    Tenant getTenantByCodeOrElseThrow(String tenantCode);
 }
