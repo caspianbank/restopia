@@ -27,12 +27,21 @@ public class TenantBusiness extends DateAudit {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "phone")
+    private String phone;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "business_type", length = 50, nullable = false)
     private BusinessType businessType;
 
-    @Column(name = "logo_url", length = 255)
+    @Column(name = "logo_url")
     private String logoUrl;
+
+    @Column(name = "social_media", columnDefinition = "jsonb")
+    private String socials;
 
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "delete_status", nullable = false)

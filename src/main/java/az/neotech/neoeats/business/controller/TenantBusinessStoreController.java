@@ -9,17 +9,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Locale;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/tenants/{code}/businesses/{businessId}/stores")
+@RequestMapping("/api/v1/tenant-business-stores")
 public class TenantBusinessStoreController {
 
     private final TenantBusinessStoreService tenantBusinessStoreService;
 
     @GetMapping
-    public List<TenantBusinessStoreResponse> getAllStores() {
-        return tenantBusinessStoreService.getAllStores();
+    public List<TenantBusinessStoreResponse> getAllStores(@RequestHeader("X-Tenant-Code") String tenantCode,
+                                                          @RequestHeader("Accept-Language") String lang) {
+        return tenantBusinessStoreService.getAllStores(tenantCode, Locale.of(lang));
     }
 
     @PostMapping
@@ -29,8 +31,9 @@ public class TenantBusinessStoreController {
     }
 
     @GetMapping("/{id}")
-    public TenantBusinessStoreResponse getStoreById(@PathVariable Long id) {
-        return tenantBusinessStoreService.getStoreById(id);
+    public TenantBusinessStoreResponse getStoreById(@PathVariable Long id,
+                                                    @RequestHeader("Accept-Language") String lang) {
+        return tenantBusinessStoreService.getStoreById(id, Locale.of(lang));
     }
 
     @PutMapping("/{id}")

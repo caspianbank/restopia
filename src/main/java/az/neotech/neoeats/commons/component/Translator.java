@@ -20,6 +20,10 @@ public class Translator {
         return messageSource.getMessage(key, null, null, Locale.of(lang));
     }
 
+    public String translate(@NotNull String key, @NotNull Locale locale) {
+        return messageSource.getMessage(key, null, null, locale);
+    }
+
     public String translate(@NotNull String key, @NotNull String lang, Object... args) {
         return messageSource.getMessage(key, args, null, Locale.of(lang));
     }

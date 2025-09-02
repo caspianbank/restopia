@@ -8,13 +8,17 @@ import az.neotech.neoeats.business.domain.response.TenantBusinessStoreResponse;
 import az.neotech.neoeats.business.repository.TenantBusinessRepository;
 import az.neotech.neoeats.business.repository.TenantBusinessStoreRepository;
 import az.neotech.neoeats.business.service.TenantBusinessStoreService;
+import az.neotech.neoeats.commons.component.Translator;
 import az.neotech.neoeats.commons.domain.enums.DeleteStatus;
 import az.neotech.neoeats.commons.exception.RecordNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -23,6 +27,7 @@ public class TenantBusinessStoreServiceImpl implements TenantBusinessStoreServic
     private final TenantBusinessStoreRepository storeRepository;
     private final TenantBusinessRepository tenantBusinessRepository;
     private final TenantBusinessStoreMapper storeMapper;
+    private final Translator translator;
 
     @Override
     public TenantBusinessStoreResponse createStore(TenantBusinessStoreRequest request) {
@@ -33,7 +38,7 @@ public class TenantBusinessStoreServiceImpl implements TenantBusinessStoreServic
         store.setBusiness(business);
 
         TenantBusinessStore saved = storeRepository.save(store);
-        return storeMapper.toResponse(saved);
+        return storeMapper.toResponse(saved, business);
     }
 
     @Override
@@ -50,20 +55,25 @@ public class TenantBusinessStoreServiceImpl implements TenantBusinessStoreServic
         }
 
         TenantBusinessStore updated = storeRepository.save(store);
-        return storeMapper.toResponse(updated);
+        return storeMapper.toResponse(updated, store.getBusiness());
     }
 
     @Override
-    public List<TenantBusinessStoreResponse> getAllStores() {
-        return storeRepository.findAll().stream()
-                .map(storeMapper::toResponse)
+    public List<TenantBusinessStoreResponse> getAllStores(String tenantCode, Locale locale) {
+        TenantBusiness business = tenantBusinessRepository.findAllByTenantCode(tenantCode)
+                .orElseThrow(() -> new RecordNotFoundException("Business not found"));
+
+        return storeRepository.findAllByBusiness(business).stream()
+                .map(store -> storeMapper.toResponse(store, business))
+                .map(response -> translateOpeningHours(response, locale))
                 .toList();
     }
 
     @Override
-    public TenantBusinessStoreResponse getStoreById(Long id) {
+    public TenantBusinessStoreResponse getStoreById(Long id, Locale locale) {
         return storeRepository.findById(id)
-                .map(storeMapper::toResponse)
+                .map(store -> storeMapper.toResponse(store, store.getBusiness()))
+                .map(response -> translateOpeningHours(response, locale))
                 .orElseThrow(() -> new RecordNotFoundException("Store not found"));
     }
 
@@ -74,4 +84,17 @@ public class TenantBusinessStoreServiceImpl implements TenantBusinessStoreServic
         entity.setDeleteStatus(DeleteStatus.DELETED);
         storeRepository.save(entity);
     }
+
+    private TenantBusinessStoreResponse translateOpeningHours(TenantBusinessStoreResponse response, Locale locale) {
+        var translatedOpeningHours = new HashMap<String, String>();
+        String prefix = "day.";
+        for (Map.Entry<String, String> entry : response.getOpeningHours().entrySet()) {
+            String key = prefix + entry.getKey().toLowerCase();
+            String translatedDay = translator.translate(key, locale);
+            translatedOpeningHours.put(translatedDay, entry.getValue());
+        }
+        response.setOpeningHours(translatedOpeningHours);
+        return response;
+    }
+
 }
