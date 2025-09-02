@@ -31,6 +31,11 @@ public class TenantCustomerServiceImpl implements TenantCustomerService {
     }
 
     @Override
+    public Optional<TenantCustomer> getById(Long id) {
+        return customerRepository.findById(id);
+    }
+
+    @Override
     public Optional<TenantCustomer> getByPhoneAndTenantCode(String phone, String tenantCode) {
         return customerRepository.findByPhoneNumberAndTenantCode(phone, tenantCode);
     }

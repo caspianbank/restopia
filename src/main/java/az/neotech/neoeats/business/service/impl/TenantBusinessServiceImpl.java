@@ -56,6 +56,12 @@ public class TenantBusinessServiceImpl implements TenantBusinessService {
     }
 
     @Override
+    public TenantBusiness getByIdOrThrow(Long id) {
+        return tenantBusinessRepository.findById(id)
+                .orElseThrow(() -> new RecordNotFoundException("TenantBusiness not found with id: " + id));
+    }
+
+    @Override
     public void deleteById(Long id) {
         TenantBusiness entity;
         entity = tenantBusinessRepository.findById(id)

@@ -9,5 +9,7 @@ public interface TenantCustomerService {
 
     TenantCustomer createCustomer(TenantCustomerRequest request);
 
+    Optional<TenantCustomer> getById(Long id);
+
     Optional<TenantCustomer> getByPhoneAndTenantCode(String phone, String tenantCode);
 }

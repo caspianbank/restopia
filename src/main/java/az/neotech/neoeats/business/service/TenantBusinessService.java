@@ -1,5 +1,6 @@
 package az.neotech.neoeats.business.service;
 
+import az.neotech.neoeats.business.domain.entity.TenantBusiness;
 import az.neotech.neoeats.business.domain.request.TenantBusinessRequest;
 import az.neotech.neoeats.business.domain.response.TenantBusinessResponse;
 
@@ -14,6 +15,8 @@ public interface TenantBusinessService {
     List<TenantBusinessResponse> getAll();
 
     TenantBusinessResponse getById(Long id);
+
+    TenantBusiness getByIdOrThrow(Long id);
 
     void deleteById(Long id);
 }
