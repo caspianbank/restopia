@@ -5,7 +5,7 @@ plugins {
 	id 'checkstyle'
 }
 
-group = 'az.neotech.neoeats'
+group = 'az.restopia'
 version = '1.0.0-SNAPSHOT'
 
 java {
@@ -41,7 +41,6 @@ dependencies {
 
     implementation 'jakarta.validation:jakarta.validation-api:3.0.2'
     implementation 'org.hibernate.validator:hibernate-validator:8.0.1.Final'
-
 
 	implementation 'com.itextpdf:itext-core:8.0.2'
 	implementation 'com.itextpdf:layout:8.0.2'
