@@ -15,4 +15,5 @@ public class TenantEmployeeRequest {
     private String email;
     private List<String> phoneNumbers;
     private String role;
+    private boolean isActive;
 }
