@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Slf4j
@@ -54,11 +55,15 @@ public class MenuItemServiceImpl implements MenuItemService {
     }
 
     @Override
-    public MenuItemResponse getMenuItemById(Long id) {
+    public MenuItem getMenuItemByIdOrThrowNotFound(Long id) {
         log.info("Fetching menu item by id: {}", id);
-        MenuItem menuItem = menuItemRepository.findById(id)
+        return menuItemRepository.findById(id)
                 .orElseThrow(() -> new RecordNotFoundException("Menu item not found"));
-        return menuItemMapper.toMenuItemResponse(menuItem);
+    }
+
+    @Override
+    public MenuItemResponse getMenuItemById(Long id) {
+        return menuItemMapper.toMenuItemResponse(getMenuItemByIdOrThrowNotFound(id));
     }
 
     @Override

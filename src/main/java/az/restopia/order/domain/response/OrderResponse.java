@@ -12,7 +12,6 @@ import java.util.List;
 @Getter
 @Setter
 public class OrderResponse {
-
     private String tenantCode;
     private OrderSource source;
     private OrderType type;
@@ -20,7 +19,10 @@ public class OrderResponse {
     private String tableNumber;
     private String customerName;
     private String customerNote;
+    private String description;
     private List<OrderItemResponse> items;
     private LocalDateTime createdDateTime;
     private LocalDateTime modifiedDateTime;
+    private String createdBy;
+    private String lastModifiedBy;
 }

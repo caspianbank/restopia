@@ -11,6 +11,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.UuidGenerator;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,4 +56,20 @@ public class Order extends DetailedAudit {
     private String description;
 
     private DeleteStatus deleteStatus;
+
+    public String getCreatedBy() {
+        return super.createdBy;
+    }
+
+    public String getModifiedBy() {
+        return super.modifiedBy;
+    }
+
+    public LocalDateTime getCreatedDateTime() {
+        return super.createdDateTime;
+    }
+
+    public LocalDateTime getModifiedDateTime() {
+        return super.modifiedDateTime;
+    }
 }

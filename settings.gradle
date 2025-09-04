@@ -1,3 +1,3 @@
-rootProject.name = 'neoeats'
+rootProject.name = 'restopia'
 
 includeBuild("libs/neotech-commons")

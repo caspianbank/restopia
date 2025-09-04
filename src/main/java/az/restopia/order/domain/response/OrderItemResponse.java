@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 @Setter
 public class OrderItemResponse {
     private Long menuItemId;
-    private String itemName;
+    private String menuItemName;
     private int quantity;
     private BigDecimal totalPrice;
 }
