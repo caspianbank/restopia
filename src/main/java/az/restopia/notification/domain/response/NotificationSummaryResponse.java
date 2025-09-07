@@ -14,7 +14,7 @@ public class NotificationSummaryResponse {
     private Long id;
     private String title;
     private String fromUser;
-    private String tenantCode;
+    private String toUser;
     private Boolean isRead;
     private NotificationPriority priority;
     private NotificationCategory category;

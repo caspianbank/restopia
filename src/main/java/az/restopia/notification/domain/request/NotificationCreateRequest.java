@@ -18,14 +18,15 @@ public class NotificationCreateRequest {
 
     private String fromUser;
 
+    @NotBlank(message = "To user cannot be blank")
     private String toUser;
 
+    @NotBlank(message = "Tenant code cannot be blank")
     private String tenantCode;
 
     @NotNull(message = "Priority cannot be null")
-    private NotificationPriority priority;
+    private NotificationPriority priority = NotificationPriority.MEDIUM;
 
     @NotNull(message = "Category cannot be null")
-    private NotificationCategory category;
+    private NotificationCategory category = NotificationCategory.GENERAL;
 }
-

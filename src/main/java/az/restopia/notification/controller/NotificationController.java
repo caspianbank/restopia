@@ -19,60 +19,72 @@ public class NotificationController {
     private final NotificationService notificationService;
 
     @GetMapping
-    public ResponseEntity<List<NotificationSummaryResponse>> getAllNotifications() {
-        log.info("REST request to get all notifications");
-        List<NotificationSummaryResponse> notifications = notificationService.getAllNotifications();
+    public ResponseEntity<List<NotificationSummaryResponse>> getAllNotifications(
+            @RequestHeader("X-Tenant-Code") String tenantCode) {
+        log.info("REST request to get all notifications for tenant: {}", tenantCode);
+        List<NotificationSummaryResponse> notifications = notificationService.getAllNotifications(tenantCode);
         return ResponseEntity.ok(notifications);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<NotificationResponse> getNotificationById(@PathVariable Long id) {
-        log.info("REST request to get notification by id: {}", id);
-        NotificationResponse notification = notificationService.getNotificationById(id);
+    public ResponseEntity<NotificationResponse> getNotificationById(
+            @PathVariable Long id,
+            @RequestHeader("X-Tenant-Code") String tenantCode) {
+        log.info("REST request to get notification by id: {} for tenant: {}", id, tenantCode);
+        NotificationResponse notification = notificationService.getNotificationById(id, tenantCode);
         return ResponseEntity.ok(notification);
     }
 
     @PatchMapping("/{id}/read")
-    public ResponseEntity<NotificationResponse> markNotificationAsRead(@PathVariable Long id) {
-        log.info("REST request to mark notification as read, id: {}", id);
-        NotificationResponse notification = notificationService.markAsRead(id);
+    public ResponseEntity<NotificationResponse> markNotificationAsRead(
+            @PathVariable Long id,
+            @RequestHeader("X-Tenant-Code") String tenantCode) {
+        log.info("REST request to mark notification as read, id: {} for tenant: {}", id, tenantCode);
+        NotificationResponse notification = notificationService.markAsRead(id, tenantCode);
         return ResponseEntity.ok(notification);
     }
 
     @PatchMapping("/all/read")
-    public ResponseEntity<Void> markAllNotificationsAsRead() {
-        log.info("REST request to mark all notifications as read");
-        notificationService.markAllAsRead();
+    public ResponseEntity<Void> markAllNotificationsAsRead(
+            @RequestHeader("X-Tenant-Code") String tenantCode) {
+        log.info("REST request to mark all notifications as read for tenant: {}", tenantCode);
+        notificationService.markAllAsRead(tenantCode);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/all")
-    public ResponseEntity<Void> deleteAllNotifications() {
-        log.info("REST request to delete all notifications");
-        notificationService.deleteAllNotifications();
+    public ResponseEntity<Void> deleteAllNotifications(
+            @RequestHeader("X-Tenant-Code") String tenantCode) {
+        log.info("REST request to delete all notifications for tenant: {}", tenantCode);
+        notificationService.deleteAllNotifications(tenantCode);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<NotificationSummaryResponse>> searchNotifications(@RequestParam String q) {
-        log.info("REST request to search notifications with keyword: {}", q);
-        List<NotificationSummaryResponse> notifications = notificationService.searchNotifications(q);
+    public ResponseEntity<List<NotificationSummaryResponse>> searchNotifications(
+            @RequestParam String q,
+            @RequestHeader("X-Tenant-Code") String tenantCode) {
+        log.info("REST request to search notifications with keyword: {} for tenant: {}", q, tenantCode);
+        List<NotificationSummaryResponse> notifications = notificationService.searchNotifications(q, tenantCode);
         return ResponseEntity.ok(notifications);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteNotification(@PathVariable Long id) {
-        log.info("REST request to delete notification with id: {}", id);
-        notificationService.deleteNotification(id);
+    public ResponseEntity<Void> deleteNotification(
+            @PathVariable Long id,
+            @RequestHeader("X-Tenant-Code") String tenantCode) {
+        log.info("REST request to delete notification with id: {} for tenant: {}", id, tenantCode);
+        notificationService.deleteNotification(tenantCode, id);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/filter")
     public ResponseEntity<List<NotificationSummaryResponse>> filterNotifications(
             @RequestParam("filter-type") String filterType,
-            @RequestParam("filter-value") String filterValue) {
-        log.info("REST request to filter notifications by type: {} and value: {}", filterType, filterValue);
-        List<NotificationSummaryResponse> notifications = notificationService.filterNotifications(filterType, filterValue);
+            @RequestParam("filter-value") String filterValue,
+            @RequestHeader("X-Tenant-Code") String tenantCode) {
+        log.info("REST request to filter notifications by type: {} and value: {} for tenant: {}", filterType, filterValue, tenantCode);
+        List<NotificationSummaryResponse> notifications = notificationService.filterNotifications(filterType, filterValue, tenantCode);
         return ResponseEntity.ok(notifications);
     }
 }

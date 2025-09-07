@@ -7,19 +7,19 @@ import java.util.List;
 
 public interface NotificationService {
 
-    List<NotificationSummaryResponse> getAllNotifications();
+    List<NotificationSummaryResponse> getAllNotifications(String tenantCode);
 
-    NotificationResponse getNotificationById(Long id);
+    NotificationResponse getNotificationById(Long id, String tenantCode);
 
-    NotificationResponse markAsRead(Long id);
+    NotificationResponse markAsRead(Long id, String tenantCode);
 
-    void markAllAsRead();
+    void markAllAsRead(String tenantCode);
 
-    void deleteAllNotifications();
+    void deleteAllNotifications(String tenantCode);
 
-    List<NotificationSummaryResponse> searchNotifications(String keyword);
+    List<NotificationSummaryResponse> searchNotifications(String q, String tenantCode);
 
-    void deleteNotification(Long id);
+    void deleteNotification(String tenantCode, Long id);
 
-    List<NotificationSummaryResponse> filterNotifications(String filterType, String filterValue);
+    List<NotificationSummaryResponse> filterNotifications(String filterType, String filterValue, String tenantCode);
 }
