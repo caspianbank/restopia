@@ -35,6 +35,14 @@ public class NotificationController {
         return ResponseEntity.ok(notification);
     }
 
+    @GetMapping("/count")
+    public ResponseEntity<Long> getUnreadNotificationCount(
+            @RequestHeader("X-Tenant-Code") String tenantCode) {
+        log.info("REST request to get unread notification count for tenant: {}", tenantCode);
+        Long count = notificationService.getUnreadNotificationCount(tenantCode);
+        return ResponseEntity.ok(count);
+    }
+
     @PatchMapping("/{id}/read")
     public ResponseEntity<NotificationResponse> markNotificationAsRead(
             @PathVariable Long id,

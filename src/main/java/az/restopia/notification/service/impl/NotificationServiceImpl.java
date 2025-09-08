@@ -47,6 +47,13 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public Long getUnreadNotificationCount(String tenantCode) {
+        log.debug("Fetching unread notification count for tenant: {}", tenantCode);
+        return notificationRepository.countUnreadNotificationsByTenantCode(tenantCode);
+    }
+
+    @Override
     public NotificationResponse markAsRead(Long id, String tenantCode) {
         log.debug("Marking notification as read with id: {} for tenant: {}", id, tenantCode);
         Notification notification = notificationRepository

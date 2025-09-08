@@ -30,6 +30,10 @@ public interface NotificationRepository extends JpaRepository<Notification, Long
     List<Notification> findByTenantCodeAndFromUserAndDeleteStatus(String tenantCode, String fromUser,
                                                                   DeleteStatus deleteStatus);
 
+    @Query("SELECT COUNT(n) FROM Notification n WHERE n.tenantCode = :tenantCode " +
+            "AND n.deleteStatus = 'NOT_DELETED' AND n.isRead = false")
+    Long countUnreadNotificationsByTenantCode(@Param("tenantCode") String tenantCode);
+
     @Query("SELECT n FROM Notification n WHERE n.tenantCode = :tenantCode " +
             "AND n.deleteStatus = 'NOT_DELETED' " +
             "AND (LOWER(n.title) LIKE LOWER(CONCAT('%', :q, '%')) " +

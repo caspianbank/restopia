@@ -11,6 +11,8 @@ public interface NotificationService {
 
     NotificationResponse getNotificationById(Long id, String tenantCode);
 
+    Long getUnreadNotificationCount(String tenantCode);
+
     NotificationResponse markAsRead(Long id, String tenantCode);
 
     void markAllAsRead(String tenantCode);
