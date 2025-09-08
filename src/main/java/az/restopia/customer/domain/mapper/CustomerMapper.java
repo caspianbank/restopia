@@ -15,4 +15,11 @@ public interface CustomerMapper {
     Customer toEntity(CustomerRequest request);
 
     CustomerResponse toResponse(Customer customer);
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "tenantCode", ignore = true)
+    @Mapping(target = "deleteStatus", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
+    void updateEntity(CustomerRequest request, @MappingTarget Customer customer);
 }
