@@ -4,6 +4,58 @@
 
 [![Checkstyle](https://github.com/caspianbank/neoeats/actions/workflows/gradle.yml/badge.svg)](https://github.com/caspianbank/neoeats/actions/workflows/gradle.yml)
 
+## Coding Rules for Claude or AI tools
+
+```
+Coding Rules:
+1. Dependency Injection: Do not use @Autowired annotation, use private final and @RequiredArgsConstructor for constructor dependency injection
+2. API Endpoints: Must start with /api/v1/{dynamic} pattern
+3. Imports: Use correct imports:
+   * import jakarta.validation.Valid;
+   * import org.springframework.validation.annotation.Validated;
+4. Annotations:
+   * Do not use @CrossOrigin annotation
+   * Use @Getter and @Setter annotations for getter and setters with Lombok
+   * Use @Slf4j annotation for logging
+5. Documentation & Structure:
+   * No JavaDoc comments
+   * Never generate inner classes until specifically requested
+   * Use MapStruct mappers for mapping between entity, response and request classes
+6. Validation: Write validation messages when using @NotBlank, @NotNull annotations
+7. Exception Handling: Use RecordNotFoundException instead of EntityNotFoundException
+8. Naming Conventions:
+   * Request body classes must contain "Request" suffix
+   * Response classes must have "Response" suffix
+9. for CRUD implementations, Instead of separate {entity}CreateRequest and {entity}UpdateRequest classes, create:
+    1. One Request class (used for both create and update operations)
+    2. One Response class
+Package Structure:
+Base Packages:
+* az.restopia.order (Orders)
+* az.restopia.business (Employees)
+* az.restopia.conversations (Conversations)
+* az.restopia.tickets (Tickets)
+Standard Sub-packages:
+* {base}.controller
+* {base}.service
+* {base}.service.impl
+* {base}.domain.entity
+* {base}.domain.request
+* {base}.domain.response
+* {base}.domain.mapper
+* {base}.repository
+Common/Shared Packages:
+* az.neotech.commons.audit.DateAudit (DateAudit class)
+* az.restopia.commons.domain.enums.DeleteStatus (DeleteStatus enum)
+* az.restopia.commons.exception.RecordNotFoundException (Exception class)
+Service Layer Structure:
+* Service interfaces in {base}.service package
+* Service implementations in {base}.service.impl package
+* Mapper classes in {base}.domain.mapper package
+```
+
+
+
 ## Setup
 
 ### Git Submodule
