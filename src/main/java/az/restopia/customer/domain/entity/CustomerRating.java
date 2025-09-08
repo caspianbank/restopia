@@ -1,5 +1,6 @@
-package az.restopia.business.domain.entity;
+package az.restopia.customer.domain.entity;
 
+import az.restopia.business.domain.entity.TenantBusiness;
 import az.restopia.business.domain.enums.RatingType;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -9,7 +10,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "tenant_customer_ratings")
-public class TenantCustomerRating {
+public class CustomerRating {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +24,7 @@ public class TenantCustomerRating {
     // Optional customer (nullable if anonymous)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tenant_customer_id")
-    private TenantCustomer tenantCustomer;
+    private Customer customer;
 
     @Enumerated(EnumType.STRING)
     private RatingType ratingCategory;

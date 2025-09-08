@@ -4,9 +4,9 @@ import az.restopia.authentication.domain.request.QrMenuLoginRequest;
 import az.restopia.authentication.domain.response.AuthTokenResponse;
 import az.restopia.authentication.service.AuthService;
 import az.restopia.business.domain.entity.Tenant;
-import az.restopia.business.domain.entity.TenantCustomer;
-import az.restopia.business.domain.request.TenantCustomerRequest;
-import az.restopia.business.service.TenantCustomerService;
+import az.restopia.customer.domain.entity.Customer;
+import az.restopia.customer.domain.request.CustomerRequest;
+import az.restopia.customer.service.CustomerService;
 import az.restopia.business.service.TenantService;
 import az.restopia.security.domain.request.TokenClaimsRequest;
 import az.restopia.security.service.AuthTokenProviderService;
@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 public class AuthServiceImpl implements AuthService {
 
     private final TenantService tenantService;
-    private final TenantCustomerService tenantCustomerService;
+    private final CustomerService customerService;
     private final AuthTokenProviderService tokenProviderService;
 
     @Override
@@ -29,7 +29,7 @@ public class AuthServiceImpl implements AuthService {
 
         final String combinedPhone = request.countryCode() + request.phoneNumber();
 
-        TenantCustomer customer = tenantCustomerService.getByPhoneAndTenantCode(combinedPhone, tenant.getTenantCode())
+        Customer customer = customerService.getByPhoneAndTenantCode(combinedPhone, tenant.getTenantCode())
                 .orElseGet(() -> createCustomer(tenantCode, request));
 
         var tokenClaimsRequest = new TokenClaimsRequest(tenantCode, combinedPhone, customer.getFullName());
@@ -38,10 +38,10 @@ public class AuthServiceImpl implements AuthService {
         return authTokenResponse;
     }
 
-    private TenantCustomer createCustomer(String tenantCode, QrMenuLoginRequest request) {
+    private Customer createCustomer(String tenantCode, QrMenuLoginRequest request) {
         log.info("Customer not found, creating new customer: {}", request.fullName());
-        var tenantCustomerRequest = new TenantCustomerRequest(tenantCode, request.fullName(), request.countryCode(),
+        var tenantCustomerRequest = new CustomerRequest(tenantCode, request.fullName(), request.countryCode(),
                 request.phoneNumber());
-        return tenantCustomerService.createCustomer(tenantCustomerRequest);
+        return customerService.createCustomer(tenantCustomerRequest);
     }
 }

@@ -1,13 +1,13 @@
-package az.restopia.business.service.impl;
+package az.restopia.customer.service.impl;
 
 import az.restopia.business.domain.entity.TenantBusiness;
-import az.restopia.business.domain.entity.TenantCustomer;
-import az.restopia.business.domain.entity.TenantCustomerRating;
-import az.restopia.business.domain.request.TenantCustomerRatingRequest;
-import az.restopia.business.repository.TenantCustomerRatingRepository;
+import az.restopia.customer.domain.entity.Customer;
+import az.restopia.customer.domain.entity.CustomerRating;
+import az.restopia.customer.domain.request.CustomerRatingRequest;
+import az.restopia.customer.repository.CustomerRatingRepository;
 import az.restopia.business.service.TenantBusinessService;
-import az.restopia.business.service.TenantCustomerRatingService;
-import az.restopia.business.service.TenantCustomerService;
+import az.restopia.customer.service.CustomerRatingService;
+import az.restopia.customer.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -17,26 +17,26 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class TenantCustomerRatingServiceImpl implements TenantCustomerRatingService {
+public class CustomerRatingServiceImpl implements CustomerRatingService {
 
-    private final TenantCustomerRatingRepository ratingRepository;
+    private final CustomerRatingRepository ratingRepository;
     private final TenantBusinessService tenantBusinessService;
-    private final TenantCustomerService customerService;
+    private final CustomerService customerService;
 
     @Override
     @Transactional
-    public void createRating(TenantCustomerRatingRequest request) {
+    public void createRating(CustomerRatingRequest request) {
         TenantBusiness business = tenantBusinessService.getByIdOrThrow(request.tenantBusinessId());
 
-        TenantCustomer customer = null;
+        Customer customer = null;
         if (request.tenantCustomerId() != null) {
             customer = customerService.getById(request.tenantCustomerId())
                     .orElseThrow(() -> new RuntimeException("Customer not found"));
         }
 
-        TenantCustomerRating rating = new TenantCustomerRating();
+        CustomerRating rating = new CustomerRating();
         rating.setTenantBusiness(business);
-        rating.setTenantCustomer(customer);
+        rating.setCustomer(customer);
         rating.setRatingCategory(request.ratingType());
         rating.setValue(request.value());
         rating.setComment(request.comment());

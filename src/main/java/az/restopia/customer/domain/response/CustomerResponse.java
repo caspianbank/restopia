@@ -1,10 +1,10 @@
-package az.restopia.business.domain.response;
+package az.restopia.customer.domain.response;
 
 import az.restopia.commons.domain.enums.DeleteStatus;
 
 import java.time.LocalDateTime;
 
-public record TenantCustomerResponse(
+public record CustomerResponse(
         String tenantCode,
         String fullName,
         String firstName,

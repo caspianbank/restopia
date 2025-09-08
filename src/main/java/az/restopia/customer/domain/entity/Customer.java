@@ -1,4 +1,4 @@
-package az.restopia.business.domain.entity;
+package az.restopia.customer.domain.entity;
 
 import az.neotech.commons.audit.DateAudit;
 import az.restopia.commons.domain.constants.ColumnLengthConstants;
@@ -13,7 +13,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 @Table(name = "tenant_customers")
-public class TenantCustomer extends DateAudit {
+public class Customer extends DateAudit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

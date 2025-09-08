@@ -1,10 +1,10 @@
-package az.restopia.business.domain.request;
+package az.restopia.customer.domain.request;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-public record TenantCustomerRequest(
+public record CustomerRequest(
         @NotBlank(message = "Tenant code is required")
         String tenantCode,
 
@@ -25,7 +25,7 @@ public record TenantCustomerRequest(
         String email
 ) {
 
-    public TenantCustomerRequest(String tenantCode, String fullName, String countryCode, String phoneNumber) {
+    public CustomerRequest(String tenantCode, String fullName, String countryCode, String phoneNumber) {
         this(tenantCode, fullName, null, null, countryCode, phoneNumber, null);
     }
 

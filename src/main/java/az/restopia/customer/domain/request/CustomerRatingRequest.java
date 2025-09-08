@@ -1,11 +1,11 @@
-package az.restopia.business.domain.request;
+package az.restopia.customer.domain.request;
 
 import az.restopia.business.domain.enums.RatingType;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
-public record TenantCustomerRatingRequest(
+public record CustomerRatingRequest(
         @NotNull
         Long tenantBusinessId,
 
