@@ -3,6 +3,7 @@ package az.restopia.menu.controller;
 import az.restopia.menu.domain.request.MenuRequest;
 import az.restopia.menu.domain.response.MenuResponse;
 import az.restopia.menu.service.MenuService;
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,6 +23,14 @@ public class MenuController {
     public ResponseEntity<List<MenuResponse>> getAllMenus() {
         List<MenuResponse> menus = menuService.getAllMenus();
         return ResponseEntity.ok(menus);
+    }
+
+    @GetMapping("/active")
+    public ResponseEntity<MenuResponse> getActiveMenu(
+            @RequestHeader("X-Tenant-Code") @NotBlank(message = "Tenant code is required") String tenantCode
+    ) {
+        MenuResponse menu = menuService.getActiveMenu(tenantCode);
+        return ResponseEntity.ok(menu);
     }
 
     @GetMapping("/{id}")

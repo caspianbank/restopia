@@ -11,6 +11,8 @@ public interface MenuService {
 
     MenuResponse getMenuById(Long id);
 
+    MenuResponse getActiveMenu(String tenantCode);
+
     MenuResponse createMenu(MenuRequest menuRequest);
 
     MenuResponse updateMenu(Long id, MenuRequest menuRequest);

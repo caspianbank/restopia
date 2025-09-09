@@ -1,10 +1,12 @@
 package az.restopia.menu.service.impl;
 
+import az.restopia.commons.exception.RecordNotFoundException;
 import az.restopia.menu.domain.entity.Menu;
 import az.restopia.menu.domain.request.MenuRequest;
 import az.restopia.menu.domain.response.MenuResponse;
 import az.restopia.menu.repository.MenuRepository;
 import az.restopia.menu.service.MenuService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,14 +14,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@Transactional
+@RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class MenuServiceImpl implements MenuService {
 
     private final MenuRepository menuRepository;
-
-    public MenuServiceImpl(MenuRepository menuRepository) {
-        this.menuRepository = menuRepository;
-    }
 
     @Override
     public List<MenuResponse> getAllMenus() {
@@ -37,6 +36,14 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
+    public MenuResponse getActiveMenu(String tenantCode) {
+        return menuRepository.findActiveMenuByTenantCode(tenantCode)
+                .map(this::toMenuResponse)
+                .orElseThrow(() -> new RecordNotFoundException("Menu not found with tenant code " + tenantCode));
+    }
+
+    @Override
+    @Transactional
     public MenuResponse createMenu(MenuRequest menuRequest) {
         Menu menu = toMenu(menuRequest);
         Menu saved = menuRepository.save(menu);

@@ -32,7 +32,7 @@ public class Menu extends DetailedAudit {
     private String description;
 
     @Column(name = "is_active", nullable = false)
-    private boolean isActive;
+    private boolean active;
 
     @OneToMany(mappedBy = "menu", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<MenuCategory> categories = new HashSet<>();
