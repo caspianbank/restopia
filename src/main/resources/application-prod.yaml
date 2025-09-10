@@ -1,0 +1,3 @@
+feign:
+  client:
+    wolt-food: 'https://pos-integration-service.wolt.com'

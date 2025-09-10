@@ -55,7 +55,9 @@ public class Order extends DetailedAudit {
     @Column(name = "description")
     private String description;
 
-    private DeleteStatus deleteStatus;
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "delete_status", nullable = false)
+    private DeleteStatus deleteStatus = DeleteStatus.ACTIVE;
 
     public String getCreatedBy() {
         return super.createdBy;

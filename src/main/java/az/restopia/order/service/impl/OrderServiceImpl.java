@@ -29,7 +29,7 @@ import java.util.List;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class OrderServiceImpl implements OrderService {
+class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
     private final MenuItemService menuItemService;

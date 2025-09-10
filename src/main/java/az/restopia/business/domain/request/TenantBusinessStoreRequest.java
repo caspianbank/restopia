@@ -20,5 +20,7 @@ public class TenantBusinessStoreRequest {
     private String storeType;
     private Boolean isActive;
     private String openingHours;
+    // todo: whenever this openingHours modified, recommend person to update it on wolt, bolt food
+    //  if customer says yes, then send a request to update those services as well.
     private String configurations;
 }
