@@ -1,3 +1,4 @@
 feign:
   client:
     wolt-food: 'https://pos-integration-service.wolt.com'
+    wolt-food-integration: 'https://integrations-authentication-service.wolt.com/oauth2/token'

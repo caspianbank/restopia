@@ -1,3 +1,10 @@
 feign:
   client:
     wolt-food: 'https://pos-integration-service.development.dev.woltapi.com'
+    wolt-food-integration: 'https://integrations-authentication-service.development.dev.woltapi.com/oauth2/token'
+
+app:
+  wolt-food:
+    integration:
+      clientId: '1234'
+      clientSecret: '4567'

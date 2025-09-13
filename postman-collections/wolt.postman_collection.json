@@ -1,0 +1,865 @@
+{
+	"info": {
+		"_postman_id": "0a947f0d-5d8e-468a-8fb3-123ca32a274f",
+		"name": "Wolt Marketplace Integrations",
+		"description": "❗Before using the collection make sure to select a corresponding environment.\n\n### Environment variables\n\nTo be able to test the endpoints, please provide the following variables and secrets in the **current value** fields of the environment.\n\n#### For testing the Authentication flow\n\n- `oauth_client_id`\n    \n- `oauth_client_secret`\n    \n- `authorization_code`\n    \n- `redirect_url`\n    \n\n#### For testing Integration APIs\n\n- `venue_id`\n    \n- `order_id`\n    \n\nPlease note that `access_token` and `refresh_token` variables will be automatically populated after calling `Get access token with authorization code` and `Get access token with refresh token`.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "11124168",
+		"_collection_link": "https://www.postman.com/merchant-integrations/wolt-marketplace-integrations/collection/d2afgd7/wolt-marketplace-integrations?action=share&source=collection_link&creator=11124168"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Get access token with authorization code",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"pm.environment.set(\"access_token\", jsonData.access_token);",
+									"pm.environment.set(\"refresh_token\", jsonData.refresh_token);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "authorization_code",
+									"type": "text"
+								},
+								{
+									"key": "redirect_uri",
+									"value": "{{redirect_url}}",
+									"type": "text"
+								},
+								{
+									"key": "code",
+									"value": "{{authorization_code}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{auth_service_base_url}}/oauth2/token",
+							"host": [
+								"{{auth_service_base_url}}"
+							],
+							"path": [
+								"oauth2",
+								"token"
+							]
+						},
+						"description": "Detailed [documentation](https://developer.wolt.com/docs/integration-onboarding/authentication) can be found on Wolt for Developers portal."
+					},
+					"response": []
+				},
+				{
+					"name": "Get access token with refresh token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"pm.environment.set(\"access_token\", jsonData.access_token);",
+									"pm.environment.set(\"refresh_token\", jsonData.refresh_token);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "refresh_token",
+									"type": "text"
+								},
+								{
+									"key": "refresh_token",
+									"value": "{{refresh_token}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{auth_service_base_url}}/oauth2/token",
+							"host": [
+								"{{auth_service_base_url}}"
+							],
+							"path": [
+								"oauth2",
+								"token"
+							]
+						},
+						"description": "Detailed [documentation](https://developer.wolt.com/docs/integration-onboarding/authentication) can be found on Wolt for Developers portal."
+					},
+					"response": []
+				},
+				{
+					"name": "Reset integration (development only)",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{public_gateway_url}}/integration-onboarding/venues/{{venue_id}}",
+							"host": [
+								"{{public_gateway_url}}"
+							],
+							"path": [
+								"integration-onboarding",
+								"venues",
+								"{{venue_id}}"
+							]
+						},
+						"description": "**Not available on production**. If you need to reset an integration, please contact Wolt account manager."
+					},
+					"response": []
+				}
+			],
+			"description": "Detailed [documentation](https://developer.wolt.com/docs/integration-onboarding/authentication) about the Integration onboarding Authentication can be found on Wolt for Developers portal.",
+			"auth": {
+				"type": "basic",
+				"basic": [
+					{
+						"key": "password",
+						"value": "{{oauth_client_secret}}",
+						"type": "string"
+					},
+					{
+						"key": "username",
+						"value": "{{oauth_client_id}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Order API",
+			"item": [
+				{
+					"name": "Get order",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_base_url}}/orders/{{order_id}}",
+							"host": [
+								"{{api_base_url}}"
+							],
+							"path": [
+								"orders",
+								"{{order_id}}"
+							]
+						},
+						"description": "Detailed [API reference](https://developer.wolt.com/docs/api/order#order) could be found on Wolt for Developers portal."
+					},
+					"response": []
+				},
+				{
+					"name": "Get order V2",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_base_url}}/v2/orders/{{order_id}}",
+							"host": [
+								"{{api_base_url}}"
+							],
+							"path": [
+								"v2",
+								"orders",
+								"{{order_id}}"
+							]
+						},
+						"description": "Detailed [API reference](https://developer.wolt.com/docs/api/order#get-order-v2) could be found on Wolt for Developers portal."
+					},
+					"response": []
+				},
+				{
+					"name": "Accept order",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"adjusted_pickup_time\":\"2021-05-05T10:22:16.631Z\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_base_url}}/orders/{{order_id}}/accept",
+							"host": [
+								"{{api_base_url}}"
+							],
+							"path": [
+								"orders",
+								"{{order_id}}",
+								"accept"
+							]
+						},
+						"description": "Detailed [API reference](https://developer.wolt.com/docs/api/order#accept-order) could be found on Wolt for Developers portal."
+					},
+					"response": []
+				},
+				{
+					"name": "Accept self-delivery order",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t  \"total_delivery_time\":\"2024-06-29T13:16:00Z\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_base_url}}/orders/{{order_id}}/self-delivery/accept",
+							"host": [
+								"{{api_base_url}}"
+							],
+							"path": [
+								"orders",
+								"{{order_id}}",
+								"self-delivery",
+								"accept"
+							]
+						},
+						"description": "Detailed [API reference](https://developer.wolt.com/docs/api/order#accept-self-delivery-order) could be found on Wolt for Developers portal."
+					},
+					"response": []
+				},
+				{
+					"name": "Reject order",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"reason\": \"Out of stock\",\n  \"code\": \"GENERIC\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_base_url}}/orders/{{order_id}}/reject",
+							"host": [
+								"{{api_base_url}}"
+							],
+							"path": [
+								"orders",
+								"{{order_id}}",
+								"reject"
+							]
+						},
+						"description": "Detailed [API reference](https://developer.wolt.com/docs/api/order#reject-order) could be found on Wolt for Developers portal."
+					},
+					"response": []
+				},
+				{
+					"name": "Mark order ready",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_base_url}}/orders/{{order_id}}/ready",
+							"host": [
+								"{{api_base_url}}"
+							],
+							"path": [
+								"orders",
+								"{{order_id}}",
+								"ready"
+							]
+						},
+						"description": "Detailed [API reference](https://developer.wolt.com/docs/api/order#mark-order-ready) could be found on Wolt for Developers portal."
+					},
+					"response": []
+				},
+				{
+					"name": "Mark order delivered",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_base_url}}/orders/{{order_id}}/delivered",
+							"host": [
+								"{{api_base_url}}"
+							],
+							"path": [
+								"orders",
+								"{{order_id}}",
+								"delivered"
+							]
+						},
+						"description": "Detailed [API reference](https://developer.wolt.com/docs/api/order#mark-order-delivered) could be found on Wolt for Developers portal."
+					},
+					"response": []
+				},
+				{
+					"name": "Confirm pre-order",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_base_url}}/orders/{{order_id}}/confirm-preorder",
+							"host": [
+								"{{api_base_url}}"
+							],
+							"path": [
+								"orders",
+								"{{order_id}}",
+								"confirm-preorder"
+							]
+						},
+						"description": "Detailed [API reference](https://developer.wolt.com/docs/api/order#confirm-preorder) could be found on Wolt for Developers portal."
+					},
+					"response": []
+				},
+				{
+					"name": "Replace order items",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"item_changes\": [\n        {\n            \"row_number\": 0,\n            \"replacement_items\": [\n                {\n                    \"replacement_type\": \"count-change-replacement\",\n                    \"barcode\": \"string\",\n                    \"count\": 0,\n                    \"name\": \"string\",\n                    \"price\": {\n                        \"amount\": 0,\n                        \"currency\": \"string\"\n                    },\n                    \"purchase_item_id\": \"string\",\n                    \"weight\": 0\n                }\n            ]\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_base_url}}/orders/{{order_id}}/replace-items",
+							"host": [
+								"{{api_base_url}}"
+							],
+							"path": [
+								"orders",
+								"{{order_id}}",
+								"replace-items"
+							]
+						},
+						"description": "Detailed [API reference](https://developer.wolt.com/docs/api/order#replace-order-items) could be found on Wolt for Developers portal."
+					},
+					"response": []
+				},
+				{
+					"name": "Mark order sent to POS",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"success\": true,\n    \"time_sent_to_pos\": \"2024-05-05T10:22:16.631Z\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_base_url}}/orders/{{order_id}}/sent-to-pos",
+							"host": [
+								"{{api_base_url}}"
+							],
+							"path": [
+								"orders",
+								"{{order_id}}",
+								"sent-to-pos"
+							]
+						},
+						"description": "Detailed [API reference](https://developer.wolt.com/docs/api/order#mark-order-sent-to-pos) could be found on Wolt for Developers portal."
+					},
+					"response": []
+				}
+			],
+			"description": "Detailed [API reference](https://developer.wolt.com/docs/api/order) could be found on Wolt for Developers portal.",
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{access_token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Venue API",
+			"item": [
+				{
+					"name": "Get venue status",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_base_url}}/venues/{{venue_id}}/status",
+							"host": [
+								"{{api_base_url}}"
+							],
+							"path": [
+								"venues",
+								"{{venue_id}}",
+								"status"
+							]
+						},
+						"description": "Detailed [API reference](https://developer.wolt.com/docs/api/venue#get-venue-status) could be found on Wolt for Developers portal."
+					},
+					"response": []
+				},
+				{
+					"name": "Update venue online status",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"status\": \"ONLINE\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_base_url}}/venues/{{venue_id}}/online",
+							"host": [
+								"{{api_base_url}}"
+							],
+							"path": [
+								"venues",
+								"{{venue_id}}",
+								"online"
+							]
+						},
+						"description": "Detailed [API reference](https://developer.wolt.com/docs/api/venue#update-venue-online-status) could be found on Wolt for Developers portal."
+					},
+					"response": []
+				},
+				{
+					"name": "Update venue opening times",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"availability\": [\n    {\n      \"opening_day\": \"TUESDAY\",\n      \"opening_time\": \"10:30\",\n      \"closing_day\": \"TUESDAY\",\n      \"closing_time\": \"17:30\"\n    },\n    {\n      \"opening_day\": \"WEDNESDAY\",\n      \"opening_time\": \"00:00\",\n      \"closing_day\": \"WEDNESDAY\",\n      \"closing_time\": \"24:00\"\n    },\n    {\n      \"opening_day\": \"SATURDAY\",\n      \"opening_time\": \"10:15\",\n      \"closing_day\": \"SATURDAY\",\n      \"closing_time\": \"17:45\"\n    }\n  ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_base_url}}/venues/{{venue_id}}/opening-times",
+							"host": [
+								"{{api_base_url}}"
+							],
+							"path": [
+								"venues",
+								"{{venue_id}}",
+								"opening-times"
+							]
+						},
+						"description": "Detailed [API reference](https://developer.wolt.com/docs/api/venue#update-venue-opening-times) could be found on Wolt for Developers portal."
+					},
+					"response": []
+				},
+				{
+					"name": "Get current delivery provider",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_base_url}}/venues/{{venue_id}}/delivery-provider",
+							"host": [
+								"{{api_base_url}}"
+							],
+							"path": [
+								"venues",
+								"{{venue_id}}",
+								"delivery-provider"
+							]
+						},
+						"description": "Detailed [API reference](https://developer.wolt.com/docs/api/venue#get-venue-delivery-provider) could be found on Wolt for Developers portal."
+					},
+					"response": []
+				},
+				{
+					"name": "Change delivery provider",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"delivery_provider\": \"WOLT\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_base_url}}/venues/{{venue_id}}/delivery-provider",
+							"host": [
+								"{{api_base_url}}"
+							],
+							"path": [
+								"venues",
+								"{{venue_id}}",
+								"delivery-provider"
+							]
+						},
+						"description": "Detailed [API reference](https://developer.wolt.com/docs/api/venue#update-venue-delivery-provider) could be found on Wolt for Developers portal."
+					},
+					"response": []
+				}
+			],
+			"description": "Detailed [API reference](https://developer.wolt.com/docs/api/venue) could be found on Wolt for Developers portal.",
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{access_token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Menu API",
+			"item": [
+				{
+					"name": "Create a menu",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"categories\": [\n        {\n            \"items\": [\n                {\n                    \"delivery_methods\": [\n                        \"homedelivery\",\n                        \"takeaway\"\n                    ],\n                    \"enabled\": true,\n                    \"name\": [\n                        {\n                            \"lang\": \"en\",\n                            \"value\": \"Big Burger Meal\"\n                        }\n                    ],\n                    \"options\": [\n                        {\n                            \"name\": [\n                                {\n                                    \"lang\": \"en\",\n                                    \"value\": \"Drinks\"\n                                }\n                            ],\n                            \"type\": \"SingleChoice\",\n                            \"values\": [\n                                {\n                                    \"name\": [\n                                        {\n                                            \"lang\": \"en\",\n                                            \"value\": \"Sodas\"\n                                        }\n                                    ],\n                                    \"enabled\": true,\n                                    \"default\": true,\n                                    \"price\": 0,\n                                    \"external_data\":\"SODAS\",\n                                    \"sub_option_values\": [\n                                        {\n                                            \"enabled\": true,\n                                            \"name\": [\n                                                {\n                                                    \"lang\": \"en\",\n                                                    \"value\": \"Coke\"\n                                                }\n                                            ],\n                                            \"price\": 2,\n                                            \"external_data\":\"CKNOR\",\n                                            \"default\": true\n                                        },\n                                        {\n                                            \"enabled\": true,\n                                            \"name\": [\n                                                {\n                                                    \"lang\": \"en\",\n                                                    \"value\": \"Coke Zero\"\n                                                }\n                                            ],\n                                            \"price\": 3,\n                                            \"external_data\":\"CKZERO\"\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"name\": [\n                                        {\n                                            \"lang\": \"en\",\n                                            \"value\": \"Juices\"\n                                        }\n                                    ],\n                                    \"enabled\": true,\n                                    \"price\": 0,\n                                    \"external_data\":\"JC001\",\n                                    \"sub_option_values\": [\n                                        {\n                                            \"enabled\": true,\n                                            \"name\": [\n                                                {\n                                                    \"lang\": \"en\",\n                                                    \"value\": \"Apple\"\n                                                }\n                                            ],\n                                            \"price\": 2,\n                                            \"default\": true,\n                                            \"external_data\":\"APLJC\"\n                                        },\n                                        {\n                                            \"enabled\": true,\n                                            \"name\": [\n                                                {\n                                                    \"lang\": \"en\",\n                                                    \"value\": \"Grape\"\n                                                }\n                                            ],\n                                            \"price\": 3,\n                                            \"external_data\":\"GRPJC\"\n                                        }\n                                    ]\n                                }\n                            ]\n                        }\n                    ],\n                    \"price\": 10.0,\n                    \"sales_tax_percentage\": 14.0,\n                    \"external_data\":\"BBM001\"\n                }\n            ],\n            \"name\": [\n                {\n                    \"lang\": \"en\",\n                    \"value\": \"Meals\"\n                }\n            ]\n        }\n    ],\n    \"currency\": \"EUR\",\n    \"primary_language\": \"en\"\n }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_base_url}}/v1/restaurants/{{venue_id}}/menu",
+							"host": [
+								"{{api_base_url}}"
+							],
+							"path": [
+								"v1",
+								"restaurants",
+								"{{venue_id}}",
+								"menu"
+							]
+						},
+						"description": "Detailed [API reference](https://developer.wolt.com/docs/api/menu#create-menu) could be found on Wolt for Developers portal."
+					},
+					"response": []
+				},
+				{
+					"name": "Get menu",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_base_url}}/v2/venues/{{venue_id}}/menu",
+							"host": [
+								"{{api_base_url}}"
+							],
+							"path": [
+								"v2",
+								"venues",
+								"{{venue_id}}",
+								"menu"
+							]
+						},
+						"description": "Detailed [API reference](https://developer.wolt.com/docs/api/menu#get-menu) could be found on Wolt for Developers portal."
+					},
+					"response": []
+				},
+				{
+					"name": "Update menu item inventory",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"data\": [\n        {\n            \"sku\": \"CAU001\",\n            \"inventory\": 55\n        },\n        {\n            \"sku\": \"SPN001\",\n            \"inventory\": 20\n        }\n   ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_base_url}}/venues/{{venue_id}}/items/inventory",
+							"host": [
+								"{{api_base_url}}"
+							],
+							"path": [
+								"venues",
+								"{{venue_id}}",
+								"items",
+								"inventory"
+							]
+						},
+						"description": "Detailed [API reference](https://developer.wolt.com/docs/api/menu#update-item-inventory) could be found on Wolt for Developers portal."
+					},
+					"response": []
+				},
+				{
+					"name": "Update menu items",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"data\": [\n       {\n       \"external_id\": \"BBM001\",\n       \"enabled\": true,\n       \"price\": 1500\n       }\n   ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_base_url}}/venues/{{venue_id}}/items",
+							"host": [
+								"{{api_base_url}}"
+							],
+							"path": [
+								"venues",
+								"{{venue_id}}",
+								"items"
+							]
+						},
+						"description": "Detailed [API reference](https://developer.wolt.com/docs/api/menu#update-items) could be found on Wolt for Developers portal."
+					},
+					"response": []
+				},
+				{
+					"name": "Update menu options",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"data\": [\n       {\n       \"external_id\": \"GRPJC\",\n       \"enabled\": false,\n       \"price\": 1500\n       }\n   ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_base_url}}/venues/{{venue_id}}/options/values",
+							"host": [
+								"{{api_base_url}}"
+							],
+							"path": [
+								"venues",
+								"{{venue_id}}",
+								"options",
+								"values"
+							]
+						},
+						"description": "Detailed [API reference](https://developer.wolt.com/docs/api/menu#update-options) could be found on Wolt for Developers portal."
+					},
+					"response": []
+				}
+			],
+			"description": "Detailed [API reference](https://developer.wolt.com/docs/api/menu) could be found on Wolt for Developers portal.",
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{access_token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	]
+}
