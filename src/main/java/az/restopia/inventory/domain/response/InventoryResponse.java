@@ -1,0 +1,30 @@
+package az.restopia.inventory.domain.response;
+
+import az.restopia.commons.domain.enums.DeleteStatus;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.time.LocalDateTime;
+
+@Getter
+@Setter
+public class InventoryResponse {
+
+    private Long id;
+    private String tenantCode;
+    private Long businessId;
+    private String businessName;
+    private Long businessStoreId;
+    private String businessStoreName;
+    private String name;
+    private String description;
+    private String location;
+    private boolean main;
+    private DeleteStatus deleteStatus;
+    private boolean businessLevel;
+    private boolean storeLevel;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+    private String createdBy;
+    private String updatedBy;
+}
