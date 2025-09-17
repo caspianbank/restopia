@@ -19,6 +19,8 @@ public interface InventoryItemRepository extends JpaRepository<InventoryItem, Lo
 
     boolean existsByTenantCodeAndSku(String tenantCode, String sku);
 
+    Optional<InventoryItem> findByIdAndTenantCode(Long id, String tenantCode);
+
     @Query("""
         SELECT i FROM InventoryItem i
         WHERE i.tenantCode = :tenantCode
