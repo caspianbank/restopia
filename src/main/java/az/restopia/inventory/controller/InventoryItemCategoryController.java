@@ -4,6 +4,7 @@ import az.restopia.inventory.domain.request.InventoryItemCategoryRequest;
 import az.restopia.inventory.domain.response.InventoryItemCategoryResponse;
 import az.restopia.inventory.service.InventoryItemCategoryService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -21,14 +22,14 @@ import java.util.List;
 @Validated
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/{tenantCode}/inventory/categories")
+@RequestMapping("/api/v1/inventory-item-categories")
 public class InventoryItemCategoryController {
 
     private final InventoryItemCategoryService service;
 
     @PostMapping
     public ResponseEntity<InventoryItemCategoryResponse> create(
-            @PathVariable String tenantCode,
+            @RequestHeader("X-Tenant-Code") @NotBlank(message = "Tenant code is required") String tenantCode,
             @Valid @RequestBody InventoryItemCategoryRequest request) {
 
         log.info("Creating inventory item category for tenant: {}", tenantCode);
@@ -38,7 +39,7 @@ public class InventoryItemCategoryController {
 
     @GetMapping("/{id}")
     public ResponseEntity<InventoryItemCategoryResponse> findById(
-            @PathVariable String tenantCode,
+            @RequestHeader("X-Tenant-Code") @NotBlank(message = "Tenant code is required") String tenantCode,
             @PathVariable Long id) {
 
         log.info("Finding inventory item category by id: {} for tenant: {}", id, tenantCode);
@@ -48,7 +49,7 @@ public class InventoryItemCategoryController {
 
     @GetMapping
     public ResponseEntity<Page<InventoryItemCategoryResponse>> findAll(
-            @PathVariable String tenantCode,
+            @RequestHeader("X-Tenant-Code") @NotBlank(message = "Tenant code is required") String tenantCode,
             @PageableDefault(size = 20, sort = {"sortOrder", "name"}, direction = Sort.Direction.ASC) Pageable pageable) {
 
         log.info("Finding all inventory item categories for tenant: {}", tenantCode);
@@ -58,7 +59,7 @@ public class InventoryItemCategoryController {
 
     @GetMapping("/root")
     public ResponseEntity<List<InventoryItemCategoryResponse>> findRootCategories(
-            @PathVariable String tenantCode) {
+            @RequestHeader("X-Tenant-Code") @NotBlank(message = "Tenant code is required") String tenantCode) {
 
         log.info("Finding root categories for tenant: {}", tenantCode);
         List<InventoryItemCategoryResponse> response = service.findRootCategories(tenantCode);
@@ -67,7 +68,7 @@ public class InventoryItemCategoryController {
 
     @GetMapping("/by-parent")
     public ResponseEntity<List<InventoryItemCategoryResponse>> findByParent(
-            @PathVariable String tenantCode,
+            @RequestHeader("X-Tenant-Code") @NotBlank(message = "Tenant code is required") String tenantCode,
             @RequestParam(required = false) Long parentId) {
 
         log.info("Finding categories by parent: {} for tenant: {}", parentId, tenantCode);
@@ -77,7 +78,7 @@ public class InventoryItemCategoryController {
 
     @PutMapping("/{id}")
     public ResponseEntity<InventoryItemCategoryResponse> update(
-            @PathVariable String tenantCode,
+            @RequestHeader("X-Tenant-Code") @NotBlank(message = "Tenant code is required") String tenantCode,
             @PathVariable Long id,
             @Valid @RequestBody InventoryItemCategoryRequest request) {
 
@@ -88,7 +89,7 @@ public class InventoryItemCategoryController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(
-            @PathVariable String tenantCode,
+            @RequestHeader("X-Tenant-Code") @NotBlank(message = "Tenant code is required") String tenantCode,
             @PathVariable Long id) {
 
         log.info("Deleting inventory item category with id: {} for tenant: {}", id, tenantCode);
@@ -98,7 +99,7 @@ public class InventoryItemCategoryController {
 
     @GetMapping("/exists")
     public ResponseEntity<Boolean> existsByName(
-            @PathVariable String tenantCode,
+            @RequestHeader("X-Tenant-Code") @NotBlank(message = "Tenant code is required") String tenantCode,
             @RequestParam String name,
             @RequestParam(required = false) Long parentId) {
 
