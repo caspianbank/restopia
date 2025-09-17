@@ -1,5 +1,6 @@
 package az.restopia.inventory.domain.request;
 
+import az.neotech.commons.finance.Currency;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -28,6 +29,8 @@ public class InventoryRequest {
 
     @Size(max = 200, message = "Location must not exceed 200 characters")
     private String location;
+
+    private Currency currency = Currency.AZN;
 
     private boolean main;
 

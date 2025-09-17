@@ -1,5 +1,6 @@
 package az.restopia.inventory.domain.response;
 
+import az.neotech.commons.finance.Currency;
 import lombok.Getter;
 import lombok.Setter;
 import java.time.LocalDateTime;
@@ -16,6 +17,7 @@ public class InventoryResponse {
     private String businessStoreName;
     private String name;
     private String description;
+    private Currency currency;
     private String location;
     private boolean main;
     private boolean requiresApprovalIn;

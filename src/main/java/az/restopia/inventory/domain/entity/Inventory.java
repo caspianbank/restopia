@@ -1,6 +1,7 @@
 package az.restopia.inventory.domain.entity;
 
 import az.neotech.commons.audit.DetailedAudit;
+import az.neotech.commons.finance.Currency;
 import az.restopia.business.domain.entity.TenantBusiness;
 import az.restopia.business.domain.entity.TenantBusinessStore;
 import az.restopia.commons.domain.constants.ColumnLengthConstants;
@@ -37,6 +38,10 @@ public class Inventory extends DetailedAudit {
 
     @Column(name = "description", length = 1000)
     private String description;
+
+    @Column(name = "currency", length = 3)
+    @Enumerated(EnumType.STRING)
+    private Currency currency;
 
     @Column(name = "location", length = 200)
     private String location;
