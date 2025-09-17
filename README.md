@@ -52,6 +52,7 @@ Service Layer Structure:
 * Service interfaces in {base}.service package
 * Service implementations in {base}.service.impl package
 * Mapper classes in {base}.domain.mapper package
+10. Tenant Code: Always receive tenantCode from header where necessary by using @RequestHeader("X-Tenant-Code") @NotBlank(message = "Tenant code is required") String tenantCode instead of path variables
 ```
 
 
