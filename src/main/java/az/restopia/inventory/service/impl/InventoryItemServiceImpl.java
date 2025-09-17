@@ -1,83 +1,114 @@
 package az.restopia.inventory.service.impl;
 
-import az.restopia.commons.domain.enums.DeleteStatus;
 import az.restopia.commons.exception.RecordNotFoundException;
+import az.restopia.inventory.domain.entity.Inventory;
 import az.restopia.inventory.domain.entity.InventoryItem;
 import az.restopia.inventory.domain.mapper.InventoryItemMapper;
 import az.restopia.inventory.domain.request.InventoryItemRequest;
 import az.restopia.inventory.domain.response.InventoryItemResponse;
 import az.restopia.inventory.repository.InventoryItemRepository;
+import az.restopia.inventory.repository.InventoryRepository;
 import az.restopia.inventory.service.InventoryItemService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
-// todo: find by id in separate method
-// todo: replace duplicate log statements with constants or methods
 @Slf4j
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class InventoryItemServiceImpl implements InventoryItemService {
+
     private final InventoryItemRepository inventoryItemRepository;
+    private final InventoryRepository inventoryRepository;
     private final InventoryItemMapper inventoryItemMapper;
 
     @Override
-    public InventoryItemResponse createInventoryItem(InventoryItemRequest request) {
-        log.info("Creating InventoryItem with name={} and tenantCode={}", request.name(), request.tenantCode());
+    public Page<InventoryItemResponse> getInventoryItems(String tenantCode, Long inventoryId, Pageable pageable) {
+        validateInventoryExists(tenantCode, inventoryId);
+        Page<InventoryItem> items = inventoryItemRepository.findByTenantCodeAndInventoryId(tenantCode, inventoryId, pageable);
+        return items.map(inventoryItemMapper::toResponse);
+    }
+
+    @Override
+    @Transactional
+    public InventoryItemResponse createInventoryItem(String tenantCode, Long inventoryId, InventoryItemRequest request) {
+        Inventory inventory = validateInventoryExists(tenantCode, inventoryId);
+
+        if (inventoryItemRepository.existsByTenantCodeAndSku(tenantCode, request.getSku())) {
+            throw new IllegalArgumentException("SKU already exists for this tenant: " + request.getSku());
+        }
+
         InventoryItem item = inventoryItemMapper.toEntity(request);
-        InventoryItem saved = inventoryItemRepository.save(item);
-        log.debug("Created InventoryItem with id={}", saved.getId());
-        return inventoryItemMapper.toResponse(saved);
+        item.setTenantCode(tenantCode);
+        item.setInventory(inventory);
+
+        InventoryItem savedItem = inventoryItemRepository.save(item);
+        log.info("Created inventory item with SKU: {} for tenant: {}", savedItem.getSku(), tenantCode);
+
+        return inventoryItemMapper.toResponse(savedItem);
     }
 
     @Override
-    public InventoryItemResponse updateInventoryItem(Long id, InventoryItemRequest request) {
-        log.info("Updating InventoryItem with id={}", id);
-        InventoryItem item = inventoryItemRepository.findById(id)
-                .orElseThrow(() -> {
-                    log.warn("InventoryItem with id={} not found", id);
-                    return new RecordNotFoundException("InventoryItem not found");
-                });
+    @Transactional
+    public InventoryItemResponse updateInventoryItem(String tenantCode, Long inventoryId, Long itemId, InventoryItemRequest request) {
+        validateInventoryExists(tenantCode, inventoryId);
 
-        inventoryItemMapper.update(item, request);
-        InventoryItem updated = inventoryItemRepository.save(item);
-        log.debug("Updated InventoryItem with id={}", updated.getId());
-        return inventoryItemMapper.toResponse(updated);
+        InventoryItem existingItem = inventoryItemRepository.findByIdAndTenantCodeAndInventoryId(itemId, tenantCode, inventoryId)
+                .orElseThrow(() -> new RecordNotFoundException("Inventory item not found with id: " + itemId));
+
+        if (!existingItem.getSku().equals(request.getSku()) &&
+                inventoryItemRepository.existsByTenantCodeAndSku(tenantCode, request.getSku())) {
+            throw new IllegalArgumentException("SKU already exists for this tenant: " + request.getSku());
+        }
+
+        inventoryItemMapper.updateEntity(request, existingItem);
+        InventoryItem updatedItem = inventoryItemRepository.save(existingItem);
+        log.info("Updated inventory item with id: {} for tenant: {}", itemId, tenantCode);
+
+        return inventoryItemMapper.toResponse(updatedItem);
     }
 
     @Override
-    public InventoryItemResponse getInventoryItemById(Long id) {
-        log.info("Fetching InventoryItem by id={}", id);
-        return inventoryItemRepository.findById(id)
-                .map(inventoryItemMapper::toResponse)
-                .orElseThrow(() -> {
-                    log.warn("InventoryItem with id={} not found", id);
-                    return new RecordNotFoundException("InventoryItem not found");
-                });
+    @Transactional
+    public void reorderInventoryItem(String tenantCode, Long inventoryId, Long itemId) {
+        validateInventoryExists(tenantCode, inventoryId);
+
+        InventoryItem item = inventoryItemRepository.findByIdAndTenantCodeAndInventoryId(itemId, tenantCode, inventoryId)
+                .orElseThrow(() -> new RecordNotFoundException("Inventory item not found with id: " + itemId));
+
+        log.info("Reorder request initiated for item: {} (SKU: {}) for tenant: {}", itemId, item.getSku(), tenantCode);
+        // Here you would implement the notification logic (WhatsApp, Telegram, Email)
+        // This could be done via a message queue or notification service
     }
 
     @Override
-    public List<InventoryItemResponse> getAllInventoryItems() {
-        log.info("Fetching all InventoryItems");
-        List<InventoryItem> items = inventoryItemRepository.findAll().stream()
-                .toList();
-        log.debug("Found {} InventoryItems", items.size());
-        return items.stream().map(inventoryItemMapper::toResponse).toList();
+    @Transactional
+    public void deleteInventoryItem(String tenantCode, Long inventoryId, Long itemId) {
+        validateInventoryExists(tenantCode, inventoryId);
+
+        InventoryItem item = inventoryItemRepository.findByIdAndTenantCodeAndInventoryId(itemId, tenantCode, inventoryId)
+                .orElseThrow(() -> new RecordNotFoundException("Inventory item not found with id: " + itemId));
+
+        inventoryItemRepository.delete(item);
+        log.info("Deleted inventory item with id: {} for tenant: {}", itemId, tenantCode);
     }
 
     @Override
-    public void deleteInventoryItem(Long id) {
-        log.info("Deleting InventoryItem with id={}", id);
-        InventoryItem item = inventoryItemRepository.findById(id)
-                .orElseThrow(() -> {
-                    log.warn("InventoryItem with id={} not found", id);
-                    return new RecordNotFoundException("InventoryItem not found");
-                });
+    public Page<InventoryItemResponse> searchInventoryItems(String tenantCode, Long inventoryId, String query,
+                                                            String sku, String barcode, Boolean perishable, Boolean requiresRefrigeration, Pageable pageable) {
+        validateInventoryExists(tenantCode, inventoryId);
 
-        item.setDeleteStatus(DeleteStatus.DELETED);
-        inventoryItemRepository.save(item);
-        log.debug("Deleted InventoryItem with id={}", id);
+        Page<InventoryItem> items = inventoryItemRepository.searchItems(
+                tenantCode, inventoryId, query, sku, barcode, perishable, requiresRefrigeration, pageable);
+        return items.map(inventoryItemMapper::toResponse);
+    }
+
+    private Inventory validateInventoryExists(String tenantCode, Long inventoryId) {
+        return inventoryRepository.findByIdAndTenantCode(inventoryId, tenantCode)
+                .orElseThrow(() -> new RecordNotFoundException("Inventory not found with id: " + inventoryId));
     }
 }

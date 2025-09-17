@@ -2,18 +2,20 @@ package az.restopia.inventory.service;
 
 import az.restopia.inventory.domain.request.InventoryItemRequest;
 import az.restopia.inventory.domain.response.InventoryItemResponse;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface InventoryItemService {
+    Page<InventoryItemResponse> getInventoryItems(String tenantCode, Long inventoryId, Pageable pageable);
 
-    InventoryItemResponse createInventoryItem(InventoryItemRequest request);
+    InventoryItemResponse createInventoryItem(String tenantCode, Long inventoryId, InventoryItemRequest request);
 
-    InventoryItemResponse updateInventoryItem(Long id, InventoryItemRequest request);
+    InventoryItemResponse updateInventoryItem(String tenantCode, Long inventoryId, Long itemId, InventoryItemRequest request);
 
-    InventoryItemResponse getInventoryItemById(Long id);
+    void reorderInventoryItem(String tenantCode, Long inventoryId, Long itemId);
 
-    List<InventoryItemResponse> getAllInventoryItems();
+    void deleteInventoryItem(String tenantCode, Long inventoryId, Long itemId);
 
-    void deleteInventoryItem(Long id);
+    Page<InventoryItemResponse> searchInventoryItems(String tenantCode, Long inventoryId, String query,
+                                                     String sku, String barcode, Boolean perishable, Boolean requiresRefrigeration, Pageable pageable);
 }
