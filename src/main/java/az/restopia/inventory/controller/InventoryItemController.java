@@ -1,6 +1,5 @@
 package az.restopia.inventory.controller;
 
-
 import az.restopia.inventory.domain.request.InventoryItemRequest;
 import az.restopia.inventory.domain.response.InventoryItemResponse;
 import az.restopia.inventory.service.InventoryItemService;
@@ -9,8 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
-// todo: validation and swagger
 
 @RestController
 @RequiredArgsConstructor
