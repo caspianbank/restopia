@@ -4,7 +4,6 @@ import az.neotech.commons.audit.DetailedAudit;
 import az.restopia.business.domain.entity.TenantBusiness;
 import az.restopia.business.domain.entity.TenantBusinessStore;
 import az.restopia.commons.domain.constants.ColumnLengthConstants;
-import az.restopia.commons.domain.enums.DeleteStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -51,9 +50,17 @@ public class Inventory extends DetailedAudit {
     @Column(name = "is_main", nullable = false)
     private boolean main = false;
 
-    @Enumerated(EnumType.ORDINAL)
-    @Column(name = "delete_status", nullable = false)
-    private DeleteStatus deleteStatus = DeleteStatus.ACTIVE;
+    /**
+     * Whether this inventory requires approval for outbound transfers
+     */
+    @Column(name = "requires_approval_out")
+    private boolean requiresApprovalOut = false;
+
+    /**
+     * Whether this inventory requires approval for inbound transfers
+     */
+    @Column(name = "requires_approval_in")
+    private boolean requiresApprovalIn = false;
 
     /**
      * Check if this is a business-level inventory

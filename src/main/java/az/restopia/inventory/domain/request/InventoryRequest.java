@@ -29,6 +29,9 @@ public class InventoryRequest {
     @Size(max = 200, message = "Location must not exceed 200 characters")
     private String location;
 
-    @NotNull(message = "Main inventory flag is required")
-    private Boolean main = false;
+    private boolean main;
+
+    private boolean requiresApprovalIn;
+
+    private boolean requiresApprovalOut;
 }

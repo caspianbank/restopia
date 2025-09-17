@@ -13,16 +13,13 @@ import java.util.Optional;
 @Repository
 public interface InventoryRepository extends JpaRepository<Inventory, Long> {
 
-    List<Inventory> findByBusinessIdAndDeleteStatus(Long businessId, DeleteStatus deleteStatus);
+    List<Inventory> findByBusinessId(Long businessId);
 
-    List<Inventory> findByBusinessIdAndBusinessStoreIdAndDeleteStatus(
-            Long businessId, Long businessStoreId, DeleteStatus deleteStatus);
+    List<Inventory> findByBusinessIdAndBusinessStoreId(Long businessId, Long businessStoreId);
 
-    Optional<Inventory> findByIdAndDeleteStatus(Long id, DeleteStatus deleteStatus);
+    @Query("SELECT i FROM Inventory i WHERE i.business.id = :businessId AND i.businessStore IS NULL AND i.main = true")
+    Optional<Inventory> findMainBusinessInventory(@Param("businessId") Long businessId);
 
-    @Query("SELECT i FROM Inventory i WHERE i.business.id = :businessId AND i.businessStore IS NULL AND i.main = true AND i.deleteStatus = :deleteStatus")
-    Optional<Inventory> findMainBusinessInventory(@Param("businessId") Long businessId, @Param("deleteStatus") DeleteStatus deleteStatus);
-
-    @Query("SELECT i FROM Inventory i WHERE i.businessStore.id = :storeId AND i.main = true AND i.deleteStatus = :deleteStatus")
-    Optional<Inventory> findMainStoreInventory(@Param("storeId") Long storeId, @Param("deleteStatus") DeleteStatus deleteStatus);
+    @Query("SELECT i FROM Inventory i WHERE i.businessStore.id = :storeId AND i.main = true")
+    Optional<Inventory> findMainStoreInventory(@Param("storeId") Long storeId);
 }

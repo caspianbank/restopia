@@ -4,7 +4,6 @@ import az.restopia.business.domain.entity.TenantBusiness;
 import az.restopia.business.domain.entity.TenantBusinessStore;
 import az.restopia.business.repository.TenantBusinessRepository;
 import az.restopia.business.repository.TenantBusinessStoreRepository;
-import az.restopia.commons.domain.enums.DeleteStatus;
 import az.restopia.commons.exception.RecordNotFoundException;
 import az.restopia.inventory.domain.entity.Inventory;
 import az.restopia.inventory.domain.mapper.InventoryMapper;
@@ -37,10 +36,9 @@ public class InventoryServiceImpl implements InventoryService {
         List<Inventory> inventories;
         
         if (storeId != null) {
-            inventories = inventoryRepository.findByBusinessIdAndBusinessStoreIdAndDeleteStatus(
-                    businessId, storeId, DeleteStatus.ACTIVE);
+            inventories = inventoryRepository.findByBusinessIdAndBusinessStoreId(businessId, storeId);
         } else {
-            inventories = inventoryRepository.findByBusinessIdAndDeleteStatus(businessId, DeleteStatus.ACTIVE);
+            inventories = inventoryRepository.findByBusinessId(businessId);
         }
         
         return inventoryMapper.toResponseList(inventories);
@@ -49,7 +47,7 @@ public class InventoryServiceImpl implements InventoryService {
     @Override
     @Transactional(readOnly = true)
     public InventoryResponse getInventoryById(Long id) {
-        Inventory inventory = inventoryRepository.findByIdAndDeleteStatus(id, DeleteStatus.ACTIVE)
+        Inventory inventory = inventoryRepository.findById(id)
                 .orElseThrow(() -> new RecordNotFoundException("Inventory not found with id: " + id));
         
         return inventoryMapper.toResponse(inventory);
@@ -66,14 +64,13 @@ public class InventoryServiceImpl implements InventoryService {
                     .orElseThrow(() -> new RecordNotFoundException("Business store not found with id: " + request.getBusinessStoreId()));
         }
 
-        if (request.getMain()) {
+        if (request.isMain()) {
             validateMainInventoryConstraint(request.getBusinessId(), request.getBusinessStoreId());
         }
 
         Inventory inventory = inventoryMapper.toEntity(request);
         inventory.setBusiness(business);
         inventory.setBusinessStore(businessStore);
-        inventory.setDeleteStatus(DeleteStatus.ACTIVE);
 
         Inventory savedInventory = inventoryRepository.save(inventory);
         log.info("Created inventory with id: {}", savedInventory.getId());
@@ -83,10 +80,10 @@ public class InventoryServiceImpl implements InventoryService {
 
     @Override
     public InventoryResponse updateInventory(Long id, InventoryRequest request) {
-        Inventory existingInventory = inventoryRepository.findByIdAndDeleteStatus(id, DeleteStatus.ACTIVE)
+        Inventory existingInventory = inventoryRepository.findById(id)
                 .orElseThrow(() -> new RecordNotFoundException("Inventory not found with id: " + id));
 
-        if (request.getMain() && !existingInventory.isMain()) {
+        if (!existingInventory.isMain()) {
             validateMainInventoryConstraint(request.getBusinessId(), request.getBusinessStoreId());
         }
 
@@ -111,22 +108,21 @@ public class InventoryServiceImpl implements InventoryService {
 
     @Override
     public void deleteInventory(Long id) {
-        Inventory inventory = inventoryRepository.findByIdAndDeleteStatus(id, DeleteStatus.ACTIVE)
+        Inventory inventory = inventoryRepository.findById(id)
                 .orElseThrow(() -> new RecordNotFoundException("Inventory not found with id: " + id));
 
-        inventory.setDeleteStatus(DeleteStatus.DELETED);
-        inventoryRepository.save(inventory);
+        inventoryRepository.delete(inventory);
         log.info("Deleted inventory with id: {}", id);
     }
 
     private void validateMainInventoryConstraint(Long businessId, Long storeId) {
         if (storeId == null) {
-            Optional<Inventory> existingMainInventory = inventoryRepository.findMainBusinessInventory(businessId, DeleteStatus.ACTIVE);
+            Optional<Inventory> existingMainInventory = inventoryRepository.findMainBusinessInventory(businessId);
             if (existingMainInventory.isPresent()) {
                 throw new IllegalArgumentException("A main inventory already exists for this business");
             }
         } else {
-            Optional<Inventory> existingMainInventory = inventoryRepository.findMainStoreInventory(storeId, DeleteStatus.ACTIVE);
+            Optional<Inventory> existingMainInventory = inventoryRepository.findMainStoreInventory(storeId);
             if (existingMainInventory.isPresent()) {
                 throw new IllegalArgumentException("A main inventory already exists for this store");
             }
