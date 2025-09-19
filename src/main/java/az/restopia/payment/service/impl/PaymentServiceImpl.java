@@ -1,6 +1,5 @@
 package az.restopia.payment.service.impl;
 
-import az.restopia.payment.service.PaymentService;
 import az.restopia.commons.exception.RecordNotFoundException;
 import az.restopia.payment.domain.entity.Payment;
 import az.restopia.payment.domain.enums.PaymentStatus;
@@ -8,6 +7,7 @@ import az.restopia.payment.domain.mapper.PaymentMapper;
 import az.restopia.payment.domain.request.PaymentRequest;
 import az.restopia.payment.domain.response.PaymentResponse;
 import az.restopia.payment.repository.PaymentRepository;
+import az.restopia.payment.service.PaymentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

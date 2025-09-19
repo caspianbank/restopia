@@ -3,7 +3,9 @@ package az.restopia.customer.domain.mapper;
 import az.restopia.customer.domain.entity.Customer;
 import az.restopia.customer.domain.request.CustomerRequest;
 import az.restopia.customer.domain.response.CustomerResponse;
-import org.mapstruct.*;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface CustomerMapper {

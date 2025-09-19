@@ -1,9 +1,9 @@
 package az.restopia.integration.domain.request;
 
 import az.restopia.integration.domain.enums.IntegrationStatus;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-import jakarta.validation.constraints.NotNull;
 
 @Getter
 @Setter

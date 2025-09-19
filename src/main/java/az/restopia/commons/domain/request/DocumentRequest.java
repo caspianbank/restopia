@@ -3,6 +3,7 @@ package az.restopia.commons.domain.request;
 import az.restopia.commons.domain.enums.DocumentType;
 import lombok.Getter;
 import lombok.Setter;
+
 import java.util.List;
 
 public record DocumentRequest(

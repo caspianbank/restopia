@@ -3,6 +3,7 @@ package az.restopia.business.domain.response;
 import az.restopia.commons.domain.enums.DeleteStatus;
 import lombok.Getter;
 import lombok.Setter;
+
 import java.time.LocalDateTime;
 
 @Getter

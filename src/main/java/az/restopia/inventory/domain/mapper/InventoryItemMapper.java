@@ -4,8 +4,8 @@ import az.restopia.inventory.domain.entity.InventoryItem;
 import az.restopia.inventory.domain.request.InventoryItemRequest;
 import az.restopia.inventory.domain.response.InventoryItemResponse;
 import org.mapstruct.Mapper;
-import org.mapstruct.MappingTarget;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface InventoryItemMapper {

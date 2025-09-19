@@ -1,9 +1,10 @@
 package az.restopia.conversations.domain.response;
 
-import az.restopia.conversations.domain.enums.MessageType;
 import az.restopia.conversations.domain.enums.MessageStatus;
+import az.restopia.conversations.domain.enums.MessageType;
 import lombok.Getter;
 import lombok.Setter;
+
 import java.time.LocalDateTime;
 
 @Getter

@@ -6,6 +6,7 @@ import az.restopia.menu.util.QrCodeGenerator;
 import com.google.zxing.WriterException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
 import java.io.File;
 import java.io.IOException;
 

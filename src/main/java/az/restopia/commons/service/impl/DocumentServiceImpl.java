@@ -6,14 +6,15 @@ import az.restopia.commons.domain.enums.DocumentGenerationStatus;
 import az.restopia.commons.domain.enums.DocumentType;
 import az.restopia.commons.domain.enums.FileType;
 import az.restopia.commons.domain.request.DocumentRequest;
-import az.restopia.commons.repository.DocumentRepository;
 import az.restopia.commons.domain.response.DocumentResponse;
+import az.restopia.commons.repository.DocumentRepository;
 import az.restopia.commons.service.DocumentService;
 import az.restopia.commons.service.generator.MenuDocumentGenerator;
 import az.restopia.commons.service.generator.QrCodeDocumentGenerator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
 import java.util.function.Consumer;
 
 @Slf4j

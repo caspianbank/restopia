@@ -1,10 +1,10 @@
 package az.restopia.alert.domain.entity;
 
 import az.neotech.commons.audit.DateAudit;
-import az.restopia.commons.domain.enums.DeleteStatus;
 import az.restopia.alert.domain.enums.AlertPriority;
 import az.restopia.alert.domain.enums.AlertStatus;
 import az.restopia.alert.domain.enums.AlertType;
+import az.restopia.commons.domain.enums.DeleteStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

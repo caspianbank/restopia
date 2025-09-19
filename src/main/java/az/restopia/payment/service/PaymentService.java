@@ -1,8 +1,8 @@
 package az.restopia.payment.service;
 
+import az.restopia.payment.domain.enums.PaymentStatus;
 import az.restopia.payment.domain.request.PaymentRequest;
 import az.restopia.payment.domain.response.PaymentResponse;
-import az.restopia.payment.domain.enums.PaymentStatus;
 
 import java.util.List;
 

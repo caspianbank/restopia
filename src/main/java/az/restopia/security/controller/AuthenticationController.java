@@ -1,8 +1,8 @@
 package az.restopia.security.controller;
 
-import az.restopia.security.domain.response.AuthenticationTokenResponse;
 import az.restopia.security.domain.request.LoginRequest;
 import az.restopia.security.domain.request.RegisterRequest;
+import az.restopia.security.domain.response.AuthenticationTokenResponse;
 import az.restopia.security.service.AuthenticationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

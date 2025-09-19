@@ -6,6 +6,7 @@ import az.restopia.commons.domain.enums.DeleteStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
 import java.time.LocalDate;
 
 @Entity

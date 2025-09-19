@@ -7,7 +7,9 @@ import az.restopia.order.domain.response.BusinessWoltVenueResponse;
 import az.restopia.order.domain.response.OrderItemResponse;
 import az.restopia.order.domain.response.OrderResponse;
 import az.restopia.order.domain.response.WoltOrderResponse;
-import org.mapstruct.*;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+
 import java.util.List;
 
 @Mapper(componentModel = "spring")

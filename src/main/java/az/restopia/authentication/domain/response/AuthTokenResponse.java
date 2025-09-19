@@ -1,6 +1,7 @@
 package az.restopia.authentication.domain.response;
 
 import lombok.*;
+
 import java.time.Instant;
 
 @Getter

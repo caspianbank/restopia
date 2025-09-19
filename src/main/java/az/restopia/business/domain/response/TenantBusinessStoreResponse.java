@@ -3,6 +3,7 @@ package az.restopia.business.domain.response;
 import az.restopia.business.domain.enums.StoreType;
 import lombok.Getter;
 import lombok.Setter;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Map;

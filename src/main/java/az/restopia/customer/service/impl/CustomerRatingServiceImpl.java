@@ -1,11 +1,11 @@
 package az.restopia.customer.service.impl;
 
 import az.restopia.business.domain.entity.TenantBusiness;
+import az.restopia.business.service.TenantBusinessService;
 import az.restopia.customer.domain.entity.Customer;
 import az.restopia.customer.domain.entity.CustomerRating;
 import az.restopia.customer.domain.request.CustomerRatingRequest;
 import az.restopia.customer.repository.CustomerRatingRepository;
-import az.restopia.business.service.TenantBusinessService;
 import az.restopia.customer.service.CustomerRatingService;
 import az.restopia.customer.service.CustomerService;
 import lombok.RequiredArgsConstructor;

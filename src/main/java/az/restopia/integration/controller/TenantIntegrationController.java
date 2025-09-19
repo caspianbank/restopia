@@ -4,6 +4,7 @@ import az.restopia.integration.domain.enums.IntegrationStatus;
 import az.restopia.integration.domain.request.TenantIntegrationRequest;
 import az.restopia.integration.domain.response.TenantIntegrationResponse;
 import az.restopia.integration.service.TenantIntegrationService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -11,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.validation.Valid;
 import java.util.List;
 
 @Slf4j
