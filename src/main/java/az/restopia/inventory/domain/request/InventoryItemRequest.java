@@ -4,6 +4,7 @@ import az.restopia.inventory.domain.enums.ItemUnit;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
@@ -49,6 +50,22 @@ public class InventoryItemRequest {
 
     @Size(max = 100, message = "Batch number must not exceed 100 characters")
     private String batchNumber;
+
+    @Size(max = 50, message = "Tax category code must not exceed 50 characters")
+    private String taxCategoryCode;
+
+    @DecimalMin(value = "0.0", message = "VAT rate must be non-negative")
+    @DecimalMax(value = "100.0", message = "VAT rate must not exceed 100%")
+    private BigDecimal vatRate = BigDecimal.ZERO;
+
+    @DecimalMin(value = "0.0", message = "Additional tax rate must be non-negative")
+    @DecimalMax(value = "100.0", message = "Additional tax rate must not exceed 100%")
+    private BigDecimal additionalTaxRate = BigDecimal.ZERO;
+
+    private boolean taxExempt = false;
+
+    @Size(max = 50, message = "Tax exemption code must not exceed 50 characters")
+    private String taxExemptionCode;
 
     private Integer storageTemperatureMin;
 

@@ -84,6 +84,40 @@ public class InventoryItem extends DateAudit {
     private String batchNumber;
 
     /**
+     * Tax category code for the item (e.g., "FOOD", "BEVERAGE", "ALCOHOL", "TOBACCO")
+     * Used to determine applicable tax rates and exemptions
+     */
+    @Column(name = "tax_category_code", length = 50)
+    private String taxCategoryCode;
+
+    /**
+     * VAT/GST rate applicable to this item (as percentage)
+     * Example: 18.00 for 18% VAT, 0.00 for tax-exempt items
+     */
+    @Column(name = "vat_rate", precision = 5, scale = 2)
+    private BigDecimal vatRate = BigDecimal.ZERO;
+
+    /**
+     * Additional tax rate (for items subject to multiple taxes)
+     * Example: Luxury tax, sin tax, etc.
+     */
+    @Column(name = "additional_tax_rate", precision = 5, scale = 2)
+    private BigDecimal additionalTaxRate = BigDecimal.ZERO;
+
+    /**
+     * Whether this item is exempt from VAT/GST
+     */
+    @Column(name = "is_tax_exempt", nullable = false)
+    private boolean taxExempt = false;
+
+    /**
+     * Tax exemption reason code (if applicable)
+     * Example: "EXPORT", "MEDICAL", "EDUCATION", "RELIGIOUS"
+     */
+    @Column(name = "tax_exemption_code", length = 50)
+    private String taxExemptionCode;
+
+    /**
      * Storage conditions
      */
     @Column(name = "storage_temperature_min")

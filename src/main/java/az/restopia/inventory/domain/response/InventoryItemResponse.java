@@ -26,6 +26,41 @@ public class InventoryItemResponse {
     private BigDecimal totalValue;
     private LocalDate expiryDate;
     private String batchNumber;
+    private String taxCategoryCode;
+    private BigDecimal vatRate;
+    private BigDecimal additionalTaxRate;
+    private boolean taxExempt;
+    private String taxExemptionCode;
+
+    /**
+     * VAT amount per unit based on unit cost and VAT rate
+     */
+    private BigDecimal vatAmountPerUnit;
+
+    /**
+     * Total tax amount per unit (VAT + additional taxes)
+     */
+    private BigDecimal totalTaxAmountPerUnit;
+
+    /**
+     * Unit cost excluding all taxes (base price)
+     */
+    private BigDecimal unitCostExcludingTax;
+
+    /**
+     * Unit cost including all taxes (final price)
+     */
+    private BigDecimal unitCostIncludingTax;
+
+    /**
+     * Total tax value for current inventory (totalTaxAmountPerUnit * currentQuantity)
+     */
+    private BigDecimal totalTaxValue;
+
+    /**
+     * Effective tax rate (combined VAT + additional taxes as percentage)
+     */
+    private BigDecimal effectiveTaxRate;
     private Integer storageTemperatureMin;
     private Integer storageTemperatureMax;
     private boolean requiresRefrigeration;
