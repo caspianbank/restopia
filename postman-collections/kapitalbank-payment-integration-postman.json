@@ -1,0 +1,1783 @@
+{
+	"info": {
+		"_postman_id": "9f336f2a-6cb1-48b8-83a7-979bb997ce0b",
+		"name": "Ecommerce API Documentation Simple",
+		"description": "## Base URL\n\nThe base URL for accessing the API is:\n\n`Test - https://txpgtst.kapitalbank.az/api`\n\n`Prod - https://e-commerce.kapitalbank.az/api`\n\n## **Authentication**\n\nAll operations require BasicAuth-formatted header for authentication. This header contains the merchant's username and password, which are encoded in base64. This is a more secure way to authenticate merchants, as it prevents the username and password from being sent in plain text.\n\nMore information about BasicAuth :\n\n[https://www.twilio.com/docs/glossary/what-is-basic-authentication](https://www.twilio.com/docs/glossary/what-is-basic-authentication)\n\nBasicAuth in PostMan\n\n[https://learning.postman.com/docs/sending-requests/authorization/authorization-types/](https://learning.postman.com/docs/sending-requests/authorization/authorization-types/)\n\nJava : [https://www.baeldung.com/java-httpclient-basic-auth](https://www.baeldung.com/java-httpclient-basic-auth)\n\nASP.NET : [https://code-maze.com/aspnetcore-basic-authentication-with-httpclient/](https://code-maze.com/aspnetcore-basic-authentication-with-httpclient/)\n\nPhp : [https://www.gavsblog.com/blog/how-to-use-basic-authentication-with-php-curl](https://www.gavsblog.com/blog/how-to-use-basic-authentication-with-php-curl)\n\nNodeJS : [https://www.geeksforgeeks.org/basic-authentication-in-node-js-using-http-header/](https://www.geeksforgeeks.org/basic-authentication-in-node-js-using-http-header/)\n\n## Operation Flow\n\n**NON-PSP Transaction flow (Common payment)**\n\n1. Send create order request (Purchase). If success response go to step 2\n    \n2. Redirect to URL with values from Create Order response (point 1): Url Sample: [{{order.hppUrl}}/flex?id={{order.id}}&amp;password={{order.password](https://null)}}\n    \n3. Redirect client with several (described below) transaction fields to redirect (callback ) url after transaction completion on PC (Processing center side). Transaction flow completed.Callback url sample:{{callback.url}}?ID=1234&STATUS=FullyPaid  \n    **Note** that STATUS parameter value can be temporary. So you have to verify transaction status using a Transaction details request.\n    \n\n**Preauthorization Transaction flow (Preauthorization + Clearing)**\n\n1. Send create order request (Order_DMS). If success response go to step 2\n    \n2. Redirect to URL with values from Create Order response (point 1): Url Sample:\n    \n    {{order.hppUrl}}/flex?id={{[order.id](http://order.id)}}&password={{order.password}}\n    \n3. Redirect client with several (described below) transaction fields to redirect (callback ) url after transaction completion on PC (Processing center side). preauthorization first step completed and amount will be in hold.\n    \n4. When the service or product has been provided, you need to send a Execution Transaction Clearing request (Second step of preauthorization transaction). Transaction flow is completed\n    \n\n**Recurrent payment flow (no cvv2 and no 3d checks).**\n\n1. Send recurrent payment create order (Recurring) request. If success response go to step 2\n    \n2. Send Set Source Token request. If success response go to step 3\n    \n3. Send Execute transaction (Purchase with saved card). If success response, transaction completed\n    \n\n**Order Credit Transaction flow (Send funds to card)**\n\n1. Send recurrent payment create order (Order Credit transaction) request. If success response go to step 2\n    \n2. Send Set Destination Token request. If success response go to step 3\n    \n3. Send Execute Transaction request (Execute Credit Operation). If success response, transaction completed\n    \n\n## Test card data\n\nPAN: 4169741330151778\n\nExpDate: 11/26\n\nCVV: 119",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17270378"
+	},
+	"item": [
+		{
+			"name": "Create Order",
+			"item": [
+				{
+					"name": "Purchase",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"order\": {\n        \"typeRid\":\"Order_SMS\",\n        \"amount\":\"1.0\",\n        \"currency\":\"AZN\",\n        \"language\": \"az\",\n        \"description\": \"Testdesc\",\n        \"hppRedirectUrl\":\"http://txpgtst.kapitalbank.az\",\n        \"hppCofCapturePurposes\": [\n      \"Cit\"\n    ]\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/order/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"order",
+								""
+							]
+						},
+						"description": "This request represents an order object with the following attributes:\n\n- `typeRid`: Type of the order.\n- `amount`: The amount associated with the order.\n- `currency`: The currency used for the order.\n- `language`: The language preference for the order.\n- `description`: A brief description or comment about the order.\n- `hppRedirectUrl`: The URL to redirect to after finishing operation.\n- `hppCofCapturePurposes`: An array containing the purpose of capturing the Card-on-File (COF) for the order in Payment page.\n    \n\nResponse:\n\n- `id`: The unique identifier for the order.\n- `hppUrl`: The URL for accessing the Hosted Payment Page (HPP) associated with the order.\n- `password`: A password or authentication token associated with the order.\n- `status`: The current status of the order, which could be \"Preparing\" or any other status.\n- `cvv2AuthStatus`: CVV2 authentication requirement for the order.\n- `secret`: A secret or additional security information associated with the order."
+					},
+					"response": [
+						{
+							"name": "Success response",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"order\": {\n        \"typeRid\":\"Order_SMS\",\n        \"amount\":\"1.0\",\n        \"currency\":\"AZN\",\n        \"language\": \"az\",\n        \"description\": \"Testdesc\",\n        \"hppRedirectUrl\":\"http://txpgtst.kapitalbank.az\",\n        \"hppCofCapturePurposes\": [\n      \"Cit\"\n    ]\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/order/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"order",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 22 Apr 2024 12:15:51 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "161"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "TXPG-REST-API-Request-ID",
+									"value": "2ecdd7d8-4bd9-4698-b839-e887ddfd5552"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "ALLOW-FROM https://kapitalbank.az"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=63072000; includeSubdomains;"
+								},
+								{
+									"key": "Public-Key-Pins",
+									"value": "pin-sha256=\"6bNqjNgTdsymVAXvS/xGlD3ZX5li3Ush9zjj+qI1qPI=\"; max-age=2592000;"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"order\": {\n        \"id\": 4595,\n        \"hppUrl\": \"https://txpgtst.kapitalbank.az/flex\",\n        \"password\": \"8xjpd1ejxdma\",\n        \"status\": \"Preparing\",\n        \"cvv2AuthStatus\": \"Required\",\n        \"secret\": \"312866\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Prepurchase",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"order\": {\n        \"typeRid\":\"Order_DMS\",\n        \"amount\":\"1.0\",\n        \"currency\":\"AZN\",\n        \"language\": \"az\",\n        \"description\": \"Testdesc\",\n        \"hppRedirectUrl\":\"http://txpgtst.kapitalbank.az\",\n        \"hppCofCapturePurposes\": [\n      \"Cit\"\n    ]\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/order/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"order",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success response",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"order\": {\n        \"typeRid\":\"Order_SMS\",\n        \"amount\":\"1.0\",\n        \"currency\":\"AZN\",\n        \"language\": \"az\",\n        \"description\": \"Testdesc\",\n        \"hppRedirectUrl\":\"http://txpgtst.kapitalbank.az\",\n        \"hppCofCapturePurposes\": [\n      \"Cit\"\n    ]\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/order/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"order",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 22 Apr 2024 12:15:51 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "161"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "TXPG-REST-API-Request-ID",
+									"value": "2ecdd7d8-4bd9-4698-b839-e887ddfd5552"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "ALLOW-FROM https://kapitalbank.az"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=63072000; includeSubdomains;"
+								},
+								{
+									"key": "Public-Key-Pins",
+									"value": "pin-sha256=\"6bNqjNgTdsymVAXvS/xGlD3ZX5li3Ush9zjj+qI1qPI=\"; max-age=2592000;"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"order\": {\n        \"id\": 4595,\n        \"hppUrl\": \"https://txpgtst.kapitalbank.az/flex\",\n        \"password\": \"8xjpd1ejxdma\",\n        \"status\": \"Preparing\",\n        \"cvv2AuthStatus\": \"Required\",\n        \"secret\": \"312866\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Recurring",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"pm.collectionVariables.set(\"id\", jsonData.order.id);",
+									"pm.collectionVariables.set(\"orderPassword\", jsonData.order.password);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"order\": {\n        \"typeRid\":\"Order_REC\",\n        \"amount\":\"1.0\",\n        \"currency\":\"AZN\",\n        \"language\": \"az\",\n        \"description\": \"Testdesc\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/order/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"order",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success response",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"order\": {\n        \"typeRid\":\"Order_REC\",\n        \"amount\":\"1.0\",\n        \"currency\":\"AZN\",\n        \"language\": \"az\",\n        \"description\": \"Testdesc\",\n        \"hppRedirectUrl\":\"http://txpgtst.kapitalbank.az\"\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/order/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"order",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 22 Apr 2024 12:26:54 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "150"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "TXPG-REST-API-Request-ID",
+									"value": "1a8cc4f3-22ac-42c8-8887-8fb88594f642"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "ALLOW-FROM https://kapitalbank.az"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=63072000; includeSubdomains;"
+								},
+								{
+									"key": "Public-Key-Pins",
+									"value": "pin-sha256=\"6bNqjNgTdsymVAXvS/xGlD3ZX5li3Ush9zjj+qI1qPI=\"; max-age=2592000;"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"order\": {\n        \"id\": 4600,\n        \"hppUrl\": \"https://txpgtst.kapitalbank.az/flex\",\n        \"password\": \"z3fc5v4n5ey7\",\n        \"status\": \"Preparing\",\n        \"cvv2AuthStatus\": \"IneligibleOrder\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Order Credit Transaction",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"order\": {\n        \"typeRid\":\"OCT\",\n        \"amount\":\"1\",\n        \"currency\":\"AZN\",\n        \"language\": \"ru\",\n        \"title\": \"TestOrder\",\n        \"description\": \"Testdesc\"\n    }\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/order/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"order",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "İnstallment (Taksit)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"order\": {\n        \"typeRid\":\"Order_SMS\",\n        \"amount\":\"1.0\",\n        \"currency\":\"AZN\",\n        \"language\": \"az\",\n        \"description\": \"TAKSIT=6\",\n        \"hppRedirectUrl\":\"http://txpgtst.kapitalbank.az\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/order/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"order",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "This endpoint allows you to create a new order.\n\n### Request\n\nReturns a JSON object with the following properties:\n\n- `typeRid`: Type of the order. List of order types\n    \n    - Order_SMS: For purchase operations\n        \n    - Order_DMS: For Preauthorization operations\n        \n    - Order_REC: For recurring Purchase operations (transactions with saved card)\n        \n    - DMSN3D: For recurring Preauthorization operations (transactions with saved card)\n        \n    - OCT: For Account-to-Card operations (Order Credit Transaction)\n        \n- `amount`: The amount associated with the order.\n    \n- `currency`: The currency used for the order.\n    \n- `language`: The language preference for the order.\n    \n- `description`: A brief description or comment about the order.\n    \n    - For Installment operations you must to send taksit month in description filed in this format:`TAKSIT=6`\n        \n- `hppRedirectUrl`: The URL to redirect to after finishing operation.\n    \n- `hppCofCapturePurposes`: An array containing the purpose of capturing the Card-on-File (COF) for the order in Payment page (Card Save). Use all 3 data when saving.\n    \n- `aut`: Used with hppCofCapturePurpose. When specifying this parameter, the checkbox to save the card on the payment page will always be true\n    \n- `srcToken.storedId`: this parameter used to establish a payment token (Saved Card)\n    \n\n### Response\n\n- `id`: The unique identifier for the order.\n    \n- `hppUrl`: The URL for accessing the Hosted Payment Page (HPP) associated with the order.\n    \n- `password`: A password or authentication token associated with the order.\n    \n- `status`: The current status of the order, which could be \"Preparing\" or any other status.\n    \n- `cvv2AuthStatus`: CVV2 authentication requirement for the order.\n    \n- `secret`: A secret or additional security information associated with the order."
+		},
+		{
+			"name": "Set Source Token",
+			"item": [
+				{
+					"name": "TWO token",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"order\": {\n        \"initiationEnvKind\": \"Server\"\n    },\n    \"token\": {\n        \"extCof\": {\n            \"ridByCofp\": \"D91E8A152405EE1180E4005056954BCC\",\n            \"cofProviderRid\": \"TWO_COF\"\n        },\n        \"card\": {\n            \"entryMode\": \"ECommerce\"\n        }\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/order/{{id}}/set-src-token?password={{orderPassword}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"order",
+								"{{id}}",
+								"set-src-token"
+							],
+							"query": [
+								{
+									"key": "password",
+									"value": "{{orderPassword}}"
+								}
+							]
+						},
+						"description": "Request\n\n- **Order**:\n    \n    - `initiationEnvKind`: Indicates the environment kind of the order initiation, specified as \"Server\" (For MIT/Recurring operations) and \"Browser\" (For CIT operations).\n        \n- **Token**:\n    \n    - **extCof**:\n        \n        - `ridByCofp`: Represents the RID of card.\n            \n        - `cofProviderRid`: Indicates the RID of the COF provider, specified as \"TWO_COF\".\n            \n    - **card**:\n        \n        - `entryMode`: Specifies the mode of entry for the card, set to \"ECommerce\"."
+					},
+					"response": [
+						{
+							"name": "Success Response",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"order\": {\n        \"initiationEnvKind\": \"Server\"\n    },\n    \"token\": {\n        \"extCof\": {\n            \"ridByCofp\": \"D91E8A152405EE1180E4005056954BC\",\n            \"cofProviderRid\": \"TWO_COF\"\n        },\n        \"card\": {\n            \"entryMode\": \"ECommerce\"\n        }\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://txpgtst.kapitalbank.az/api/order/{id}/set-src-token",
+									"protocol": "https",
+									"host": [
+										"txpgtst",
+										"kapitalbank",
+										"az"
+									],
+									"path": [
+										"api",
+										"order",
+										"{id}",
+										"set-src-token"
+									],
+									"query": [
+										{
+											"key": "password",
+											"value": "{password}",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 22 Apr 2024 12:49:20 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "358"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "TXPG-REST-API-Request-ID",
+									"value": "91bae35e-1555-41a5-a393-0a123bad06b1"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "ALLOW-FROM https://kapitalbank.az"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=63072000; includeSubdomains;"
+								},
+								{
+									"key": "Public-Key-Pins",
+									"value": "pin-sha256=\"6bNqjNgTdsymVAXvS/xGlD3ZX5li3Ush9zjj+qI1qPI=\"; max-age=2592000;"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"order\": {\n        \"status\": \"Preparing\",\n        \"cvv2AuthStatus\": \"IneligibleOrder\",\n        \"tdsV1AuthStatus\": \"IneligibleOrder\",\n        \"tdsV2AuthStatus\": \"IneligibleOrder\",\n        \"otpAutStatus\": \"IneligibleOrder\",\n        \"srcToken\": {\n            \"id\": 4101,\n            \"paymentMethod\": \"Card\",\n            \"role\": \"Src\",\n            \"status\": \"Active\",\n            \"regTime\": \"2024-04-22 16:49:20\",\n            \"displayName\": \"416974******1778\",\n            \"card\": {\n                \"expiration\": \"1126\",\n                \"brand\": \"Visa\"\n            }\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Standart token",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"order\":{\n        \"initiationEnvKind\":\"Server\"\n    },\n   \"token\": {\n        \"storedId\": 5125\n   }\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/order/{{id}}/set-src-token?password={{orderPassword}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"order",
+								"{{id}}",
+								"set-src-token"
+							],
+							"query": [
+								{
+									"key": "password",
+									"value": "{{orderPassword}}"
+								}
+							]
+						},
+						"description": "Request\n\n- **Order**:\n    \n    - `initiationEnvKind`: Indicates the environment kind of the order initiation, specified as \"Server\" (For MIT/Recurring operations) and \"Browser\" (For CIT operations).\n        \n- **Token**:\n    \n    - `storedId:` Identifier of the saved card."
+					},
+					"response": []
+				}
+			],
+			"description": "### Request\n\n- `order.initiationEnvKind`: Indicates the environment kind of the order initiation, specified as \"Server\" (For MIT/Recurring operations) and \"Browser\" (For CIT operations).\n    \n- `token.storedId:` Identifier of the saved card."
+		},
+		{
+			"name": "Set Destination Token",
+			"item": [
+				{
+					"name": "PAN",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"token\": {\n        \"card\": {\n            \"panBlock\": {\n                \"data\": \"4169741330151778\"\n            }, \n            \"entryMode\": \"ECommerce\"\n        }\n    }\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/order/{{id}}/set-dst-token?password={{orderPassword}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"order",
+								"{{id}}",
+								"set-dst-token"
+							],
+							"query": [
+								{
+									"key": "password",
+									"value": "{{orderPassword}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TWO token",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"token\": {\n         \"extCof\": {\n            \"ridByCofp\":\"26AB0DACE700EF1180EB005056954BCC\",\n            \"cofProviderRid\":\"TWO_COF\"\n         },\n         \"card\":{\n            \"entryMode\": \"ECommerce\"\n         }\n    }\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/order/{{id}}/set-dst-token?password={{orderPassword}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"order",
+								"{{id}}",
+								"set-dst-token"
+							],
+							"query": [
+								{
+									"key": "password",
+									"value": "{{orderPassword}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Execution Transaction",
+			"item": [
+				{
+					"name": "Clearing after Authorization",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{  \n    \"tran\":{\n        \"phase\":\"Clearing\",\n        \"amount\":\"1.00\"\n    }\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/order/{{id}}/exec-tran",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"order",
+								"{{id}}",
+								"exec-tran"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success Response",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{  \n    \"tran\":{\n        \"phase\":\"Clearing\",\n        \"amount\":\"1.00\"\n    }\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://txpgtst.kapitalbank.az/api/order/{id}/exec-tran",
+									"protocol": "https",
+									"host": [
+										"txpgtst",
+										"kapitalbank",
+										"az"
+									],
+									"path": [
+										"api",
+										"order",
+										"{id}",
+										"exec-tran"
+									],
+									"query": [
+										{
+											"key": "password",
+											"value": "{password}",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 22 Apr 2024 13:06:06 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "127"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "TXPG-REST-API-Request-ID",
+									"value": "c8d247ef-6ac5-4d4c-aa65-935da05d2628"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "ALLOW-FROM https://kapitalbank.az"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=63072000; includeSubdomains;"
+								},
+								{
+									"key": "Public-Key-Pins",
+									"value": "pin-sha256=\"6bNqjNgTdsymVAXvS/xGlD3ZX5li3Ush9zjj+qI1qPI=\"; max-age=2592000;"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"tran\": {\n        \"approvalCode\": \"053703\",\n        \"match\": {\n            \"tranActionId\": \"240422-13060545-000oed=\",\n            \"ridByPmo\": \"17302955\"\n        },\n        \"pmoResultCode\": \"1\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Purchase with saved card",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{  \n    \"tran\":{\n        \"phase\":\"Single\",\n        \"amount\":\"1.00\",\n        \"conditions\":{\n            \"cofUsage\":\"UnspecifiedMit\"\n        }\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/order/{{id}}/exec-tran?password={{orderPassword}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"order",
+								"{{id}}",
+								"exec-tran"
+							],
+							"query": [
+								{
+									"key": "password",
+									"value": "{{orderPassword}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success Response",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{  \n    \"tran\":{\n        \"phase\":\"Clearing\",\n        \"amount\":\"1.00\"\n    }\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://txpgtst.kapitalbank.az/api/order/{id}/exec-tran",
+									"protocol": "https",
+									"host": [
+										"txpgtst",
+										"kapitalbank",
+										"az"
+									],
+									"path": [
+										"api",
+										"order",
+										"{id}",
+										"exec-tran"
+									],
+									"query": [
+										{
+											"key": "password",
+											"value": "{password}",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 22 Apr 2024 13:06:06 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "127"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "TXPG-REST-API-Request-ID",
+									"value": "c8d247ef-6ac5-4d4c-aa65-935da05d2628"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "ALLOW-FROM https://kapitalbank.az"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=63072000; includeSubdomains;"
+								},
+								{
+									"key": "Public-Key-Pins",
+									"value": "pin-sha256=\"6bNqjNgTdsymVAXvS/xGlD3ZX5li3Ush9zjj+qI1qPI=\"; max-age=2592000;"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"tran\": {\n        \"approvalCode\": \"053703\",\n        \"match\": {\n            \"tranActionId\": \"240422-13060545-000oed=\",\n            \"ridByPmo\": \"17302955\"\n        },\n        \"pmoResultCode\": \"1\"\n    }\n}"
+						},
+						{
+							"name": "Purchase with saved card",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{  \n    \"tran\":{\n        \"phase\":\"Single\",\n        \"amount\":\"1.00\",\n        \"conditions\":{\n            \"cofUsage\":\"UnspecifiedMit\"\n        }\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/order/{{id}}/exec-tran?password={{orderPassword}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"order",
+										"{{id}}",
+										"exec-tran"
+									],
+									"query": [
+										{
+											"key": "password",
+											"value": "{{orderPassword}}"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"errorCode\": \"PmoDecline\",\n    \"errorDescription\": \"Transaction declined by PMO: Auth Response: 52 - Card not found for MBR calculation. PAN=416974******1778, ExpDate from Track2 (YYMM)=2511\",\n    \"errorDetails\": {\n        \"declineReason\": \"SrcCardInvalid\",\n        \"match\": {\n            \"ridByPmo\": \"17947770\"\n        },\n        \"pmoResultCode\": \"52\",\n        \"pmoDeclineDesc\": \"Card not found for MBR calculation. PAN=416974******1778, ExpDate from Track2 (YYMM)=2511\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Preauthorization with saved card",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{  \n    \"tran\":{\n        \"phase\":\"Auth\",\n        \"authorizationKind\": \"Preliminary\",\n        \"amount\":\"1.00\",\n        \"conditions\":{\n            \"cofUsage\":\"UnspecifiedMit\"\n        }\n    }\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/order/{{id}}/exec-tran?password={{orderPassword}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"order",
+								"{{id}}",
+								"exec-tran"
+							],
+							"query": [
+								{
+									"key": "password",
+									"value": "{{orderPassword}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success Response",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{  \n    \"tran\":{\n        \"phase\":\"Clearing\",\n        \"amount\":\"1.00\"\n    }\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://txpgtst.kapitalbank.az/api/order/{id}/exec-tran",
+									"protocol": "https",
+									"host": [
+										"txpgtst",
+										"kapitalbank",
+										"az"
+									],
+									"path": [
+										"api",
+										"order",
+										"{id}",
+										"exec-tran"
+									],
+									"query": [
+										{
+											"key": "password",
+											"value": "{password}",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 22 Apr 2024 13:06:06 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "127"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "TXPG-REST-API-Request-ID",
+									"value": "c8d247ef-6ac5-4d4c-aa65-935da05d2628"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "ALLOW-FROM https://kapitalbank.az"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=63072000; includeSubdomains;"
+								},
+								{
+									"key": "Public-Key-Pins",
+									"value": "pin-sha256=\"6bNqjNgTdsymVAXvS/xGlD3ZX5li3Ush9zjj+qI1qPI=\"; max-age=2592000;"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"tran\": {\n        \"approvalCode\": \"053703\",\n        \"match\": {\n            \"tranActionId\": \"240422-13060545-000oed=\",\n            \"ridByPmo\": \"17302955\"\n        },\n        \"pmoResultCode\": \"1\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Execute Credit Operation",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{  \n    \"tran\":{\n        \"phase\":\"Single\",\n        \"amount\":\"1.00\",\n        \"type\":\"Credit\"\n    }\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/order/{{id}}/exec-tran?password={{orderPassword}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"order",
+								"{{id}}",
+								"exec-tran"
+							],
+							"query": [
+								{
+									"key": "password",
+									"value": "{{orderPassword}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "### Request\n\n- `phase` indicator of transaction phase. phase examples:\n    \n    - Single. For one step operations (Standart Purchase)\n        \n    - Auth. For first step of preauthorization transaction. Must used with authorizationKind\n        \n    - Clearing. For the second step of preauthorization transaction.\n        \n- `type` Type of the operation. types example:\n    \n    - Credit. For Account-to-Card transaction\n        \n    - Refund. For send money for transaction back.\n        \n- `amount`The amount to be authorized for the transaction. If it is not specified, amount will be used from Create Order Request\n    \n- `authorizationKind` Must be used with Auth phase in preauthorization transaction\n    \n- `conditions.cofUsage` Indicator of recurring transaction."
+		},
+		{
+			"name": "Reversal",
+			"item": [
+				{
+					"name": "Purchase Reversal",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{  \n    \"tran\":{\n        \"phase\":\"Single\",\n        \"voidKind\": \"Full\"\n    }\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/order/{{id}}/exec-tran",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"order",
+								"{{id}}",
+								"exec-tran"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Purchase Partial Reversal",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{  \n    \"tran\":{\n        \"phase\":\"Single\",\n        \"amount\":\"1.00\",\n        \"voidKind\": \"Partial\"\n    }\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/order/{{id}}/exec-tran",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"order",
+								"{{id}}",
+								"exec-tran"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Prepurchase Auth Reversal",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{  \n    \"tran\":{\n        \"phase\":\"Auth\",\n        \"voidKind\": \"Full\"\n    }\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/order/{{id}}/exec-tran",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"order",
+								"{{id}}",
+								"exec-tran"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Prepurchase Clearing Reversal",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{  \n    \"tran\":{\n        \"phase\":\"Clearing\",\n        \"voidKind\": \"Full\"\n    }\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/order/{{id}}/exec-tran",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"order",
+								"{{id}}",
+								"exec-tran"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "### Request\n\nRequest is the same as Execute Transaction request, but with the different params\n\n- `phase` indicator of transaction phase. phase examples:  \n    \n    - Single. For one step operations (Standart Purchase)\n        \n    - Auth. For first step of preauthorization transaction. Must used with authorizationKind\n        \n    - Clearing. For the second step of preauthorization transaction.\n        \n- `voidKind` Indicator of Revesal operation. Reversal types:  \n    \n    - Full. Using for returning full amount of transaction\n        \n    - Partial. used to return funds that are less than the original amount. Can be used once\n        \n- `amount`The amount to be returned for the transaction. Must be used, when you want to use Partial reversal."
+		},
+		{
+			"name": "Refund",
+			"item": [
+				{
+					"name": "Refund",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{  \n    \"tran\":{\n        \"phase\":\"Single\",\n        \"amount\":\"2.00\",\n        \"type\": \"Refund\"\n    }\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/order/{{id}}/exec-tran",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"order",
+								"{{id}}",
+								"exec-tran"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Refund",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{  \n    \"tran\":{\n        \"phase\":\"Single\",\n        \"amount\":\"2.00\",\n        \"type\": \"Refund\"\n    }\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/order/{{id}}/exec-tran",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"order",
+										"{{id}}",
+										"exec-tran"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"tran\": {\n        \"approvalCode\": \"053703\",\n        \"match\": {\n            \"tranActionId\": \"240422-13060545-000oed=\",\n            \"ridByPmo\": \"17302955\"\n        },\n        \"pmoResultCode\": \"1\"\n    }\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Get Order Status",
+			"item": [
+				{
+					"name": "Simple",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/order/{{id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"order",
+								"{{id}}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Simple",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/order/{{id}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"order",
+										"{{id}}"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"order\": {\n        \"id\": 5531,\n        \"typeRid\": \"Order_SMS\",\n        \"status\": \"Refunded\",\n        \"prevStatus\": \"FullyPaid\",\n        \"lastStatusLogin\": \"E1010\",\n        \"amount\": 1,\n        \"currency\": \"AZN\",\n        \"createTime\": \"2024-06-12 15:38:23\",\n        \"finishTime\": \"2024-06-12 15:39:17\",\n        \"title\": \"Othub\",\n        \"type\": {\n            \"title\": \"Single message\"\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Detailed",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/order/{{id}}?tranDetailLevel=2&tokenDetailLevel=2&orderDetailLevel=2",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"order",
+								"{{id}}"
+							],
+							"query": [
+								{
+									"key": "tranDetailLevel",
+									"value": "2",
+									"description": "Transaction details"
+								},
+								{
+									"key": "tokenDetailLevel",
+									"value": "2",
+									"description": "Token details"
+								},
+								{
+									"key": "orderDetailLevel",
+									"value": "2",
+									"description": "Order details"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Detailed",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/order/{{id}}?password={{orderPassword}}&tranDetailLevel=2&tokenDetailLevel=2&orderDetailLevel=2",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"order",
+										"{{id}}"
+									],
+									"query": [
+										{
+											"key": "password",
+											"value": "{{orderPassword}}"
+										},
+										{
+											"key": "tranDetailLevel",
+											"value": "2",
+											"description": "Transaction details"
+										},
+										{
+											"key": "tokenDetailLevel",
+											"value": "2",
+											"description": "Token details"
+										},
+										{
+											"key": "orderDetailLevel",
+											"value": "2",
+											"description": "Order details"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"order\": {\n        \"id\": 5531,\n        \"hppUrl\": \"https://txpgtst.kapitalbank.az/flex\",\n        \"hppRedirectUrl\": \"http://txpgtst.kapitalbank.az\",\n        \"password\": \"1a06f5aj3yhqr\",\n        \"status\": \"Refunded\",\n        \"prevStatus\": \"FullyPaid\",\n        \"lastStatusLogin\": \"E1010\",\n        \"amount\": 1,\n        \"currency\": \"AZN\",\n        \"terminal\": {\n            \"id\": 41,\n            \"rid\": \"E1000010\",\n            \"title\": \"E1000010\",\n            \"mcc\": 3011,\n            \"status\": \"Active\"\n        },\n        \"srcAmount\": 1,\n        \"srcAmountFull\": 1,\n        \"srcCurrency\": \"AZN\",\n        \"dstAmount\": 1,\n        \"dstCurrency\": \"AZN\",\n        \"createTime\": \"2024-06-12 15:38:23\",\n        \"finishTime\": \"2024-06-12 15:39:17\",\n        \"trans\": [\n            {\n                \"approvalCode\": \"047347\",\n                \"actionId\": \"240612-11385786-000tn5=\",\n                \"orderId\": 5531,\n                \"terminalId\": 41,\n                \"merchantId\": 101,\n                \"billingStatus\": \"Normal\",\n                \"isReversal\": false,\n                \"ridByAcquirer\": \"17579346\",\n                \"ridByPmo\": \"17579346\",\n                \"regTime\": \"2024-06-12 15:38:57\",\n                \"clearAmount\": 1,\n                \"clearCcy\": \"AZN\",\n                \"amount\": 1,\n                \"currency\": \"AZN\",\n                \"description\": \"Purchase\",\n                \"phase\": \"Single\",\n                \"type\": \"Purchase\",\n                \"pmoResultCode\": \"1\"\n            },\n            {\n                \"approvalCode\": \"963348\",\n                \"actionId\": \"240612-11391689-000tn7=\",\n                \"orderId\": 5531,\n                \"terminalId\": 41,\n                \"merchantId\": 101,\n                \"billingStatus\": \"Normal\",\n                \"isReversal\": false,\n                \"ridByAcquirer\": \"17579348\",\n                \"ridByPmo\": \"17579348\",\n                \"regTime\": \"2024-06-12 15:39:16\",\n                \"clearAmount\": -1,\n                \"clearCcy\": \"AZN\",\n                \"amount\": 1,\n                \"currency\": \"AZN\",\n                \"description\": \"Refund\",\n                \"phase\": \"Single\",\n                \"type\": \"Refund\",\n                \"pmoResultCode\": \"1\"\n            }\n        ],\n        \"cvv2AuthStatus\": \"Provided\",\n        \"tdsV1AuthStatus\": \"IneligibleOrder\",\n        \"tdsV2AuthStatus\": \"Verified\",\n        \"tdsServerUrl\": \"http://172.21.14.67:1341\",\n        \"authorizedChargeAmount\": 1,\n        \"clearedChargeAmount\": 1,\n        \"clearedRefundAmount\": 1,\n        \"title\": \"Othub\",\n        \"description\": \"Testdesc\",\n        \"language\": \"az\",\n        \"srcToken\": {\n            \"id\": 4833,\n            \"paymentMethod\": \"Card\",\n            \"role\": \"Src\",\n            \"status\": \"Active\",\n            \"regTime\": \"2024-06-12 15:38:28\",\n            \"entryMode\": \"ECommerce\",\n            \"displayName\": \"416974******1778\",\n            \"owner\": {},\n            \"card\": {\n                \"authentication\": {\n                    \"needCvv2\": false,\n                    \"needTds\": false,\n                    \"tranId\": \"a3b35fe8-e245-4a3e-ba01-e250a4ac20ad\",\n                    \"tdsDsTranId\": \"c087b446-192b-48fb-b78f-2c4bb53ac26c\",\n                    \"timestamp\": \"2024-06-12 11:38:23\",\n                    \"tdsProtocolVer\": \"2.2.0\",\n                    \"cryptType\": \"Tds\",\n                    \"cryptVal\": \"AJkBA0KTRAAAAABklEFkdQAAAAA=\",\n                    \"eci\": \"05\",\n                    \"tdsARes\": \"{\\\"threeDSServerTransID\\\":\\\"a3b35fe8-e245-4a3e-ba01-e250a4ac20ad\\\",\\\"acsTransID\\\":\\\"6663aebe-7f7a-4f34-be7f-bdb9731c1adf\\\",\\\"dsTransID\\\":\\\"c087b446-192b-48fb-b78f-2c4bb53ac26c\\\",\\\"messageType\\\":\\\"ARes\\\",\\\"messageVersion\\\":\\\"2.2.0\\\",\\\"messageExtension\\\":[{\\\"name\\\":\\\"MesExt2\\\",\\\"id\\\":\\\"ID2\\\",\\\"criticalityIndicator\\\":false,\\\"data\\\":{\\\"valueOne\\\":\\\"value\\\"}}],\\\"dsReferenceNumber\\\":\\\"DSRefNumVISA\\\",\\\"acsReferenceNumber\\\":\\\"3DS_LOA_ACS_COPL_020100_00081\\\",\\\"acsOperatorID\\\":\\\"ACS-V210-KAPITAL-BANK-78858\\\",\\\"authenticationValue\\\":\\\"AJ************************A=\\\",\\\"eci\\\":\\\"05\\\",\\\"transStatus\\\":\\\"Y\\\",\\\"transStatusReason\\\":\\\"17\\\"}\"\n                },\n                \"expiration\": \"1126\",\n                \"brand\": \"Visa\",\n                \"issuerRid\": \"4\"\n            }\n        },\n        \"merchant\": {\n            \"id\": 101,\n            \"rid\": \"E1000010\",\n            \"title\": \"E1000010\",\n            \"businessAddress\": {\n                \"country\": \"AZE\",\n                \"countryA2\": \"AZ\",\n                \"countryN3\": 31\n            },\n            \"trustConsumerPhone\": false\n        },\n        \"initiationEnvKind\": \"Server\",\n        \"type\": {\n            \"allowVoid\": true,\n            \"hppTranPhase\": \"Single\",\n            \"secretLength\": 6,\n            \"title\": \"Single message\",\n            \"rid\": \"Order_SMS\",\n            \"paymentMethods\": [\n                \"Card\"\n            ],\n            \"cardBrands\": [\n                \"Visa\",\n                \"Mastercard\"\n            ],\n            \"allowTdsAttempt\": false,\n            \"allowTdsCant\": false,\n            \"allowTdsChallenged\": false,\n            \"allowSurcharge\": false,\n            \"allowTranTypes\": [\n                \"Purchase\",\n                \"Refund\",\n                \"CheckToken\"\n            ],\n            \"allowTranPhases\": [\n                \"Single\",\n                \"Prepare\"\n            ],\n            \"allowAuthKinds\": [\n                \"Final\",\n                \"Undefined\"\n            ],\n            \"allowCofStoreUsages\": [\n                \"Cit\",\n                \"PartialShipment\",\n                \"Instalment\",\n                \"Recurring\",\n                \"UnspecifiedMit\",\n                \"DelayedCharge\"\n            ],\n            \"orderClass\": \"Sale\",\n            \"allowCVV2\": true\n        },\n        \"hppCofCapturePurposes\": [\n            \"UnspecifiedMit\"\n        ],\n        \"custAttrs\": [],\n        \"reportPubs\": {}\n    }\n}"
+						},
+						{
+							"name": "With COF data",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/order/{{id}}?tranDetailLevel=2&tokenDetailLevel=2&orderDetailLevel=2",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"order",
+										"{{id}}"
+									],
+									"query": [
+										{
+											"key": "tranDetailLevel",
+											"value": "2",
+											"description": "Transaction details"
+										},
+										{
+											"key": "tokenDetailLevel",
+											"value": "2",
+											"description": "Token details"
+										},
+										{
+											"key": "orderDetailLevel",
+											"value": "2",
+											"description": "Order details"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"order\": {\n        \"id\": 10947,\n        \"hppUrl\": \"https://txpgtst.kapitalbank.az/flex\",\n        \"hppRedirectUrl\": \"http://txpgtst.kapitalbank.az\",\n        \"password\": \"mzvjai9qsj8x\",\n        \"status\": \"FullyPaid\",\n        \"prevStatus\": \"Preparing\",\n        \"lastStatusLogin\": \"E1010\",\n        \"amount\": 5,\n        \"currency\": \"AZN\",\n        \"terminal\": {\n            \"id\": 41,\n            \"rid\": \"E1000010\",\n            \"title\": \"E1000010\",\n            \"mcc\": 3011,\n            \"status\": \"Active\"\n        },\n        \"srcAmount\": 5,\n        \"srcAmountFull\": 5,\n        \"srcCurrency\": \"AZN\",\n        \"dstAmount\": 5,\n        \"dstCurrency\": \"AZN\",\n        \"createTime\": \"2024-07-30 16:57:36\",\n        \"storedTokens\": [\n            {\n                \"id\": 5654\n            },\n            {\n                \"cofProviderRid\": \"TWO_COF\",\n                \"id\": 5655,\n                \"ridBycofp\": \"1B2B94F001F8EE1180EB005056954BCC\"\n            }\n        ],\n        \"trans\": [\n            {\n                \"approvalCode\": \"511369\",\n                \"actionId\": \"240730-12583839-001drl=\",\n                \"orderId\": 10947,\n                \"terminalId\": 41,\n                \"merchantId\": 101,\n                \"billingStatus\": \"Normal\",\n                \"isReversal\": false,\n                \"ridByAcquirer\": \"17850012\",\n                \"ridByPmo\": \"17850012\",\n                \"regTime\": \"2024-07-30 16:58:38\",\n                \"clearAmount\": 5,\n                \"clearCcy\": \"AZN\",\n                \"amount\": 5,\n                \"currency\": \"AZN\",\n                \"description\": \"Purchase\",\n                \"phase\": \"Single\",\n                \"type\": \"Purchase\",\n                \"pmoResultCode\": \"1\"\n            }\n        ],\n        \"cvv2AuthStatus\": \"Provided\",\n        \"tdsV1AuthStatus\": \"IneligibleOrder\",\n        \"tdsV2AuthStatus\": \"Verified\",\n        \"tdsServerUrl\": \"http://172.21.14.67:1340\",\n        \"authorizedChargeAmount\": 5,\n        \"clearedChargeAmount\": 5,\n        \"clearedRefundAmount\": 0,\n        \"title\": \"Othub\",\n        \"description\": \"Testdesc\",\n        \"language\": \"az\",\n        \"srcToken\": {\n            \"id\": 5652,\n            \"paymentMethod\": \"Card\",\n            \"role\": \"Src\",\n            \"status\": \"Active\",\n            \"regTime\": \"2024-07-30 16:57:43\",\n            \"entryMode\": \"ECommerce\",\n            \"displayName\": \"510307******3118\",\n            \"owner\": {},\n            \"card\": {\n                \"authentication\": {\n                    \"needCvv2\": false,\n                    \"needTds\": false,\n                    \"tranId\": \"0682c816-a368-4f66-9c27-ea2298b8b2a8\",\n                    \"tdsDsTranId\": \"fd1a1d37-1ec8-4d47-a8cd-6f1d640d8425\",\n                    \"timestamp\": \"2024-07-30 12:57:36\",\n                    \"tdsProtocolVer\": \"2.2.0\",\n                    \"cryptType\": \"Tds\",\n                    \"cryptVal\": \"xgR6+aR8AAAAAAAAAAAAAAAAAAAA\",\n                    \"eci\": \"02\",\n                    \"tdsARes\": \"{\\\"threeDSServerTransID\\\":\\\"0682c816-a368-4f66-9c27-ea2298b8b2a8\\\",\\\"acsTransID\\\":\\\"ace44ca4-df3d-478d-9553-dd20174169d8\\\",\\\"dsTransID\\\":\\\"fd1a1d37-1ec8-4d47-a8cd-6f1d640d8425\\\",\\\"messageType\\\":\\\"ARes\\\",\\\"messageVersion\\\":\\\"2.2.0\\\",\\\"messageExtension\\\":[{\\\"name\\\":\\\"MesExt2\\\",\\\"id\\\":\\\"ID2\\\",\\\"criticalityIndicator\\\":false,\\\"data\\\":{\\\"valueOne\\\":\\\"value\\\"}}],\\\"dsReferenceNumber\\\":\\\"DSRefNum\\\",\\\"acsReferenceNumber\\\":\\\"3DS_LOA_ACS_COPL_020100_00081\\\",\\\"acsChallengeMandated\\\":\\\"N\\\",\\\"acsOperatorID\\\":\\\"ACS-V210-KAPITAL-BANK-78858\\\",\\\"acsURL\\\":\\\"https://acs1test.kapitalbank.az\\\",\\\"authenticationType\\\":\\\"02\\\",\\\"transStatus\\\":\\\"C\\\"}\",\n                    \"tdsRReq\": \"{\\\"threeDSServerTransID\\\":\\\"0682c816-a368-4f66-9c27-ea2298b8b2a8\\\",\\\"acsTransID\\\":\\\"ace44ca4-df3d-478d-9553-dd20174169d8\\\",\\\"dsTransID\\\":\\\"fd1a1d37-1ec8-4d47-a8cd-6f1d640d8425\\\",\\\"messageType\\\":\\\"RReq\\\",\\\"messageVersion\\\":\\\"2.2.0\\\",\\\"authenticationMethod\\\":\\\"02\\\",\\\"authenticationType\\\":\\\"02\\\",\\\"authenticationValue\\\":\\\"xg************************AA\\\",\\\"eci\\\":\\\"02\\\",\\\"interactionCounter\\\":\\\"01\\\",\\\"messageCategory\\\":\\\"01\\\",\\\"transStatus\\\":\\\"Y\\\"}\"\n                },\n                \"expiration\": \"0125\",\n                \"brand\": \"Mastercard\",\n                \"issuerRid\": \"5\"\n            }\n        },\n        \"merchant\": {\n            \"id\": 101,\n            \"rid\": \"E1000010\",\n            \"title\": \"E1000010\",\n            \"businessAddress\": {\n                \"country\": \"AZE\",\n                \"countryA2\": \"AZ\",\n                \"countryN3\": 31\n            },\n            \"trustConsumerPhone\": false\n        },\n        \"initiationEnvKind\": \"Browser\",\n        \"type\": {\n            \"allowVoid\": true,\n            \"hppTranPhase\": \"Single\",\n            \"secretLength\": 6,\n            \"title\": \"Single message\",\n            \"rid\": \"Order_SMS\",\n            \"paymentMethods\": [\n                \"Card\"\n            ],\n            \"cardBrands\": [\n                \"Visa\",\n                \"Mastercard\"\n            ],\n            \"allowTdsAttempt\": false,\n            \"allowTdsCant\": false,\n            \"allowTdsChallenged\": false,\n            \"allowSurcharge\": false,\n            \"allowTranTypes\": [\n                \"Purchase\",\n                \"Refund\",\n                \"CheckToken\"\n            ],\n            \"allowTranPhases\": [\n                \"Single\",\n                \"Prepare\"\n            ],\n            \"allowAuthKinds\": [\n                \"Final\",\n                \"Undefined\"\n            ],\n            \"allowCofStoreUsages\": [\n                \"Cit\",\n                \"PartialShipment\",\n                \"Instalment\",\n                \"Recurring\",\n                \"UnspecifiedMit\",\n                \"DelayedCharge\"\n            ],\n            \"orderClass\": \"Sale\",\n            \"allowCVV2\": true\n        },\n        \"hppCofCapturePurposes\": [\n            \"UnspecifiedMit\",\n            \"Cit\",\n            \"Recurring\"\n        ],\n        \"custAttrs\": [],\n        \"reportPubs\": {}\n    }\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Statuses and Error codes",
+			"item": [],
+			"description": "## Payment Statuses\n\n| **Status** | **Description** |\n| --- | --- |\n| Being prepared | Order is being prepared, no transactions have been executed on it yet. |\n| Cancelled | Order has been cancelled by the consumer (before payment). (Order is cancelled by the merchant.) |\n| Rejected | Order has been rejected by the PSP (before payment). (Order is rejected by the PSP.) |\n| Refused | Consumer has refused to pay for the order (before payment or after unsuccessful payment attempt). (Order is refused by the consumer.) |\n| Expired | Order has expired (before payment). (Timeout occurs when executing the order scenario.) |\n| Authorized | Order has been authorized.(Authorization transaction is executed.) |\n| Partially paid | Order has been partially paid. (Clearing transaction is executed for the part of the order amount.) |\n| Fully paid | Order has been fully paid. (Clearing transaction is executed for the full order amount (or several clearing transactions).) |\n| Funded | Order has been funded (debit transaction has been executed). The status can be assigned only to the order of the DualStep Transfer Order class. |\n| Declined | \\* AReq and RReq (3DS 2) could not be executed due to rejection by the issuer / error during authentication.  <br>\\* Operation was declined by PMO |\n| Voided | Authorized payment amount under the order is zero. |\n| Refunded | Accounted payment amount and the accounted refund amount under the order are equal. |\n| Closed | Order has been closed (after payment) |\n\n## Errors\n\n| Error status | Description |\n| --- | --- |\n| InvalidAmt | valid amount |\n| InvalidRequest | <причина отклонения> |\n| InvalidTran | Invalid transaction |\n| InvalidTranLink | Invalid transaction linkage |\n| TranProhibited | Transaction prohibited |\n| ActionAppException | <причина отклонения> |\n| CantChooseSettleAcct | Can't choose settlement account |\n| PmoIfaceNotFound | PMO interface not found |\n| PmoDecline | Transaction declined by PMO: <причина отклонения> |\n| PmoUnreachable | Can't reach PMO |\n| InvalidCert | Invalid certificate |\n| InvalidLogin | Invalid login or password |\n| InvalidOrderState | <причина некорректного состояния ордера> |\n| InvalidUserSession | Invalid user session |\n| NeedChangePwd | Need change password |\n| OperationProhibited | Operation prohibited |\n| PwdTryLimitExceeded | Password try limit has been exceeded |\n| UserSessionExpired | User session expired |\n| CofpDecline | Declined by CoF Provider: <причина отклонения> |\n| CofpUnreachable | Can't reach CoF Provider |\n| InvalidToken | <причина некорректного состояния токена> |\n| InvalidAutStatus | Invalid authentication status |\n| ConsumerNotFound | Consumer not found |\n| InvalidConsumer | Invalid consumer |\n| InvalidSecret | Invalid secret code |\n| SecretTryLimit | Secret try limit has been exceeded |\n\n### PmoDecline Codes (Processing Error codes)\n\n| **Response Code** | **Title** | **Description** |\n| --- | --- | --- |\n| 0 | None | \\- |\n| 1 | Approved | OK |\n| 2 | Approved Partial | Transaction is approved for the partial amount |\n| 3 | Approved Purchase Only | Transaction is approved for the Purchase amount; the Cashback amount is not approved |\n| 4 | Postponed | Transaction is postponed, it will be processed later |\n| 6 | Strong customer authentication required | Strong customer authentication is required for the transaction execution. |\n| 7 | Need Checker's confirmation | The checker confirmation is required |\n| 8 | Telebank customer already exists | Telebank customer already exists |\n| 9 | Should select virtual card product | Virtual card product should be selected |\n| 10 | Should select account number | Account number should be selected |\n| 11 | Should change PVV | PIN should be changed |\n| 12 | Confirm payment precheck | The results of payment verification in the payment online acceptance system should be confirmed |\n| 13 | Select bill | Select the bill to be paid |\n| 14 | Customer confirmation requested | Customer confirmation is requested |\n| 15 | Original transaction not found | Original transaction is not found (for example, while receiving an electronic slip from POS terminal; or an original transaction for the reversal) |\n| 16 | Slip already received | Slip has already been received |\n| 17 | Personal information input error | Error by entering payment attributes |\n| 18 | SMS/EMail dynamic password requested | SMS/Email dynamic password is requested |\n| 19 | DPA/CAP dynamic password requested | DPA/CAP dynamic password is requested |\n| 20 | Prepaid code not found | Prepaid code is not found |\n| 21 | Corresponding account exhausted | Agent bank correspondent account is exhausted |\n| 22 | Acquirer limit exceeded | Merchant acquiring limit has already been reached or exceeded |\n| 23 | Cutover in process | Cutover is being performed |\n| 24 | Dynamic PVV Expired | Dynamic PVV expired |\n| 25 | Weak PIN | Weak PIN |\n| 26 | External authentication required | External authentication is requested |\n| 27 | Additional data required | Additional data is required |\n| 29 | Closed account | The account is closed |\n| 30 | Blocked | Blocked |\n| 40 | Lost card | The card is lost |\n| 41 | Stolen card | The card is stolen |\n| 49 | Ineligible vendor account | Ineligible vendor account |\n| 50 | Unauthorized usage | The card unauthorized usage |\n| 51 | Expired card | The card is expired |\n| 52 | Invalid card | The card is invalid |\n| 53 | Invalid PIN | Invalid PIN |\n| 54 | System error | System error |\n| 55 | Ineligible transaction | Ineligible transaction |\n| 56 | Ineligible account | Ineligible account |\n| 57 | Transaction not supported | The transaction is not supported |\n| 58 | Restricted card | The card is restricted (the operation is prohibited) |\n| 59 | Insufficient funds | There are not enough money on the account |\n| 60 | Uses limit exceeded | The card usage limit is exceeded |\n| 61 | Withdrawal limit would be exceeded | Withdrawal limit will be exceeded |\n| 62 | PIN tries limit was reached | Invalid PIN tries limit is reached |\n| 63 | Withdrawal limit already reached | Withdrawal limit is already reached |\n| 64 | Credit amount limit | Deposit limit is reached |\n| 65 | No statement information | No statement information provided |\n| 66 | Statement not available | Statement is not available (prohibited) |\n| 67 | Invalid amount | Invalid amount |\n| 68 | External decline | Transaction is declined by the external host |\n| 69 | No sharing | The card is not serviced at the terminal |\n| 71 | Contact card issuer | Contact the issuer |\n| 72 | Destination not available | The authorizer is not available |\n| 73 | Routing error | Routing error |\n| 74 | Format error | Format error |\n| 75 | External decline special condition | The transaction is declined by the external host by special condition (the card owner is suspected of fraud) |\n| 80 | Bad CVV | Invalid CVV |\n| 81 | Bad CVV2 | Invalid CVV2 |\n| 82 | Invalid transaction | The transaction with such attributes is prohibited |\n| 83 | PIN tries limit was exceeded | Bad PIN tries limit is already exceeded |\n| 84 | Bad CAVV | Invalid 3D Secure Cardholder Authentication Verification Value |\n| 85 | Bad ARQC | Invalid cryptogram of EMC card application |\n| 90 | Approve administrative card operation inside window | Operation by the administrative card in the window is approved |\n| 91 | Approve administrative card operation outside of window | Operation by the administrative card out of the window is approved |\n| 92 | Approve administrative card operation | Operation by the administrative card is approved |\n| 93 | Should select card | Card should be selected |\n| 94 | Confirm Issuer Fee | Issuer fee confirmation is required |\n| 95 | Insufficient cash | Insufficient funds |\n| 96 | Approved frictionless | Approved as Frictionless |\n| 98 | Invalid merchant | Invalid merchant |"
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "{{Password}}",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "{{Username}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://txpgtst.kapitalbank.az/api",
+			"type": "string"
+		},
+		{
+			"key": "Username",
+			"value": "TerminalSys/kapital",
+			"type": "string"
+		},
+		{
+			"key": "Password",
+			"value": "kapital123",
+			"type": "string"
+		},
+		{
+			"key": "id",
+			"value": "{id}",
+			"type": "string"
+		},
+		{
+			"key": "orderPassword",
+			"value": "{password}",
+			"type": "string"
+		}
+	]
+}
