@@ -2,7 +2,6 @@ package az.restopia.menu.domain.entity;
 
 import az.neotech.commons.audit.DetailedAudit;
 import az.restopia.commons.domain.constants.ColumnLengthConstants;
-import az.restopia.commons.domain.enums.DeleteStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -36,8 +35,4 @@ public class Menu extends DetailedAudit {
 
     @OneToMany(mappedBy = "menu", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<MenuCategory> categories = new HashSet<>();
-
-    @Enumerated(EnumType.ORDINAL)
-    @Column(name = "delete_status", nullable = false)
-    private DeleteStatus deleteStatus = DeleteStatus.ACTIVE;
 }
